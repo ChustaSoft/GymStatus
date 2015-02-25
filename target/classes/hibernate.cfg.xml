@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    
+	<session-factory>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+	   	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+	
+	   	<!-- Assume test is the database name -->
+	   	<property name="hibernate.connection.url">jdbc:mysql://localhost/ChustaSoft</property>
+	   	<property name="hibernate.connection.username">gymStatus</property>
+	   	<property name="hibernate.connection.password">gymStatus</property>
+	   
+	   	<property name="hibernate.connection.pool_size">1</property>
+	   	<!-- Con create, cada vez que se ejecute la aplicacion se generan de nuevo las tablas -->
+	   	<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
+		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="show_sql">true</property>
+	   
+	    <!-- List of XML mapping files -->
+	   	<mapping class="com.xelit3.gymstatus.model.dto.Exercise"/>
+	   	<mapping class="com.xelit3.gymstatus.model.dto.FitnessExercise"/>
+	   	<mapping class="com.xelit3.gymstatus.model.dto.CardioExercise"/>
+	   	<mapping class="com.xelit3.gymstatus.model.dto.FitnessExerciseStatus"/>
+	   	<mapping class="com.xelit3.gymstatus.model.dto.CardioExerciseStatus"/>
+	   	<mapping class="com.xelit3.gymstatus.model.dto.Muscle"/>
+	   	<mapping class="com.xelit3.gymstatus.model.dto.Routine"/>	   		
+	</session-factory>
+	
+</hibernate-configuration>
