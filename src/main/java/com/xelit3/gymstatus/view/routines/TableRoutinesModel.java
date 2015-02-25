@@ -33,7 +33,7 @@ public class TableRoutinesModel extends AbstractTableModel  {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return null;
+		return routines.get(rowIndex)[columnIndex];
 	}	
 
 	public void addRow(Routine routine){

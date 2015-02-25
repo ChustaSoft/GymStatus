@@ -15,6 +15,7 @@ import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.view.exercises.ExerciseCreationPanel;
 import com.xelit3.gymstatus.view.exercises.ExerciseCreationPanel.ExerciseCreationType;
 import com.xelit3.gymstatus.view.exercises.ExerciseListPanel;
+import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 import com.xelit3.gymstatus.view.routines.TableRoutines;
 import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
 
@@ -137,7 +138,9 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				break;
 				
 			case "manageRoutines":
-				this.showMsg("Manage routines\nNot implemented yet");
+				RoutineCreationPanel routinePanel = new RoutineCreationPanel();
+				setContentPane(routinePanel);
+				routinePanel.updateUI();
 				break;
 		}
 		
