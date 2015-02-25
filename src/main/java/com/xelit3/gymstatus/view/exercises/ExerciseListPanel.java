@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
@@ -85,9 +86,10 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 				exercisesTable = new TableFitnessExercise(exercisesList);
 				break;
 		}
+		JScrollPane scrollPane = new JScrollPane(exercisesTable);
 		
-		mainSplitPane.setRightComponent(exercisesTable);
-		exercisesTable.updateUI();
+		mainSplitPane.setRightComponent(scrollPane);
+		scrollPane.updateUI();
 		this.invalidate();
 	}	
 

@@ -14,11 +14,11 @@ public class TableRoutinesModel extends AbstractTableModel  {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private List<Object[]> routines;
+	private List<Object[]> routines = new ArrayList<Object[]>();
 	private String[] header = {"Name", "Initial date", "Finish date"};
 	
 	public TableRoutinesModel() {
-		routines = new ArrayList<Object[]>();
+		super();		
 	}
 
 	@Override
@@ -36,6 +36,11 @@ public class TableRoutinesModel extends AbstractTableModel  {
 		return routines.get(rowIndex)[columnIndex];
 	}	
 
+	@Override
+	public String getColumnName(int arg0) {
+		return header[arg0];
+	}
+	
 	public void addRow(Routine routine){
 		String [] tmpRow = new String[header.length];
 		tmpRow[0] = routine.getRoutineName();
@@ -45,4 +50,5 @@ public class TableRoutinesModel extends AbstractTableModel  {
 		routines.add(tmpRow);
 		fireTableDataChanged();
 	}
+	
 }

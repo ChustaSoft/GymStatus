@@ -10,6 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.view.exercises.ExerciseCreationPanel;
@@ -133,8 +134,9 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 			case "listRoutines":
 				TableRoutinesModel model = new TableRoutinesModel();
 				TableRoutines tableRoutines = new TableRoutines(model);
-				setContentPane(tableRoutines);
-				tableRoutines.updateUI();
+				JScrollPane scrollPane = new JScrollPane(tableRoutines);
+				setContentPane(scrollPane);
+				scrollPane.updateUI();
 				break;
 				
 			case "manageRoutines":

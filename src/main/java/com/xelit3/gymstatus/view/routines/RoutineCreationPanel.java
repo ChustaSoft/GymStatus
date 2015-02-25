@@ -3,14 +3,20 @@ package com.xelit3.gymstatus.view.routines;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 import javax.swing.JSeparator;
-import java.awt.SystemColor;
+
 import java.awt.Color;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class RoutineCreationPanel extends JPanel {
 	/**
@@ -18,6 +24,7 @@ public class RoutineCreationPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField tfRoutineName;
+	private JTable jtableAddedExercises;
 
 	/**
 	 * Create the panel.
@@ -64,6 +71,21 @@ public class RoutineCreationPanel extends JPanel {
 		separator.setBounds(29, 133, 469, 5);
 		add(separator);
 		
+		jtableAddedExercises = new JTable();
+		
+		jtableAddedExercises.setModel(new DefaultTableModel(
+			new Object[][]{},
+			new String[] {
+				"Exercise type", "Exercise name", "Trained muscle", "Intensity", "Time"
+			}
+		));
+		
+		JScrollPane scrollPane = new JScrollPane(jtableAddedExercises);
+		scrollPane.setSize(410, 151);
+		scrollPane.setLocation(58, 161);
+		add(scrollPane);
+		
 
 	}
+	
 }
