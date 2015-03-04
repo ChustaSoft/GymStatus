@@ -19,6 +19,8 @@ public class Controller {
 	public void startApp(){
 		view = new MainWindow(this);
 		view.setVisible(true);
+		
+		//TODO Load AppSettings singleton
 	}
 	
 	public boolean saveFitnessExercise(){
