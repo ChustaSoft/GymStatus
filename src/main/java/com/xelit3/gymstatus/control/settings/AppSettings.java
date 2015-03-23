@@ -11,12 +11,12 @@ public class AppSettings {
 	private static final String USERNAME_SETTING = "USERNAME";
 	private static final String LANGUAGE_SETTING = "LANGUAGE";
 	
-	public static AppSettings singleton;
+	private static AppSettings singleton = null;
 	
 	public String username;
 	public String language;
 	
-	private AppSettings(){
+	protected AppSettings(){
 		singleton = new AppSettings();
 		try(BufferedReader br = new BufferedReader(new FileReader(AppSettings.SETTINGS_FILE))) {
 	        String line = br.readLine();
