@@ -18,8 +18,8 @@ public class Controller {
 	public Controller(){}
 	
 	public void startApp(){
-		//TODO Future implementation, take advantage of this to create a multilanguage application
 		AppSettings settings = AppSettings.getInstance();
+		//TODO Future implementation, take advantage of this to create a multilanguage application
 		System.out.println("DONE - Settings loaded:\n" + settings.getUsername() + "\n" + settings.getLanguage());
 						
 		view = new MainWindow(this);
