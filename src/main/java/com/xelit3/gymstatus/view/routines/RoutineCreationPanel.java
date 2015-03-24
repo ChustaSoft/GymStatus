@@ -1,30 +1,32 @@
 package com.xelit3.gymstatus.view.routines;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-import javax.swing.JSeparator;
-
-import java.awt.Color;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-public class RoutineCreationPanel extends JPanel {
+public class RoutineCreationPanel extends JPanel implements ActionListener{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField tfRoutineName;
 	private JTable jtableAddedExercises;
+	
+	private static String[] EXERCISES_TYPES = {"CARDIO", "FITNESS"};
 
 	/**
 	 * Create the panel.
@@ -32,43 +34,50 @@ public class RoutineCreationPanel extends JPanel {
 	public RoutineCreationPanel() {
 		setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(152, 87, 157, 20);
-		add(comboBox);
+		JComboBox cbExerciseType = new JComboBox<String>(EXERCISES_TYPES);
+		cbExerciseType.setBounds(30, 119, 100, 20);
+		cbExerciseType.setActionCommand("changeExerciseType");
+		cbExerciseType.addActionListener(this);
+		add(cbExerciseType);
+		
+		JComboBox cbSelectedExercise = new JComboBox();
+		cbSelectedExercise.setBounds(169, 119, 180, 20);
+		add(cbSelectedExercise);
 		
 		JLabel lblExerciseSelector = new JLabel("Select a exercise to add");
-		lblExerciseSelector.setBounds(29, 87, 122, 20);
+		lblExerciseSelector.setBounds(30, 88, 157, 20);
 		add(lblExerciseSelector);
 		
 		JLabel lblRoutineName = new JLabel("Name for routine");
-		lblRoutineName.setBounds(29, 46, 93, 17);
+		lblRoutineName.setBounds(30, 25, 100, 17);
 		add(lblRoutineName);
 		
 		tfRoutineName = new JTextField();
-		tfRoutineName.setBounds(152, 44, 157, 20);
+		tfRoutineName.setBounds(30, 53, 157, 20);
 		add(tfRoutineName);
 		tfRoutineName.setColumns(10);
 		
 		JLabel lblInitDate = new JLabel("Init date");
-		lblInitDate.setBounds(330, 46, 48, 17);
+		lblInitDate.setBounds(224, 25, 48, 17);
 		add(lblInitDate);
 		
 		JLabel lblEndDate = new JLabel("End date");
-		lblEndDate.setBounds(330, 90, 48, 17);
+		lblEndDate.setBounds(383, 25, 48, 17);
 		add(lblEndDate);
 		
-		UtilDateModel model = new UtilDateModel();
-		JDatePanelImpl datePanel = new JDatePanelImpl(model);
-		JDatePickerImpl dpInitDate = new JDatePickerImpl(datePanel);
-		dpInitDate.setBounds(388, 43, 110, 20);
+		UtilDateModel modelInitDate = new UtilDateModel(), modelEndDate = new UtilDateModel();
+		JDatePanelImpl datePanelInitDate = new JDatePanelImpl(modelInitDate);
+		JDatePickerImpl dpInitDate = new JDatePickerImpl(datePanelInitDate);
+		dpInitDate.setBounds(226, 53, 123, 20);
 		this.add(dpInitDate);
-		JDatePickerImpl dpEndDate = new JDatePickerImpl(datePanel);
-		dpEndDate.setBounds(389, 87, 110, 20);
+		JDatePanelImpl datePanelEndDate = new JDatePanelImpl(modelEndDate);
+		JDatePickerImpl dpEndDate = new JDatePickerImpl(datePanelEndDate);
+		dpEndDate.setBounds(383, 53, 129, 20);
 		this.add(dpEndDate);
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(67, 78, 84));
-		separator.setBounds(29, 133, 469, 5);
+		separator.setBounds(29, 169, 469, 5);
 		add(separator);
 		
 		jtableAddedExercises = new JTable();
@@ -82,10 +91,25 @@ public class RoutineCreationPanel extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane(jtableAddedExercises);
 		scrollPane.setSize(410, 151);
-		scrollPane.setLocation(58, 161);
+		scrollPane.setLocation(58, 198);
 		add(scrollPane);
 		
-
+		JButton btnAddExercise = new JButton("Add to routine");
+		btnAddExercise.setBounds(383, 118, 129, 20);
+		add(btnAddExercise);	
+		
 	}
-	
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		switch(event.getActionCommand()){
+		
+		case "changeExerciseType":
+			//TODO Cargar en el segundo combobox los ejercicios dependiendo de lo clickado.
+			System.out.println("Change type - Not implemented");
+			break;
+			
+		}
+		
+	}
 }

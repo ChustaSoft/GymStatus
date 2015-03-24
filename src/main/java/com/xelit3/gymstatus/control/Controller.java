@@ -2,6 +2,7 @@ package com.xelit3.gymstatus.control;
 
 import java.util.List;
 
+import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.model.dao.CardioExerciseDAOImpl;
 import com.xelit3.gymstatus.model.dao.ExerciseDAO;
 import com.xelit3.gymstatus.model.dao.FitnessExerciseDAOImpl;
@@ -17,10 +18,12 @@ public class Controller {
 	public Controller(){}
 	
 	public void startApp(){
+		//TODO Future implementation, take advantage of this to create a multilanguage application
+		AppSettings settings = AppSettings.getInstance();
+		System.out.println("DONE - Settings loaded:\n" + settings.getUsername() + "\n" + settings.getLanguage());
+						
 		view = new MainWindow(this);
-		view.setVisible(true);
-		
-		//TODO Load AppSettings singleton
+		view.setVisible(true);		
 	}
 	
 	public boolean saveFitnessExercise(){

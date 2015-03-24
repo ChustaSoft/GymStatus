@@ -11,13 +11,13 @@ public class AppSettings {
 	private static final String USERNAME_SETTING = "USERNAME";
 	private static final String LANGUAGE_SETTING = "LANGUAGE";
 	
-	public static AppSettings singleton;
+	private static AppSettings singleton = null;
 	
 	public String username;
 	public String language;
 	
 	private AppSettings(){
-		singleton = new AppSettings();
+		
 		try(BufferedReader br = new BufferedReader(new FileReader(AppSettings.SETTINGS_FILE))) {
 	        String line = br.readLine();
 	        
@@ -26,11 +26,11 @@ public class AppSettings {
 	            
 	            switch(tmpConfig[0]){
 	            case AppSettings.USERNAME_SETTING:
-	            	singleton.setUsername(tmpConfig[1]);
+	            	setUsername(tmpConfig[1]);
 	            	break;
 	            	
 	            case AppSettings.LANGUAGE_SETTING:
-	            	singleton.setLanguage(tmpConfig[1]);
+	            	setLanguage(tmpConfig[1]);
 	            	break;
 	            }
 	            
