@@ -19,7 +19,7 @@ public class Controller {
 	
 	public void startApp(){
 		AppSettings settings = AppSettings.getInstance();
-		//TODO Future implementation, take advantage of this to create a multilanguage application
+		//TODO Implementación futura, aprovecharemos el singleton para hacer apliación multidioma
 		System.out.println("DONE - Settings loaded:\n" + settings.getUsername() + "\n" + settings.getLanguage());
 						
 		view = new MainWindow(this);
