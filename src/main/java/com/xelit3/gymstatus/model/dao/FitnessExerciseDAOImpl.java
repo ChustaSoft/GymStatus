@@ -8,8 +8,15 @@ public class FitnessExerciseDAOImpl extends ExerciseDAO {
 
 	@Override
 	public boolean saveExercise(Exercise e) {
-		// TODO Auto-generated method stub
-		return false;
+		this.openSession();
+		//TODO Error al guardar, 'org.hibernate.exception.LockTimeoutException: could not execute statement'
+		session.beginTransaction();
+        session.persist(e);
+        session.getTransaction().commit();
+        
+        this.closeSession();
+		
+		return true;
 	}
 
 	@Override

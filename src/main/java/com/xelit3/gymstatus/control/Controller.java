@@ -6,7 +6,11 @@ import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.model.dao.CardioExerciseDAOImpl;
 import com.xelit3.gymstatus.model.dao.ExerciseDAO;
 import com.xelit3.gymstatus.model.dao.FitnessExerciseDAOImpl;
+import com.xelit3.gymstatus.model.dao.MuscleDAO;
+import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
+import com.xelit3.gymstatus.model.dto.FitnessExercise;
+import com.xelit3.gymstatus.model.dto.Muscle;
 import com.xelit3.gymstatus.test.TestApp;
 import com.xelit3.gymstatus.view.MainWindow;
 
@@ -14,6 +18,7 @@ import com.xelit3.gymstatus.view.MainWindow;
 public class Controller {
 	MainWindow view;
 	ExerciseDAO exerciseDao;
+	MuscleDAO muscleDao;
 		
 	public Controller(){}
 	
@@ -26,8 +31,16 @@ public class Controller {
 		view.setVisible(true);		
 	}
 	
-	public boolean saveFitnessExercise(){
-		return true;
+	public boolean saveExercise(Exercise anExercise){
+		
+		if(anExercise instanceof FitnessExercise){
+			exerciseDao = new FitnessExerciseDAOImpl();
+		}
+		else if(anExercise instanceof CardioExercise){
+			exerciseDao = new CardioExerciseDAOImpl();
+		}
+		
+		return exerciseDao.saveExercise(anExercise);		
 	}
 	
 	public List<Exercise> getExercises(Class<?> exerciseClass){
@@ -46,6 +59,12 @@ public class Controller {
 		return exerciseDao.getExercises();		
 	}
 
+	public List<Muscle> getMuscles() {
+		muscleDao = new MuscleDAO();
+		return muscleDao.getMuscles();
+	}
+	
+	//Testing
 	public void testApp() {
 		TestApp test = new TestApp();
 		test.testMethod();

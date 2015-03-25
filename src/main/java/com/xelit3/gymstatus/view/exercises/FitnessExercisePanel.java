@@ -22,7 +22,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
 
+import com.xelit3.gymstatus.control.Controller;
+import com.xelit3.gymstatus.model.dto.FitnessExercise;
+import com.xelit3.gymstatus.model.dto.Muscle;
 import com.xelit3.gymstatus.view.exercises.ExerciseCreationPanel.ExerciseCreationType;
+import javax.swing.JComboBox;
 
 public class FitnessExercisePanel extends JPanel implements ChangeListener, ActionListener {
 
@@ -31,10 +35,15 @@ public class FitnessExercisePanel extends JPanel implements ChangeListener, Acti
 	private JLabel lblExerciseName, lblTrainedMuscle, lbRepetitions, lblSeriesRepetitions;
 	private SpringLayout springLayout;
 	private JTextField tfExerciseName;
-	private JSpinner spTrainedMuscle, spNumberRepetitions;
+	private JComboBox cbTrainedMuscle;
+	private JSpinner spNumberRepetitions;
 	private List<JFormattedTextField> tfListRepetitions = new ArrayList<JFormattedTextField>();
 	private JRadioButton rbCreate, rbModify, rbDelete;
 	private JButton btnSave;
+	
+	private Controller mainController = new Controller();
+
+	private List<Muscle> musclesList;
 
 	public FitnessExercisePanel(ExerciseCreationType exType) {
 		this.createComponents();
@@ -42,11 +51,11 @@ public class FitnessExercisePanel extends JPanel implements ChangeListener, Acti
 		switch(exType){
 		
 			case CREATE_EXERCISE:
-				spTrainedMuscle.setEnabled(false);
 				spNumberRepetitions.setEnabled(false);
 				break;
 				
 			case SET_EXERCISE_STATUS:
+				//TODO
 				break;
 			
 		}
@@ -105,18 +114,8 @@ public class FitnessExercisePanel extends JPanel implements ChangeListener, Acti
 		springLayout.putConstraint(SpringLayout.EAST, lblTrainedMuscle, 0, SpringLayout.EAST, lblExerciseName);
 		add(lblTrainedMuscle);
 		
-		//TODO Simulated first
-		SpinnerModel spTrainedMuscleModel = new SpinnerListModel(new String[] {
-			"Musculo1", "Musculo2"}
-		);
+		setUpMuscles();
 				
-		this.spTrainedMuscle = new JSpinner();
-		spTrainedMuscle.setModel(spTrainedMuscleModel);
-		springLayout.putConstraint(SpringLayout.WEST, spTrainedMuscle, 0, SpringLayout.WEST, tfExerciseName);
-		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spTrainedMuscle, 0, SpringLayout.VERTICAL_CENTER, lblTrainedMuscle);
-		springLayout.putConstraint(SpringLayout.EAST, spTrainedMuscle, 0, SpringLayout.EAST, tfExerciseName);
-		add(spTrainedMuscle);
-		
 		this.lbRepetitions = new JLabel("Repetitions");
 		springLayout.putConstraint(SpringLayout.NORTH, lbRepetitions, 35, SpringLayout.NORTH, lblTrainedMuscle);
 		springLayout.putConstraint(SpringLayout.WEST, lbRepetitions, 0, SpringLayout.WEST, lblTrainedMuscle);
@@ -126,6 +125,8 @@ public class FitnessExercisePanel extends JPanel implements ChangeListener, Acti
 		this.btnSave = new JButton("Save exercise");
 		springLayout.putConstraint(SpringLayout.EAST, btnSave, 0, SpringLayout.EAST, tfExerciseName);
 		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 225, SpringLayout.NORTH, this);
+		btnSave.setActionCommand("createExercise");
+		btnSave.addActionListener(this);
 		add(btnSave);
 		
 		//Definimos un modelo que obligará a elegir entre uno y 5 ejercicios 
@@ -136,6 +137,24 @@ public class FitnessExercisePanel extends JPanel implements ChangeListener, Acti
 		springLayout.putConstraint(SpringLayout.EAST, spNumberRepetitions, 0, SpringLayout.EAST, tfExerciseName);
 		spNumberRepetitions.addChangeListener(this);
 		add(spNumberRepetitions);
+		
+		
+	}
+
+	private void setUpMuscles() {
+		musclesList = mainController.getMuscles();
+		
+		String [] tmpMusclesStr = new String[musclesList.size()];
+		
+		for(int i= 0; i< musclesList.size(); i++){
+			tmpMusclesStr[i] = musclesList.get(i).getMusclename();
+		}
+		
+		this.cbTrainedMuscle = new JComboBox(tmpMusclesStr);
+		springLayout.putConstraint(SpringLayout.WEST, cbTrainedMuscle, 0, SpringLayout.WEST, tfExerciseName);
+		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, cbTrainedMuscle, 0, SpringLayout.VERTICAL_CENTER, lblTrainedMuscle);
+		springLayout.putConstraint(SpringLayout.EAST, cbTrainedMuscle, 0, SpringLayout.EAST, tfExerciseName);
+		add(cbTrainedMuscle);
 	}
 	
 	@Override
@@ -187,17 +206,45 @@ public class FitnessExercisePanel extends JPanel implements ChangeListener, Acti
 		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
 		switch(e.getActionCommand()){
 			case "setCreateForm":
-				System.out.println("create");
+				btnSave.setActionCommand("createExercise");
 				break;
 				
 			case "setModifyForm":
-				System.out.println("modify");
+				btnSave.setActionCommand("modifyExercise");
 				break;
 				
 			case "setDeleteForm":
-				System.out.println("delete");
+				btnSave.setActionCommand("removeExercise");
 				break;
+				
+			case "createExercise":
+				saveExercise();
+				break;
+				
+			case "modifyExercise":
+				System.out.println("updating");
+				break;
+				
+			case "removeExercise":
+				System.out.println("removing");
+				break;
+		}
+		
 	}
+	
+	private void saveExercise(){
+		FitnessExercise tmpFitnessExercise = new FitnessExercise();
+		tmpFitnessExercise.setExerciseName(tfExerciseName.getText());
+		tmpFitnessExercise.setTrainedMuscle(musclesList.get(cbTrainedMuscle.getSelectedIndex()));
+		
+		this.mainController.saveExercise(tmpFitnessExercise);
+	}
+	
+	private void modifyExercise(){
+		
+	}
+	
+	private void removeExercise(){
 		
 	}
 }
