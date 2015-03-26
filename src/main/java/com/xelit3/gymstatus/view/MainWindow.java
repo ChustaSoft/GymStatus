@@ -135,6 +135,7 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				TableRoutinesModel model = new TableRoutinesModel();
 				TableRoutines tableRoutines = new TableRoutines(model);
 				JScrollPane scrollPane = new JScrollPane(tableRoutines);
+//				scrollPane.setViewportView(tableRoutines);
 				setContentPane(scrollPane);
 				scrollPane.updateUI();
 				break;

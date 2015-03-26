@@ -11,21 +11,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.xelit3.gymstatus.model.dto.Muscle;
 
-public class MuscleDAO extends Observable {
-	
-	protected Session session;
-			
-	protected void openSession(){
-		Configuration configuration = new Configuration().configure();
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-		SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-		
-		session = sessionFactory.openSession();
-	}
-	
-	protected void closeSession(){
-		session.close();
-	}
+public class MuscleDAO extends GenericGymStatDAO {
 	
 	public List<Muscle> getMuscles(){
 		this.openSession();
@@ -33,6 +19,8 @@ public class MuscleDAO extends Observable {
 		Query query = session.createQuery("from Muscle");
 		
 		List<Muscle> tmpMuscles = (List<Muscle>) query.list();
+		
+		this.closeSession();
 		
 		return tmpMuscles;		
 	}	

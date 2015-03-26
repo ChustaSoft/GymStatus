@@ -74,6 +74,7 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 	
 	public void showExercises(Class<?> exerciseClass){
 		//TODO Es la manera mas correcta de implementar polimorfismo? Casteando en la clase Tabla correspondiente?
+		//TODO Preferible usar la lista enumerada ya creada en lugar de pasar el tipo de clase?
 		//TODO Switch cases de clases
 		//TODO Refresco de las tablas
 		List<Exercise> exercisesList = controller.getExercises(exerciseClass);
