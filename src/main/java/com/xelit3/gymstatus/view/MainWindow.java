@@ -13,9 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import com.xelit3.gymstatus.control.Controller;
-import com.xelit3.gymstatus.view.exercises.ExerciseCreationPanel;
-import com.xelit3.gymstatus.view.exercises.ExerciseCreationPanel.ExerciseCreationType;
+import com.xelit3.gymstatus.view.exercises.ExerciseManagementPanel;
 import com.xelit3.gymstatus.view.exercises.ExerciseListPanel;
+import com.xelit3.gymstatus.view.exercises.ExerciseStatusPanel;
 import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 import com.xelit3.gymstatus.view.routines.TableRoutines;
 import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
@@ -85,8 +85,8 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 		mitem.addActionListener(this);
 		menu.add(mitem);
 				
-		mitem = new JMenuItem("Manage Routines");
-		mitem.setActionCommand("manageRoutines");
+		mitem = new JMenuItem("Create Routine");
+		mitem.setActionCommand("createRoutine");
 		mitem.addActionListener(this);
 		menu.add(mitem);
 				
@@ -102,7 +102,7 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ExerciseCreationPanel exercisePanel;
+		ExerciseManagementPanel exercisePanel;
 		switch(event.getActionCommand()){
 		
 			case "exit":
@@ -120,15 +120,15 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				break;
 				
 			case "manageExercises":
-				exercisePanel = new ExerciseCreationPanel(ExerciseCreationType.CREATE_EXERCISE);	
+				exercisePanel = new ExerciseManagementPanel();	
 				setContentPane(exercisePanel);
 				exercisePanel.updateUI();		
 				break;
 				
 			case "manageExercisesStatus":
-				exercisePanel = new ExerciseCreationPanel(ExerciseCreationType.SET_EXERCISE_STATUS);	
-				setContentPane(exercisePanel);
-				exercisePanel.updateUI();	
+				ExerciseStatusPanel exerciseStatPanel = new ExerciseStatusPanel();
+				setContentPane(exerciseStatPanel);
+				exerciseStatPanel.updateUI();
 				break;
 				
 			case "listRoutines":
@@ -138,9 +138,11 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 //				scrollPane.setViewportView(tableRoutines);
 				setContentPane(scrollPane);
 				scrollPane.updateUI();
+				//TODO Tabla no se muestra, pack no sirve, redimensiona la ventana
+//				pack();
 				break;
 				
-			case "manageRoutines":
+			case "createRoutine":
 				RoutineCreationPanel routinePanel = new RoutineCreationPanel();
 				setContentPane(routinePanel);
 				routinePanel.updateUI();

@@ -34,7 +34,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 	public RoutineCreationPanel() {
 		setLayout(null);
 		
-		JComboBox cbExerciseType = new JComboBox<String>(EXERCISES_TYPES);
+		JComboBox cbExerciseType = new JComboBox(EXERCISES_TYPES);
 		cbExerciseType.setBounds(30, 119, 100, 20);
 		cbExerciseType.setActionCommand("changeExerciseType");
 		cbExerciseType.addActionListener(this);
@@ -62,7 +62,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		add(lblInitDate);
 		
 		JLabel lblEndDate = new JLabel("End date");
-		lblEndDate.setBounds(383, 25, 48, 17);
+		lblEndDate.setBounds(383, 25, 129, 17);
 		add(lblEndDate);
 		
 		UtilDateModel modelInitDate = new UtilDateModel(), modelEndDate = new UtilDateModel();
@@ -90,13 +90,19 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		));
 		
 		JScrollPane scrollPane = new JScrollPane(jtableAddedExercises);
-		scrollPane.setSize(410, 151);
+		scrollPane.setSize(410, 167);
 		scrollPane.setLocation(58, 198);
 		add(scrollPane);
 		
 		JButton btnAddExercise = new JButton("Add to routine");
+		btnAddExercise.setActionCommand("addExerciseToRoutine");
 		btnAddExercise.setBounds(383, 118, 129, 20);
 		add(btnAddExercise);	
+		
+		JButton btnCreateRoutine = new JButton("Create routine");
+		btnCreateRoutine.setActionCommand("createRoutine");
+		btnCreateRoutine.setBounds(395, 376, 117, 23);
+		add(btnCreateRoutine);
 		
 	}
 

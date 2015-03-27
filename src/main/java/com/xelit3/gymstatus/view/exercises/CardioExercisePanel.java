@@ -2,50 +2,27 @@ package com.xelit3.gymstatus.view.exercises;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerListModel;
 import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.MaskFormatter;
-
-import com.xelit3.gymstatus.model.dto.CardioExerciseStatus.CardioExerciseIntensity;
-import com.xelit3.gymstatus.view.exercises.ExerciseCreationPanel.ExerciseCreationType;
 
 public class CardioExercisePanel extends JPanel implements ActionListener, ChangeListener{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private JTextField tfExerciseName;
-	private JSpinner spIntensity;
-	private JFormattedTextField tfTime;
 	private JButton btnSave;
 	private JRadioButton rbCreate, rbModify, rbDelete;
 	
-	public CardioExercisePanel(ExerciseCreationType ecType) {
-		this.createComponents();
-		
-		switch(ecType){
-		
-			case CREATE_EXERCISE:
-				tfTime.setEnabled(false);
-				spIntensity.setEnabled(false);
-				break;
-				
-			case SET_EXERCISE_STATUS:
-				break;
-		
-		}
-		
+	public CardioExercisePanel() {
+		this.createComponents();		
 	}
 	
 	private void createComponents(){
@@ -93,46 +70,10 @@ public class CardioExercisePanel extends JPanel implements ActionListener, Chang
 		springLayout.putConstraint(SpringLayout.EAST, tfExerciseName, 325, SpringLayout.WEST, lblExerciseName);
 		tfExerciseName.setColumns(10);
 		add(tfExerciseName);
-				
-		JLabel lblIntensity = new JLabel("Intensity");
-		springLayout.putConstraint(SpringLayout.NORTH, lblIntensity, 35, SpringLayout.NORTH, lblExerciseName);
-		springLayout.putConstraint(SpringLayout.WEST, lblIntensity, 0, SpringLayout.WEST, lblExerciseName);		
-		springLayout.putConstraint(SpringLayout.EAST, lblIntensity, 0, SpringLayout.EAST, lblExerciseName);
-		add(lblIntensity);
-		
-		//TODO Averiguar si hay alguna manera de devolver el numero de valores dentro de un enum
-		SpinnerListModel spIntensityModel = new SpinnerListModel(new String[] {
-				CardioExerciseIntensity.HIGH.toString(), CardioExerciseIntensity.MEDIUM.toString(), CardioExerciseIntensity.SOFT.toString()}
-		);
-		this.spIntensity = new JSpinner(spIntensityModel);
-		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spIntensity, 35, SpringLayout.VERTICAL_CENTER, tfExerciseName);
-		springLayout.putConstraint(SpringLayout.WEST, spIntensity, 25, SpringLayout.EAST, lblIntensity);
-		springLayout.putConstraint(SpringLayout.EAST, spIntensity, 325, SpringLayout.WEST, lblIntensity);
-		spIntensity.addChangeListener(this);
-		add(spIntensity);
-		
-		JLabel lblTime = new JLabel("Time");
-		springLayout.putConstraint(SpringLayout.NORTH, lblTime, 35, SpringLayout.NORTH, lblIntensity);
-		springLayout.putConstraint(SpringLayout.WEST, lblTime, 0, SpringLayout.WEST, lblIntensity);
-		springLayout.putConstraint(SpringLayout.EAST, lblTime, 0, SpringLayout.EAST, lblIntensity);
-		add(lblTime);
-		
-		try {
-			MaskFormatter mascara = new MaskFormatter("##.##");
-			this.tfTime = new JFormattedTextField(mascara);
-			tfTime.setHorizontalAlignment(JTextField.RIGHT);
-			springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, tfTime, 35, SpringLayout.VERTICAL_CENTER, spIntensity);
-			springLayout.putConstraint(SpringLayout.WEST, tfTime, 25, SpringLayout.EAST, lblTime);
-			springLayout.putConstraint(SpringLayout.EAST, tfTime, 325, SpringLayout.WEST, lblTime);
-		} 
-		catch (ParseException e) {
-			e.printStackTrace();
-		}
-		add(this.tfTime);
 		
 		this.btnSave = new JButton("Save exercise");
+		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 26, SpringLayout.SOUTH, tfExerciseName);
 		springLayout.putConstraint(SpringLayout.EAST, btnSave, 0, SpringLayout.EAST, tfExerciseName);
-		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 225, SpringLayout.NORTH, this);
 		add(btnSave);	
 	}
 
