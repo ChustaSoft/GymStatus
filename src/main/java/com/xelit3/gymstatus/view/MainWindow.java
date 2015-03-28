@@ -1,5 +1,6 @@
 package com.xelit3.gymstatus.view;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -30,10 +31,9 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 480);
 		setResizable(false);
-//		setUndecorated(true);
-//		setRootPane(this.createRootPane());
-//		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-		
+		setUndecorated(true);
+		setRootPane(this.createRootPane());
+				
 		buildMenu();					
 	}
 	
@@ -128,7 +128,7 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 			case "manageExercisesStatus":
 				ExerciseStatusPanel exerciseStatPanel = new ExerciseStatusPanel();
 				setContentPane(exerciseStatPanel);
-				exerciseStatPanel.updateUI();
+				this.refreshWindow(exerciseStatPanel);
 				break;
 				
 			case "listRoutines":
@@ -137,9 +137,7 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				JScrollPane scrollPane = new JScrollPane(tableRoutines);
 //				scrollPane.setViewportView(tableRoutines);
 				setContentPane(scrollPane);
-				scrollPane.updateUI();
-				//TODO Tabla no se muestra, pack no sirve, redimensiona la ventana
-//				pack();
+				this.refreshWindow(scrollPane);
 				break;
 				
 			case "createRoutine":
@@ -149,6 +147,14 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				break;
 		}
 		
+	}
+	
+	private void refreshWindow(Component aComponent){
+		aComponent.repaint();
+		aComponent.revalidate();
+		
+		this.getRootPane().repaint();
+		this.getRootPane().revalidate();		
 	}
 
 	public Controller getController() {
@@ -162,5 +168,18 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 	private void showMsg(String msg) {
 		JOptionPane.showMessageDialog(this, msg);	
 	}
+	
+	//TODO Move window with cursors GUIA
+//	final JFrame jFrame = new JFrame();
+//    jFrame.getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.VK_UNDEFINED), "moveRight");
+//    jFrame.getRootPane().getActionMap().put("moveRight", new AbstractAction() {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            jFrame.setLocation(jFrame.getX() + 5, jFrame.getY());
+//        }
+//    });
+//    jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    jFrame.setLocationRelativeTo(null);
+//    jFrame.setVisible(true);
 
 }

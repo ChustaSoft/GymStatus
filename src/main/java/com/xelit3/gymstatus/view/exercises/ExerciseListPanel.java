@@ -49,9 +49,7 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 						
 		add(mainSplitPane, BorderLayout.CENTER);
        
-	}
-
-	
+	}	
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -66,10 +64,10 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 		
 		}
 		
-//		exercisesTable.setFillsViewportHeight(true);
-//		exercisesTable.updateUI();
-//		exercisesTable.repaint();
-//		this.invalidate();
+		//TODO Problemas al recolocar la tabla
+		this.repaint();
+		this.revalidate();
+		
 	}
 	
 	public void showExercises(Class<?> exerciseClass){
@@ -91,7 +89,8 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 		
 		mainSplitPane.setRightComponent(scrollPane);
 		scrollPane.updateUI();
-		this.invalidate();
+		mainSplitPane.repaint();
+		mainSplitPane.revalidate();
 	}	
 
 }

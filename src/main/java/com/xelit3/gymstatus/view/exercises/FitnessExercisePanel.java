@@ -16,14 +16,16 @@ import javax.swing.SpringLayout;
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Muscle;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 public class FitnessExercisePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel lblExerciseName, lblTrainedMuscle;
-	private SpringLayout springLayout;
 	private JTextField tfExerciseName;
+	private JComboBox cbExerciseName;
 	private JComboBox cbTrainedMuscle;
 	private JRadioButton rbCreate, rbModify, rbDelete;
 	private JButton btnSave;
@@ -31,72 +33,53 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 	private Controller mainController = new Controller();
 
 	private List<Muscle> musclesList;
-
+	
 	public FitnessExercisePanel() {
 		this.createComponents();		
 	}
 	
 	private void createComponents(){
-		//TODO Problemas con los JFormattedTextField, también con eliminación dinámica
-		springLayout = new SpringLayout();
-		setLayout(springLayout);
 				
 		ButtonGroup bgCrud = new ButtonGroup();
 			
 		rbCreate = new JRadioButton("Create");
 		rbCreate.setActionCommand("setCreateForm");
 		rbCreate.addActionListener(this);
+		setLayout(new GridLayout(4, 2, 0, 0));
 		rbCreate.setSelected(true);
-		springLayout.putConstraint(SpringLayout.NORTH, rbCreate, 25, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, rbCreate, 75, SpringLayout.WEST, this);
 		add(rbCreate);
 		
 		rbModify = new JRadioButton("Modify");
 		rbModify.setActionCommand("setModifyForm");
 		rbModify.addActionListener(this);
-		springLayout.putConstraint(SpringLayout.NORTH, rbModify, 0, SpringLayout.NORTH, rbCreate);
-		springLayout.putConstraint(SpringLayout.WEST, rbModify, 10, SpringLayout.EAST, rbCreate);
 		add(rbModify);
 		
 		rbDelete = new JRadioButton("Delete");
 		rbDelete.setActionCommand("setDeleteForm");
 		rbDelete.addActionListener(this);
-		springLayout.putConstraint(SpringLayout.NORTH, rbDelete, 0, SpringLayout.NORTH, rbModify);
-		springLayout.putConstraint(SpringLayout.WEST, rbDelete, 10, SpringLayout.EAST, rbModify);
 		add(rbDelete);
 		
 		bgCrud.add(rbCreate);
 		bgCrud.add(rbModify);
 		bgCrud.add(rbDelete);
 		
+				
 		this.lblExerciseName = new JLabel("Exercise name");
-		springLayout.putConstraint(SpringLayout.NORTH, lblExerciseName, 75, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, lblExerciseName, 75, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, lblExerciseName, 200, SpringLayout.WEST, this);
 		add(lblExerciseName);
 		
-		this.tfExerciseName = new JTextField();
-		tfExerciseName.setHorizontalAlignment(JTextField.RIGHT);
-		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, tfExerciseName, 0, SpringLayout.VERTICAL_CENTER, lblExerciseName);
-		springLayout.putConstraint(SpringLayout.WEST, tfExerciseName, 25, SpringLayout.EAST, lblExerciseName);
-		springLayout.putConstraint(SpringLayout.EAST, tfExerciseName, 325, SpringLayout.WEST, lblExerciseName);
-		tfExerciseName.setColumns(10);
-		add(tfExerciseName);
+		this.setTfExerciseName();
 		
 		this.lblTrainedMuscle = new JLabel("Trained muscle");
-		springLayout.putConstraint(SpringLayout.NORTH, lblTrainedMuscle, 35, SpringLayout.NORTH, lblExerciseName);
-		springLayout.putConstraint(SpringLayout.WEST, lblTrainedMuscle, 0, SpringLayout.WEST, lblExerciseName);
-		springLayout.putConstraint(SpringLayout.EAST, lblTrainedMuscle, 0, SpringLayout.EAST, lblExerciseName);
 		add(lblTrainedMuscle);
 		
 		setUpMuscles();
 		
 		this.btnSave = new JButton("Save exercise");
-		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 23, SpringLayout.SOUTH, cbTrainedMuscle);
-		springLayout.putConstraint(SpringLayout.EAST, btnSave, 0, SpringLayout.EAST, tfExerciseName);
 		btnSave.setActionCommand("createExercise");
 		btnSave.addActionListener(this);
 		add(btnSave);	
+		
+		//TODO JSplttedPane. Crear panel controles arriba y JPanel abajo, el panel de abajo sera un GridLayout
 		
 	}
 
@@ -107,12 +90,9 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		
 		for(int i= 0; i< musclesList.size(); i++){
 			tmpMusclesStr[i] = musclesList.get(i).getMusclename();
-		}
-		
+		}		
+				
 		this.cbTrainedMuscle = new JComboBox(tmpMusclesStr);
-		springLayout.putConstraint(SpringLayout.WEST, cbTrainedMuscle, 0, SpringLayout.WEST, tfExerciseName);
-		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, cbTrainedMuscle, 0, SpringLayout.VERTICAL_CENTER, lblTrainedMuscle);
-		springLayout.putConstraint(SpringLayout.EAST, cbTrainedMuscle, 0, SpringLayout.EAST, tfExerciseName);
 		add(cbTrainedMuscle);
 	}
 	
@@ -121,10 +101,14 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
 		switch(e.getActionCommand()){
 			case "setCreateForm":
+				if(this.getTfExerciseName() == null)
+					this.setTfExerciseName();				
 				btnSave.setActionCommand("createExercise");
 				break;
 				
 			case "setModifyForm":
+				if(this.getCbExerciseName() == null)
+					this.setCbExerciseName();
 				btnSave.setActionCommand("modifyExercise");
 				break;
 				
@@ -162,4 +146,30 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 	private void removeExercise(){
 		
 	}
+
+	public JTextField getTfExerciseName() {
+		return tfExerciseName;
+	}
+
+	public void setTfExerciseName() {
+		if(this.getCbExerciseName() != null)
+			this.remove(cbExerciseName);
+		
+		this.tfExerciseName = new JTextField();
+		tfExerciseName.setHorizontalAlignment(JTextField.RIGHT);
+		tfExerciseName.setColumns(10);
+		
+		add(tfExerciseName);
+	}
+
+	public JComboBox getCbExerciseName() {
+		return cbExerciseName;
+	}
+
+	public void setCbExerciseName() {
+		if(this.getTfExerciseName() != null)
+			this.remove(tfExerciseName);
+	}
+	
+	
 }

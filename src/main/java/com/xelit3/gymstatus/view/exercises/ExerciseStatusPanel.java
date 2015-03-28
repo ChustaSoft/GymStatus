@@ -1,22 +1,27 @@
 package com.xelit3.gymstatus.view.exercises;
 
-import javax.swing.JSplitPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ExerciseStatusPanel extends JSplitPane {
+import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSplitPane;
+
+public class ExerciseStatusPanel extends JSplitPane implements ActionListener{
 	
-	private CardioExerciseStatusPanel theCardioPanel;
-	private FitnessExerciseStatusPanel theFitnessPanel;
+	private JPanel theExercisePanel;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblSelectExercise;
+	
+	private final static String CARDIO_MANAGEMENT = "mngCardioExercise", FITNESS_MANAGEMENT = "mngFitnessExercise";
 
 	/**
 	 * Create the panel.
@@ -24,23 +29,48 @@ public class ExerciseStatusPanel extends JSplitPane {
 	public ExerciseStatusPanel() {
 		setOrientation(JSplitPane.VERTICAL_SPLIT);		
 		
-		JPanel panel = new JPanel();
-		setLeftComponent(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JPanel tmpTopPanel = new JPanel();
+		setLeftComponent(tmpTopPanel);
+		tmpTopPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		lblSelectExercise = new JLabel("Select exercise");
-		panel.add(lblSelectExercise);
+		tmpTopPanel.add(lblSelectExercise);
+		
+		ButtonGroup bgSelectedExerciseType = new ButtonGroup();
+		
+		JRadioButton rbCardioSelected = new JRadioButton("CARDIO");
+		rbCardioSelected.setSelected(true);
+		rbCardioSelected.setActionCommand(CARDIO_MANAGEMENT);
+		rbCardioSelected.addActionListener(this);
+		tmpTopPanel.add(rbCardioSelected);
+		
+		JRadioButton rbFitnessSelected = new JRadioButton("FITNESS");
+		rbFitnessSelected.setActionCommand(FITNESS_MANAGEMENT);
+		rbFitnessSelected.addActionListener(this);
+		tmpTopPanel.add(rbFitnessSelected);
+		
+		bgSelectedExerciseType.add(rbCardioSelected);
+		bgSelectedExerciseType.add(rbFitnessSelected);
 		
 		JComboBox cbSelectedExercise = new JComboBox();
-		panel.add(cbSelectedExercise);
+		tmpTopPanel.add(cbSelectedExercise);
 		
-		JTabbedPane tpExerciseStatus = new JTabbedPane(JTabbedPane.TOP);
-		theCardioPanel = new CardioExerciseStatusPanel();
-		theFitnessPanel = new FitnessExerciseStatusPanel();
-		tpExerciseStatus.addTab("Cardio Exercise Status", theCardioPanel);
-		tpExerciseStatus.addTab("Fitness exercise status", theFitnessPanel);
-		
-		setRightComponent(tpExerciseStatus);		
+		this.setRightComponent(null);		
+	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		switch (e.getActionCommand()){
+		
+		case CARDIO_MANAGEMENT:
+			theExercisePanel = new CardioExerciseStatusPanel();
+			break;
+			
+		case FITNESS_MANAGEMENT:
+			theExercisePanel = new FitnessExerciseStatusPanel();
+			break;
+		}
+		
+		setRightComponent(theExercisePanel);		
 	}
 }
