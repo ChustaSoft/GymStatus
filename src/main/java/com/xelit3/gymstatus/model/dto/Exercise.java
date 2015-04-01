@@ -58,5 +58,10 @@ public abstract class Exercise implements Serializable{
 	public void setRoutinesIncluding(Collection<Routine> routinesIncluding) {
 		this.routinesIncluding = routinesIncluding;
 	}
+
+	@Override
+	public String toString() {
+		return this.getExerciseName();
+	}
 		
 }

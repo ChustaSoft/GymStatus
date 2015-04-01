@@ -1,7 +1,14 @@
 package com.xelit3.gymstatus.view.exercises;
 
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -11,124 +18,126 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 import com.xelit3.gymstatus.control.Controller;
+import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
+import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Muscle;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
 public class FitnessExercisePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
+	private Controller mainController = new Controller();
+	
 	private JLabel lblExerciseName, lblTrainedMuscle;
 	private JTextField tfExerciseName;
-	private JComboBox cbExerciseName;
-	private JComboBox cbTrainedMuscle;
+	private JComboBox<Exercise> cbExerciseName;
+	private JComboBox<Muscle> cbTrainedMuscle;
 	private JRadioButton rbCreate, rbModify, rbDelete;
 	private JButton btnSave;
 	
-	private Controller mainController = new Controller();
-
 	private List<Muscle> musclesList;
 	
 	public FitnessExercisePanel() {
-		this.createComponents();		
+		setLayout(new GridBagLayout());
+		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		this.createComponents();
 	}
 	
 	private void createComponents(){
 				
+		//Radiobuttons control top panel 
+		JPanel rgbPanel = new JPanel(new FlowLayout());
+		
 		ButtonGroup bgCrud = new ButtonGroup();
 			
 		rbCreate = new JRadioButton("Create");
 		rbCreate.setActionCommand("setCreateForm");
 		rbCreate.addActionListener(this);
-		setLayout(new GridLayout(4, 2, 0, 0));
 		rbCreate.setSelected(true);
-		add(rbCreate);
+		rgbPanel.add(rbCreate);
 		
 		rbModify = new JRadioButton("Modify");
 		rbModify.setActionCommand("setModifyForm");
 		rbModify.addActionListener(this);
-		add(rbModify);
+		rgbPanel.add(rbModify);
 		
 		rbDelete = new JRadioButton("Delete");
 		rbDelete.setActionCommand("setDeleteForm");
 		rbDelete.addActionListener(this);
-		add(rbDelete);
+		rgbPanel.add(rbDelete);
 		
 		bgCrud.add(rbCreate);
 		bgCrud.add(rbModify);
 		bgCrud.add(rbDelete);
-		
 				
+		this.add(rgbPanel, getGridConstraint(2, 0, 0, new Insets(0, 0, 30, 0)));
+		
 		this.lblExerciseName = new JLabel("Exercise name");
-		add(lblExerciseName);
+		this.add(lblExerciseName, getGridConstraint(1, 0, 1, new Insets(0, 0, 10, 25)));
 		
 		this.setTfExerciseName();
 		
 		this.lblTrainedMuscle = new JLabel("Trained muscle");
-		add(lblTrainedMuscle);
-		
-		setUpMuscles();
+		this.add(lblTrainedMuscle, getGridConstraint(1, 0, 2, new Insets(0, 0, 10, 25)));
+				
+		this.setCbMuscles();
 		
 		this.btnSave = new JButton("Save exercise");
 		btnSave.setActionCommand("createExercise");
 		btnSave.addActionListener(this);
-		add(btnSave);	
-		
-		//TODO JSplttedPane. Crear panel controles arriba y JPanel abajo, el panel de abajo sera un GridLayout
-		
+		this.add(btnSave, getGridConstraint(1, 1, 3, new Insets(0, 25, 100, 0)));
 	}
 
-	private void setUpMuscles() {
-		musclesList = mainController.getMuscles();
+	private GridBagConstraints getGridConstraint(int aWidth, int aCol, int aRow, Insets anInsets) {
+		GridBagConstraints tmpPanelConstraints = new GridBagConstraints();
 		
-		String [] tmpMusclesStr = new String[musclesList.size()];
+		tmpPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+		tmpPanelConstraints.gridwidth = aWidth;
+		tmpPanelConstraints.gridx = aCol;
+		tmpPanelConstraints.gridy = aRow;
 		
-		for(int i= 0; i< musclesList.size(); i++){
-			tmpMusclesStr[i] = musclesList.get(i).getMusclename();
-		}		
+		if(anInsets != null)
+			tmpPanelConstraints.insets = anInsets;
 				
-		this.cbTrainedMuscle = new JComboBox(tmpMusclesStr);
-		add(cbTrainedMuscle);
+		return tmpPanelConstraints;
+	}
+
+	public JTextField getTfExerciseName() {
+		return tfExerciseName;
+	}
+
+	public void setTfExerciseName() {
+		if(this.getCbExerciseName() != null)
+			this.remove(cbExerciseName);
+		
+		this.cbExerciseName = null;
+		this.tfExerciseName = new JTextField(JTextField.RIGHT);
+		this.add(tfExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));
+	}
+
+	public JComboBox<?> getCbExerciseName() {
+		return cbExerciseName;
+	}
+
+	public void setCbExerciseName() {
+		if(this.getTfExerciseName() != null)
+			this.remove(tfExerciseName);
+		this.tfExerciseName = null;
+		
+		List<Exercise> tmpExerciseList = mainController.getExercises(FitnessExercise.class);
+
+		this.cbExerciseName = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExerciseList));
+		this.add(cbExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
-		switch(e.getActionCommand()){
-			case "setCreateForm":
-				if(this.getTfExerciseName() == null)
-					this.setTfExerciseName();				
-				btnSave.setActionCommand("createExercise");
-				break;
-				
-			case "setModifyForm":
-				if(this.getCbExerciseName() == null)
-					this.setCbExerciseName();
-				btnSave.setActionCommand("modifyExercise");
-				break;
-				
-			case "setDeleteForm":
-				btnSave.setActionCommand("removeExercise");
-				break;
-				
-			case "createExercise":
-				saveExercise();
-				break;
-				
-			case "modifyExercise":
-				System.out.println("updating");
-				break;
-				
-			case "removeExercise":
-				System.out.println("removing");
-				break;
-		}
-		
+	private void setCbMuscles() {
+		musclesList = mainController.getMuscles();
+	
+		this.cbTrainedMuscle = new JComboBox<Muscle>(ConversorUtilitiy.obtainMuscles(musclesList));
+		this.add(cbTrainedMuscle, getGridConstraint(1, 1, 2, new Insets(0, 0, 10, 0)));
 	}
 	
 	private void saveExercise(){
@@ -140,36 +149,53 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 	}
 	
 	private void modifyExercise(){
+		System.out.println("updating");
 		
+		mainController.updateExercise((Exercise) cbExerciseName.getSelectedItem());
 	}
 	
 	private void removeExercise(){
-		
-	}
-
-	public JTextField getTfExerciseName() {
-		return tfExerciseName;
-	}
-
-	public void setTfExerciseName() {
-		if(this.getCbExerciseName() != null)
-			this.remove(cbExerciseName);
-		
-		this.tfExerciseName = new JTextField();
-		tfExerciseName.setHorizontalAlignment(JTextField.RIGHT);
-		tfExerciseName.setColumns(10);
-		
-		add(tfExerciseName);
-	}
-
-	public JComboBox getCbExerciseName() {
-		return cbExerciseName;
-	}
-
-	public void setCbExerciseName() {
-		if(this.getTfExerciseName() != null)
-			this.remove(tfExerciseName);
+		System.out.println("removing");
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
+		switch(e.getActionCommand()){
+			case "setCreateForm":
+				if(this.getTfExerciseName() == null)
+					this.setTfExerciseName();
+				btnSave.setText("Save exercise");
+				btnSave.setActionCommand("createExercise");
+				this.updateUI();
+				break;
+				
+			case "setModifyForm":
+				if(this.getCbExerciseName() == null)
+					this.setCbExerciseName();
+				btnSave.setText("Modify exercise");
+				btnSave.setActionCommand("modifyExercise");
+				this.updateUI();
+				break;
+				
+			case "setDeleteForm":
+				btnSave.setText("Remove exercise");
+				btnSave.setActionCommand("removeExercise");
+				break;
+				
+			case "createExercise":
+				saveExercise();
+				break;
+				
+			case "modifyExercise":
+				modifyExercise();
+				break;
+				
+			case "removeExercise":
+				removeExercise();
+				break;
+		}
+		
+	}
 	
 }

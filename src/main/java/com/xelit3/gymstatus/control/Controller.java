@@ -1,6 +1,7 @@
 package com.xelit3.gymstatus.control;
 
 import java.util.List;
+import java.util.Observable;
 
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.model.dao.CardioExerciseDAOImpl;
@@ -15,7 +16,7 @@ import com.xelit3.gymstatus.test.TestApp;
 import com.xelit3.gymstatus.view.MainWindow;
 
 
-public class Controller {
+public class Controller extends Observable{
 	MainWindow view;
 	ExerciseDAO exerciseDao;
 	MuscleDAO muscleDao;
@@ -58,10 +59,27 @@ public class Controller {
 		
 		return exerciseDao.getExercises();		
 	}
+	
+	public boolean updateExercise(Exercise anExercise){
+		if(anExercise instanceof FitnessExercise){
+			exerciseDao = new FitnessExerciseDAOImpl();
+		}
+		else if(anExercise instanceof CardioExercise){
+			exerciseDao = new CardioExerciseDAOImpl();
+		}
+		
+		return exerciseDao.updateExercise(anExercise);
+	}
 
 	public List<Muscle> getMuscles() {
 		muscleDao = new MuscleDAO();
 		return muscleDao.getMuscles();
+	}
+	
+	@Override
+	public void notifyObservers() {
+		// TODO Auto-generated method stub
+		super.notifyObservers();
 	}
 	
 	//Testing

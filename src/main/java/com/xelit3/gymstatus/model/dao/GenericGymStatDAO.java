@@ -1,13 +1,11 @@
 package com.xelit3.gymstatus.model.dao;
 
-import java.util.Observable;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-public abstract class GenericGymStatDAO extends Observable {
+public abstract class GenericGymStatDAO {
 	
 	protected Session session;
 	

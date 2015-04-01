@@ -6,11 +6,10 @@ import com.xelit3.gymstatus.model.dto.Exercise;
 
 public abstract class ExerciseDAO extends GenericGymStatDAO {
 	
-	public abstract boolean saveExercise(Exercise e);
-	public abstract boolean updateExercise(int id, Exercise newExercise);
+	public abstract boolean saveExercise(Exercise anExercise);
+	public abstract boolean updateExercise(Exercise anExercise);
 	public abstract Exercise getExercise(int id);
 	public abstract List<Exercise> getExercises();
-	public abstract boolean deleteExercise(int id);
-		
+	public abstract boolean deleteExercise(int id);		
 	
 }

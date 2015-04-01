@@ -9,15 +9,15 @@ import com.xelit3.gymstatus.model.dto.Exercise;
 public class CardioExerciseDAOImpl extends ExerciseDAO {
 	
 	@Override
-	public boolean saveExercise(Exercise e) {
+	public boolean saveExercise(Exercise anExercise) {
 		try{
-			openSession();
+			this.openSession();
 			
-			session.persist(e);
-	        session.getTransaction().commit();
-	        session.close();
+			session.beginTransaction();
+			session.persist(anExercise);
+	        session.getTransaction().commit();	        
 	        
-	        closeSession();
+	        this.closeSession();
 		} 
 		catch(Exception exc){
 			return false;
@@ -26,7 +26,7 @@ public class CardioExerciseDAOImpl extends ExerciseDAO {
 	}
 
 	@Override
-	public boolean updateExercise(int id, Exercise newExercise) {
+	public boolean updateExercise(Exercise anExercise) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -46,6 +46,8 @@ public class CardioExerciseDAOImpl extends ExerciseDAO {
 		Query selectAll = session.createQuery("FROM Exercise WHERE EXERCISE_TYPE='CARDIO'");
 		
 		tmpList = (ArrayList<Exercise>) selectAll.list();
+		
+		this.closeSession();
 		
 		return tmpList;
 	}

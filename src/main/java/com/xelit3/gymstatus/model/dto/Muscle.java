@@ -61,6 +61,10 @@ public class Muscle implements Serializable{
 	public void setExercisesList(Collection<Exercise> exercisesList) {
 		this.exercisesList = exercisesList;
 	}
-	
+
+	@Override
+	public String toString() {
+		return this.getMusclename();
+	}	
 	
 }
