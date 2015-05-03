@@ -25,6 +25,10 @@ public class FitnessExerciseStatus extends FitnessExercise {
 	)
 	private Collection<Serie> series = new ArrayList<Serie>();
 	
+	public FitnessExerciseStatus(){
+		
+	}
+	
 	public FitnessExerciseStatus(String name, Muscle muscle) {
 		super(name, muscle);
 	}

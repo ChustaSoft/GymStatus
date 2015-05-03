@@ -13,6 +13,7 @@ import javax.swing.JTable;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
+import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 
@@ -22,7 +23,7 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JSplitPane mainSplitPane;
-	private Controller controller = new Controller();
+	private Controller mainController = new Controller();
 	private JTable exercisesTable;
 	
 	public ExerciseListPanel() {
@@ -45,7 +46,7 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 		
 		mainSplitPane.setLeftComponent(buttonsExerciseTypePanel);
 		
-		showExercises(CardioExercise.class);
+		showExercises(CardioExerciseStatus.class);
 						
 		add(mainSplitPane, BorderLayout.CENTER);
        
@@ -75,13 +76,13 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 		//TODO Preferible usar la lista enumerada ya creada en lugar de pasar el tipo de clase?
 		//TODO Switch cases de clases
 		//TODO Refresco de las tablas
-		List<Exercise> exercisesList = controller.getExercises(exerciseClass);
+		List<Exercise> exercisesList = mainController.getExercises(exerciseClass);
 		switch(exerciseClass.getSimpleName()){
-			case "CardioExercise":
+			case "CardioExerciseStatus":
 				exercisesTable = new TableCardioExercise(exercisesList);
 				break;
 				
-			case "FitnessExercise":
+			case "FitnessExerciseStatus":
 				exercisesTable = new TableFitnessExercise(exercisesList);
 				break;
 		}

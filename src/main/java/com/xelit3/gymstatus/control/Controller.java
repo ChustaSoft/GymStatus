@@ -5,8 +5,10 @@ import java.util.Observable;
 
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.model.dao.CardioExerciseDAOImpl;
+import com.xelit3.gymstatus.model.dao.CardioExerciseStatusDAOImpl;
 import com.xelit3.gymstatus.model.dao.ExerciseDAO;
 import com.xelit3.gymstatus.model.dao.FitnessExerciseDAOImpl;
+import com.xelit3.gymstatus.model.dao.FitnessExerciseStatusDAOImpl;
 import com.xelit3.gymstatus.model.dao.MuscleDAO;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
@@ -47,13 +49,20 @@ public class Controller extends Observable{
 	public List<Exercise> getExercises(Class<?> exerciseClass){
 		switch(exerciseClass.getSimpleName()){
 		
-		case "CardioExercise":
-			exerciseDao = new CardioExerciseDAOImpl();
-			break;
-			
-		case "FitnessExercise":
-			exerciseDao = new FitnessExerciseDAOImpl();
-			break;
+			case "CardioExercise":
+				exerciseDao = new CardioExerciseDAOImpl();
+				break;
+				
+			case "FitnessExercise":
+				exerciseDao = new FitnessExerciseDAOImpl();
+				break;
+				
+			case "FitnessExerciseStatus":
+				exerciseDao = new FitnessExerciseStatusDAOImpl();
+				break;
+				
+			case "CardioExerciseStatus":
+				exerciseDao = new CardioExerciseStatusDAOImpl();
 		
 		}
 		
@@ -70,7 +79,7 @@ public class Controller extends Observable{
 		
 		return exerciseDao.updateExercise(anExercise);
 	}
-
+	
 	public List<Muscle> getMuscles() {
 		muscleDao = new MuscleDAO();
 		return muscleDao.getMuscles();

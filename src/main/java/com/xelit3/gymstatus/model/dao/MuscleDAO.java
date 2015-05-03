@@ -13,6 +13,7 @@ public class MuscleDAO extends GenericGymStatDAO {
 		session.beginTransaction();
 		Query query = session.createQuery("from Muscle");
 		
+		@SuppressWarnings("unchecked")
 		List<Muscle> tmpMuscles = (List<Muscle>) query.list();
 		
 		this.closeSession();

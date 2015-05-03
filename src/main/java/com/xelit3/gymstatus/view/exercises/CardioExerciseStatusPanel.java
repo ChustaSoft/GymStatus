@@ -4,12 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
@@ -36,9 +34,7 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	private void createComponents(){
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
-		
-		ButtonGroup bgCrud = new ButtonGroup();
-		
+	
 		JLabel lblExerciseName = new JLabel("Exercise name");
 		springLayout.putConstraint(SpringLayout.NORTH, lblExerciseName, 75, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, lblExerciseName, 75, SpringLayout.WEST, this);

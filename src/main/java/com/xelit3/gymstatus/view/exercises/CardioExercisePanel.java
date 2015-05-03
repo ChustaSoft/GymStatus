@@ -22,24 +22,101 @@ import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 
+/**
+ * The Class CardioExercisePanel.
+ * 
+ */
 public class CardioExercisePanel extends JPanel implements ActionListener {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The main controller. */
 	private Controller mainController = new Controller();
 	
-	private JLabel lblExerciseName;
+	/** The lbl exercise name. */
+	private JLabel lblSelectExercise, lblExerciseName;
+	
+	/** The tf exercise name. */
 	private JTextField tfExerciseName;
+	
+	/** The cb exercise name. */
 	private JComboBox<Exercise> cbExerciseName;
+	
+	/** The rb delete. */
 	private JRadioButton rbCreate, rbModify, rbDelete;
+	
+	/** The btn save. */
 	private JButton btnSave;
 	
+	/**
+	 * Instantiates a new cardio exercise panel.
+	 */
 	public CardioExercisePanel() {
 		setLayout(new GridBagLayout());
 		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		this.createComponents();
 	}
 	
+	/**
+	 * Action performed.
+	 *
+	 * @param e the e
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
+		switch(e.getActionCommand()){
+			case "setCreateForm":				
+				this.lblExerciseName.setVisible(true);
+				this.lblSelectExercise.setVisible(false);
+				this.cbExerciseName.setVisible(false);
+				this.tfExerciseName.setVisible(true);
+				
+				btnSave.setText("Save exercise");
+				btnSave.setActionCommand("createExercise");				
+				break;
+				
+			case "setModifyForm":
+				this.cbExerciseName.setVisible(true);
+				this.tfExerciseName.setVisible(true);
+				this.lblSelectExercise.setVisible(true);
+				this.lblExerciseName.setVisible(true);
+				
+				btnSave.setText("Modify exercise");
+				btnSave.setActionCommand("modifyExercise");				
+				break;
+				
+			case "setDeleteForm":				
+				this.lblExerciseName.setVisible(false);
+				this.lblSelectExercise.setVisible(true);
+				this.cbExerciseName.setVisible(true);
+				this.tfExerciseName.setVisible(false);
+				
+				btnSave.setText("Remove exercise");
+				btnSave.setActionCommand("removeExercise");
+				break;
+				
+			case "createExercise":
+				saveExercise();
+				break;
+				
+			case "modifyExercise":
+				modifyExercise();
+				break;
+				
+			case "removeExercise":
+				removeExercise();
+				break;
+		}
+		
+		this.updateUI();
+		
+	}
+	
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents(){
 				
 		//Radiobuttons control top panel 
@@ -69,17 +146,33 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 				
 		this.add(rgbPanel, getGridConstraint(2, 0, 0, new Insets(0, 0, 30, 0)));
 		
-		this.lblExerciseName = new JLabel("Exercise name");
-		this.add(lblExerciseName, getGridConstraint(1, 0, 1, new Insets(0, 0, 10, 25)));
+		this.lblSelectExercise = new JLabel("Select exercise");
+		this.add(lblSelectExercise, getGridConstraint(1, 0, 1, new Insets(0, 0, 10, 25)));
+		this.lblSelectExercise.setVisible(false);
 		
+		this.lblExerciseName = new JLabel("Exercise name");
+		this.add(lblExerciseName, getGridConstraint(1, 0, 2, new Insets(0, 0, 10, 25)));
+		
+		this.setCbExerciseName();
 		this.setTfExerciseName();
+		
+		this.cbExerciseName.setVisible(false);
 		
 		this.btnSave = new JButton("Save exercise");
 		btnSave.setActionCommand("createExercise");
 		btnSave.addActionListener(this);
-		this.add(btnSave, getGridConstraint(1, 1, 2, new Insets(0, 25, 100, 0)));
+		this.add(btnSave, getGridConstraint(1, 1, 3, new Insets(0, 25, 100, 0)));
 	}
 
+	/**
+	 * Gets the grid constraint.
+	 *
+	 * @param aWidth thw width for the component
+	 * @param aCol the column
+	 * @param aRow the row
+	 * @param anInsets margins
+	 * @return the formed constraint
+	 */
 	private GridBagConstraints getGridConstraint(int aWidth, int aCol, int aRow, Insets anInsets) {
 		GridBagConstraints tmpPanelConstraints = new GridBagConstraints();
 		
@@ -94,34 +187,49 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 		return tmpPanelConstraints;
 	}
 
+	/**
+	 * Gets the tf exercise name.
+	 *
+	 * @return the tf exercise name
+	 */
 	public JTextField getTfExerciseName() {
 		return tfExerciseName;
 	}
 
+	/**
+	 * Sets the tf exercise name.
+	 */
 	public void setTfExerciseName() {
-		if(this.getCbExerciseName() != null)
-			this.remove(cbExerciseName);
-		
-		this.cbExerciseName = null;
-		this.tfExerciseName = new JTextField(JTextField.RIGHT);
-		this.add(tfExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));
+		if(this.getTfExerciseName() == null){
+			this.tfExerciseName = new JTextField(JTextField.RIGHT);
+			this.add(tfExerciseName, getGridConstraint(1, 1, 2, new Insets(0, 0, 10, 0)));
+		}		
 	}
 
+	/**
+	 * Gets the cb exercise name.
+	 *
+	 * @return the cb exercise name
+	 */
 	public JComboBox<?> getCbExerciseName() {
 		return cbExerciseName;
 	}
 
+	/**
+	 * Sets the cb exercise name.
+	 */
 	public void setCbExerciseName() {
-		if(this.getTfExerciseName() != null)
-			this.remove(tfExerciseName);
-		this.tfExerciseName = null;
-		
-		List<Exercise> tmpExerciseList = mainController.getExercises(CardioExercise.class);
+		if(this.getCbExerciseName() == null){
+			List<Exercise> tmpExerciseList = mainController.getExercises(CardioExercise.class);
 
-		this.cbExerciseName = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExerciseList));
-		this.add(cbExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));
+			this.cbExerciseName = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExerciseList));
+			this.add(cbExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));
+		}		
 	}
 	
+	/**
+	 * Save exercise.
+	 */
 	private void saveExercise(){
 		CardioExercise tmpCardioExercise = new CardioExercise();
 		tmpCardioExercise.setExerciseName(this.tfExerciseName.getText());
@@ -129,54 +237,20 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 		mainController.saveExercise(tmpCardioExercise);
 	}
 	
+	/**
+	 * Modify exercise.
+	 */
 	private void modifyExercise(){
 		System.out.println("updating");		
 		
 	}
 	
+	/**
+	 * Removes the exercise.
+	 */
 	private void removeExercise(){
 		System.out.println("removing");
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
-		switch(e.getActionCommand()){
-			case "setCreateForm":
-				if(this.getTfExerciseName() == null)
-					this.setTfExerciseName();
-				btnSave.setText("Save exercise");
-				btnSave.setActionCommand("createExercise");
-				this.updateUI();
-				break;
-				
-			case "setModifyForm":
-				if(this.getCbExerciseName() == null)
-					this.setCbExerciseName();
-				btnSave.setText("Modify exercise");
-				btnSave.setActionCommand("modifyExercise");
-				this.updateUI();
-				break;
-				
-			case "setDeleteForm":
-				btnSave.setText("Remove exercise");
-				btnSave.setActionCommand("removeExercise");
-				break;
-				
-			case "createExercise":
-				saveExercise();
-				break;
-				
-			case "modifyExercise":
-				modifyExercise();
-				break;
-				
-			case "removeExercise":
-				removeExercise();
-				break;
-		}
-		
-	}
+	}	
 	
 }
 

@@ -19,6 +19,10 @@ public class CardioExerciseStatus extends CardioExercise {
 	private CardioExerciseIntensity intensity;
 	private long time;
 	
+	public CardioExerciseStatus(){
+		
+	}
+	
 	public CardioExerciseStatus(String name){
 		super(name);
 	}
