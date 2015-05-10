@@ -97,11 +97,13 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		JButton btnAddExercise = new JButton("Add to routine");
 		btnAddExercise.setActionCommand("addExerciseToRoutine");
 		btnAddExercise.setBounds(383, 118, 129, 20);
+		btnAddExercise.addActionListener(this);
 		add(btnAddExercise);	
 		
 		JButton btnCreateRoutine = new JButton("Create routine");
 		btnCreateRoutine.setActionCommand("createRoutine");
 		btnCreateRoutine.setBounds(395, 376, 117, 23);
+		btnCreateRoutine.addActionListener(this);
 		add(btnCreateRoutine);
 		
 	}
@@ -113,6 +115,14 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		case "changeExerciseType":
 			//TODO Cargar en el segundo combobox los ejercicios dependiendo de lo clickado.
 			System.out.println("Change type - Not implemented");
+			break;
+			
+		case "addExerciseToRoutine":
+			System.out.println("Adding exercises - Not implemented yet");
+			break;
+			
+		case "createRoutine":
+			System.out.println("Create routine - Not implemented yet");
 			break;
 			
 		}

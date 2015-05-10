@@ -63,35 +63,30 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 				showExercises(FitnessExercise.class);
 				break;
 		
-		}
-		
-		//TODO Problemas al recolocar la tabla
-		this.repaint();
-		this.revalidate();
-		
+		}		
 	}
 	
 	public void showExercises(Class<?> exerciseClass){
-		//TODO Es la manera mas correcta de implementar polimorfismo? Casteando en la clase Tabla correspondiente?
-		//TODO Preferible usar la lista enumerada ya creada en lugar de pasar el tipo de clase?
-		//TODO Switch cases de clases
-		//TODO Refresco de las tablas
+		//TODO Sería adecuado realizar un Factory en este caso
+		//TODO Refresco de la tabla al cambiar de ejercicio -> Recibe FitnessExercise
 		List<Exercise> exercisesList = mainController.getExercises(exerciseClass);
 		switch(exerciseClass.getSimpleName()){
 			case "CardioExerciseStatus":
-				exercisesTable = new TableCardioExercise(exercisesList);
+				exercisesTable = new TableCardioExercise(new CardioExerciseTableModel());
 				break;
 				
 			case "FitnessExerciseStatus":
-				exercisesTable = new TableFitnessExercise(exercisesList);
+				exercisesTable = new TableFitnessExercise(new FitnessExerciseTableModel());
 				break;
 		}
 		JScrollPane scrollPane = new JScrollPane(exercisesTable);
 		
 		mainSplitPane.setRightComponent(scrollPane);
-		scrollPane.updateUI();
-		mainSplitPane.repaint();
+		scrollPane.revalidate();
+		scrollPane.updateUI();		
 		mainSplitPane.revalidate();
+		mainSplitPane.repaint();
+		mainSplitPane.updateUI();
 	}	
 
 }

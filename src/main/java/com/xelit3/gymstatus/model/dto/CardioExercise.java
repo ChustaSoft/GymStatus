@@ -15,7 +15,7 @@ public class CardioExercise extends Exercise{
 	public CardioExercise(){}
 
 	public CardioExercise(String name){
-		this.setExerciseName(name);
+		this.setExerciseName(name);	
 		
 	}
 	
