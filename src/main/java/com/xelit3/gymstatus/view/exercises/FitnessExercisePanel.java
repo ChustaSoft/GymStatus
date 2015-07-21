@@ -23,30 +23,53 @@ import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Muscle;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FitnessExercisePanel.
+ */
 public class FitnessExercisePanel extends JPanel implements ActionListener {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The main controller. */
 	private Controller mainController = new Controller();
 	
+	/** The lbl trained muscle. */
 	private JLabel lblSelectExercise, lblExerciseName, lblTrainedMuscle;
+	
+	/** The tf exercise name. */
 	private JTextField tfExerciseName;
+	
+	/** The cb exercise name. */
 	private JComboBox<Exercise> cbExerciseName;
+	
+	/** The cb trained muscle. */
 	private JComboBox<Muscle> cbTrainedMuscle;
+	
+	/** The rb delete. */
 	private JRadioButton rbCreate, rbModify, rbDelete;
+	
+	/** The btn save. */
 	private JButton btnSave;
 	
+	/** The muscles list. */
 	private List<Muscle> musclesList;
 	
+	/**
+	 * Instantiates a new fitness exercise panel.
+	 */
 	public FitnessExercisePanel() {
 		setLayout(new GridBagLayout());
 		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		this.createComponents();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
 		switch(e.getActionCommand()){
 			case "setCreateForm":
 				if(this.getCbExerciseName() != null){
@@ -111,6 +134,9 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		
 	}
 	
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents(){
 				
 		//Radiobuttons control top panel 
@@ -160,7 +186,7 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Gets the grid constraint.
+	 * With this method we get the constraints for a component inside the panel
 	 *
 	 * @param aWidth thw width for the component
 	 * @param aCol the column
@@ -182,10 +208,18 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		return tmpPanelConstraints;
 	}
 
+	/**
+	 * Gets the tf exercise name.
+	 *
+	 * @return the tf exercise name
+	 */
 	public JTextField getTfExerciseName() {
 		return tfExerciseName;
 	}
 
+	/**
+	 * Sets the tf exercise name.
+	 */
 	public void setTfExerciseName() {
 		if(this.getTfExerciseName() == null){
 			this.tfExerciseName = new JTextField(JTextField.RIGHT);
@@ -193,10 +227,18 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		}		
 	}
 
+	/**
+	 * Gets the cb exercise name.
+	 *
+	 * @return the cb exercise name
+	 */
 	public JComboBox<?> getCbExerciseName() {
 		return cbExerciseName;
 	}
 
+	/**
+	 * Sets the cb exercise name.
+	 */
 	public void setCbExerciseName() {
 		if(this.getCbExerciseName() == null){
 			List<Exercise> tmpExerciseList = mainController.getExercises(FitnessExercise.class);
@@ -206,10 +248,18 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		}		
 	}
 	
+	/**
+	 * Gets the cb muscles.
+	 *
+	 * @return the cb muscles
+	 */
 	public JComboBox<?> getCbMuscles(){
 		return this.cbTrainedMuscle;
 	}
 	
+	/**
+	 * Sets the cb muscles.
+	 */
 	public void setCbMuscles() {
 		if(this.getCbMuscles() == null){
 			musclesList = mainController.getMuscles();
@@ -219,6 +269,9 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		}		
 	}
 	
+	/**
+	 * Save exercise.
+	 */
 	private void saveExercise(){
 		FitnessExercise tmpFitnessExercise = new FitnessExercise();
 		tmpFitnessExercise.setExerciseName(tfExerciseName.getText());
@@ -227,14 +280,32 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		this.mainController.saveExercise(tmpFitnessExercise);
 	}
 	
-	private void modifyExercise(){
-		System.out.println("updating");
+	/**
+	 * Modify exercise.
+	 */
+	private void modifyExercise(){		
+		FitnessExercise tmpExercise = (FitnessExercise) cbExerciseName.getSelectedItem();
+		tmpExercise.setExerciseName(this.getTfExerciseName().getText());
+				
+		boolean tmpResponse = mainController.updateExercise(tmpExercise);
 		
-		mainController.updateExercise((Exercise) cbExerciseName.getSelectedItem());
+		//We change also the name into the combobox
+		if(tmpResponse)
+			((FitnessExercise) cbExerciseName.getSelectedItem()).setExerciseName(this.getTfExerciseName().getText());
+		
+		this.updateUI();
 	}
 	
-	private void removeExercise(){
-		System.out.println("removing");
+	/**
+	 * Removes the exercise.
+	 */
+	private void removeExercise(){		
+		boolean tmpResponse = mainController.removeExercise((FitnessExercise) this.getCbExerciseName().getSelectedItem());
+		
+		if(tmpResponse)
+			this.getCbExerciseName().removeItemAt(this.getCbExerciseName().getSelectedIndex());;
+		
+		this.updateUI();
 	}
 	
 }

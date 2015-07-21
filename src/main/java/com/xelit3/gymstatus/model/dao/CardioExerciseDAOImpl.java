@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.hibernate.Query;
 
+import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 
 public class CardioExerciseDAOImpl extends ExerciseDAO {
@@ -27,14 +28,25 @@ public class CardioExerciseDAOImpl extends ExerciseDAO {
 
 	@Override
 	public boolean updateExercise(Exercise anExercise) {
-		// TODO Auto-generated method stub
-		return false;
+		try{
+			this.openSession();
+			
+			session.beginTransaction();
+	        session.update(anExercise);
+	        session.getTransaction().commit();
+	        
+	        this.closeSession();
+		}
+		catch(Exception exc){
+			return false;
+		}		
+		return true;
 	}
 
 	@Override
 	public Exercise getExercise(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		this.openSession();		
+		return (Exercise) session.get(Exercise.class, id);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -54,8 +66,20 @@ public class CardioExerciseDAOImpl extends ExerciseDAO {
 
 	@Override
 	public boolean deleteExercise(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		try{
+			this.openSession();
+			CardioExercise tmpExercise = (CardioExercise) session.get(CardioExercise.class, id);
+			session.beginTransaction();
+			session.delete(tmpExercise);
+			session.getTransaction().commit();
+			this.closeSession();
+			
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}		
 	}	
 
 }

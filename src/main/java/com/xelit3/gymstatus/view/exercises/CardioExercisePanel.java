@@ -22,6 +22,7 @@ import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 
+//TODO: Auto-generated Javadoc
 /**
  * The Class CardioExercisePanel.
  * 
@@ -78,6 +79,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 				break;
 				
 			case "setModifyForm":
+				this.setCbExerciseName();
 				this.cbExerciseName.setVisible(true);
 				this.tfExerciseName.setVisible(true);
 				this.lblSelectExercise.setVisible(true);
@@ -87,7 +89,8 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 				btnSave.setActionCommand("modifyExercise");				
 				break;
 				
-			case "setDeleteForm":				
+			case "setDeleteForm":
+				this.setCbExerciseName();
 				this.lblExerciseName.setVisible(false);
 				this.lblSelectExercise.setVisible(true);
 				this.cbExerciseName.setVisible(true);
@@ -165,7 +168,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Gets the grid constraint.
+	 * With this method we get the constraints for a component inside the panel
 	 *
 	 * @param aWidth thw width for the component
 	 * @param aCol the column
@@ -219,12 +222,13 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	 * Sets the cb exercise name.
 	 */
 	public void setCbExerciseName() {
-		if(this.getCbExerciseName() == null){
-			List<Exercise> tmpExerciseList = mainController.getExercises(CardioExercise.class);
+		if(this.getCbExerciseName() != null)
+			this.remove(this.getCbExerciseName());
+		
+		List<Exercise> tmpExerciseList = mainController.getExercises(CardioExercise.class);
 
-			this.cbExerciseName = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExerciseList));
-			this.add(cbExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));
-		}		
+		this.cbExerciseName = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExerciseList));
+		this.add(cbExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));			
 	}
 	
 	/**
@@ -234,22 +238,38 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 		CardioExercise tmpCardioExercise = new CardioExercise();
 		tmpCardioExercise.setExerciseName(this.tfExerciseName.getText());
 		
-		mainController.saveExercise(tmpCardioExercise);
+		boolean tmpResponse = mainController.saveExercise(tmpCardioExercise);
+		
+//		this.setCbExerciseName();
+		this.updateUI();
 	}
 	
 	/**
 	 * Modify exercise.
 	 */
 	private void modifyExercise(){
-		System.out.println("updating");		
+		CardioExercise tmpExercise = (CardioExercise) cbExerciseName.getSelectedItem();
+		tmpExercise.setExerciseName(this.getTfExerciseName().getText());		
 		
+		boolean tmpResponse = mainController.updateExercise(tmpExercise);
+		
+		//We change also the name into the combobox
+		if(tmpResponse)
+			((CardioExercise) cbExerciseName.getSelectedItem()).setExerciseName(this.getTfExerciseName().getText());
+				
+		this.updateUI();
 	}
 	
 	/**
 	 * Removes the exercise.
 	 */
-	private void removeExercise(){
-		System.out.println("removing");
+	private void removeExercise(){		
+		boolean tmpResponse = mainController.removeExercise((CardioExercise) this.getCbExerciseName().getSelectedItem());
+		
+		if(tmpResponse)
+			this.getCbExerciseName().removeItemAt(this.getCbExerciseName().getSelectedIndex());;
+		
+		this.updateUI();
 	}	
 	
 }

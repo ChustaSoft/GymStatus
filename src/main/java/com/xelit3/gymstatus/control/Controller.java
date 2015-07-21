@@ -80,6 +80,17 @@ public class Controller extends Observable{
 		return exerciseDao.updateExercise(anExercise);
 	}
 	
+	public boolean removeExercise(Exercise anExercise){
+		if(anExercise instanceof FitnessExercise){
+			exerciseDao = new FitnessExerciseDAOImpl();
+		}
+		else if(anExercise instanceof CardioExercise){
+			exerciseDao = new CardioExerciseDAOImpl();
+		}
+		
+		return exerciseDao.deleteExercise(anExercise.getId());
+	}
+	
 	public List<Muscle> getMuscles() {
 		muscleDao = new MuscleDAO();
 		return muscleDao.getMuscles();
