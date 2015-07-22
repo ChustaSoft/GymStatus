@@ -14,27 +14,22 @@ import javax.swing.JSplitPane;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
-import com.xelit3.gymstatus.model.dto.CardioExercise;
+import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
-import com.xelit3.gymstatus.model.dto.FitnessExercise;
+import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 
 public class ExerciseStatusPanel extends JSplitPane implements ActionListener{
 	
+		private static final long serialVersionUID = 1L;
+	
+	private JPanel theTopPanel;
 	private JPanel theExercisePanel;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private Controller theController;
 	private JLabel lblSelectExercise;
 	private JComboBox<Exercise> cbSelectedExercise;
-	private Controller theController;
-	private JPanel theTopPanel;
+	private ButtonGroup bgSelectedExerciseType;
+	private JRadioButton rbCardioSelected, rbFitnessSelected;
 	
-	private final static String CARDIO_MANAGEMENT = "mngCardioExercise", FITNESS_MANAGEMENT = "mngFitnessExercise";
-
-	
-
 	/**
 	 * Create the panel.
 	 */
@@ -50,16 +45,14 @@ public class ExerciseStatusPanel extends JSplitPane implements ActionListener{
 		lblSelectExercise = new JLabel("Select exercise");
 		theTopPanel.add(lblSelectExercise);
 		
-		ButtonGroup bgSelectedExerciseType = new ButtonGroup();
+		bgSelectedExerciseType = new ButtonGroup();
 		
-		JRadioButton rbCardioSelected = new JRadioButton("CARDIO");
+		rbCardioSelected = new JRadioButton("CARDIO");
 		rbCardioSelected.setSelected(true);
-		rbCardioSelected.setActionCommand(CARDIO_MANAGEMENT);
 		rbCardioSelected.addActionListener(this);
 		theTopPanel.add(rbCardioSelected);
 		
-		JRadioButton rbFitnessSelected = new JRadioButton("FITNESS");
-		rbFitnessSelected.setActionCommand(FITNESS_MANAGEMENT);
+		rbFitnessSelected = new JRadioButton("FITNESS");
 		rbFitnessSelected.addActionListener(this);
 		theTopPanel.add(rbFitnessSelected);
 		
@@ -72,18 +65,14 @@ public class ExerciseStatusPanel extends JSplitPane implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		switch (e.getActionCommand()){
-		
-		case CARDIO_MANAGEMENT:
-			setCbSelectedExercise(CardioExercise.class);
-			theExercisePanel = new CardioExerciseStatusPanel();
-			break;
-			
-		case FITNESS_MANAGEMENT:
-			setCbSelectedExercise(FitnessExercise.class);
-			theExercisePanel = new FitnessExerciseStatusPanel();
-			break;
+		if(rbCardioSelected.isSelected()){
+			setCbSelectedExercise(CardioExerciseStatus.class);
+			theExercisePanel = new CardioExerciseStatusPanel((CardioExerciseStatus)this.cbSelectedExercise.getSelectedItem());
 		}
+		else if(rbFitnessSelected.isSelected()){
+			setCbSelectedExercise(FitnessExerciseStatus.class);
+			theExercisePanel = new FitnessExerciseStatusPanel((FitnessExerciseStatus)this.cbSelectedExercise.getSelectedItem());
+		}	
 		
 		setRightComponent(theExercisePanel);		
 	}
@@ -97,6 +86,8 @@ public class ExerciseStatusPanel extends JSplitPane implements ActionListener{
 		
 		List<Exercise> tmpExercises = theController.getExercises(aClass);
 		cbSelectedExercise = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExercises));
+		cbSelectedExercise.setActionCommand("cbExerciseName");
+		cbSelectedExercise.addActionListener(this);
 		theTopPanel.add(cbSelectedExercise);
 		
 		theTopPanel.invalidate();

@@ -22,12 +22,17 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
 
 import com.xelit3.gymstatus.control.Controller;
-import com.xelit3.gymstatus.model.dto.FitnessExercise;
+import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Muscle;
 
 public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
+	
+	private Controller mainController = new Controller();
+	
+	private FitnessExerciseStatus tmpFitnessExercise;
+	private List<Muscle> musclesList;	
 	
 	private JLabel lblExerciseName, lblTrainedMuscle, lbRepetitions, lblSeriesRepetitions;
 	private SpringLayout springLayout;
@@ -37,11 +42,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	private List<JFormattedTextField> tfListRepetitions = new ArrayList<JFormattedTextField>();
 	private JButton btnSave;
 	
-	private Controller mainController = new Controller();
-
-	private List<Muscle> musclesList;
-
-	public FitnessExerciseStatusPanel() {
+	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExercise) {
 		this.createComponents();		
 	}
 	
@@ -109,6 +110,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		}
 		
 		this.cbTrainedMuscle = new JComboBox(tmpMusclesStr);
+		this.cbTrainedMuscle.setEnabled(false);
 		springLayout.putConstraint(SpringLayout.WEST, cbTrainedMuscle, 0, SpringLayout.WEST, tfExerciseName);
 		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, cbTrainedMuscle, 0, SpringLayout.VERTICAL_CENTER, lblTrainedMuscle);
 		springLayout.putConstraint(SpringLayout.EAST, cbTrainedMuscle, 0, SpringLayout.EAST, tfExerciseName);
@@ -191,11 +193,11 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	}
 	
 	private void saveExercise(){
-		FitnessExercise tmpFitnessExercise = new FitnessExercise();
-		tmpFitnessExercise.setExerciseName(tfExerciseName.getText());
-		tmpFitnessExercise.setTrainedMuscle(musclesList.get(cbTrainedMuscle.getSelectedIndex()));
-		
-		this.mainController.saveExercise(tmpFitnessExercise);
+//		tmpFitnessExercise = new FitnessExercise();
+//		tmpFitnessExercise.setExerciseName(tfExerciseName.getText());
+//		tmpFitnessExercise.setTrainedMuscle(musclesList.get(cbTrainedMuscle.getSelectedIndex()));
+//		
+//		this.mainController.saveExercise(tmpFitnessExercise);
 	}
 	
 	private void modifyExercise(){

@@ -16,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
 
+import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus.CardioExerciseIntensity;
 
 public class CardioExerciseStatusPanel extends JPanel implements ActionListener, ChangeListener{
@@ -27,7 +28,7 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	private JFormattedTextField tfTime;
 	private JButton btnSave;
 	
-	public CardioExerciseStatusPanel() {
+	public CardioExerciseStatusPanel(CardioExerciseStatus anExercise) {
 		this.createComponents();	
 	}
 	

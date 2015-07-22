@@ -1,6 +1,9 @@
 package com.xelit3.gymstatus.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Query;
 
 import com.xelit3.gymstatus.model.dto.Exercise;
 
@@ -26,8 +29,16 @@ public class FitnessExerciseStatusDAOImpl extends ExerciseDAO {
 
 	@Override
 	public List<Exercise> getExercises() {
-		// TODO Auto-generated method stub
-		return null;
+		this.openSession();
+		ArrayList<Exercise> tmpList = new ArrayList<Exercise>();
+		
+		Query selectAll = session.createQuery("FROM Exercise WHERE EXERCISE_TYPE='FITNESS_STATUS'");
+		
+		tmpList = (ArrayList<Exercise>) selectAll.list();
+		
+		this.closeSession();
+		
+		return tmpList;
 	}
 
 	@Override

@@ -32,9 +32,9 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 	public MainWindow(Controller controller){
 		this.controller = controller;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 640, 480);
+		setBounds(250, 250, 640, 480);
 		setResizable(false);
-		setUndecorated(true);
+//		setUndecorated(true);
 		setRootPane(this.createRootPane());
 				
 		buildMenu();

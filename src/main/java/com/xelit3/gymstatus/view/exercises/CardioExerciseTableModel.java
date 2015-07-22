@@ -1,19 +1,21 @@
 package com.xelit3.gymstatus.view.exercises;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
+import com.xelit3.gymstatus.model.dto.Exercise;
 
 public class CardioExerciseTableModel extends AbstractTableModel{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private List<Object[]> exercises = new ArrayList<Object[]>();
-	private String[] columnNames = {"TYPE", "NAME"};
+	private List<Exercise> theExercises;
+	private String[] columnNames = {"NAME", "INTENSITY", "TIME"};
 	
-	public CardioExerciseTableModel() {
-		super();
+	public CardioExerciseTableModel(List<Exercise> aList){
+		theExercises = aList;
 	}
 
 	@Override
@@ -23,12 +25,20 @@ public class CardioExerciseTableModel extends AbstractTableModel{
 
 	@Override
 	public int getRowCount() {		
-		return exercises.size();
+		return theExercises.size();
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return exercises.get(rowIndex)[columnIndex];
+		switch(columnNames[columnIndex]){			
+		case "NAME":
+			return theExercises.get(rowIndex).getExerciseName();
+		case "INTENSITY":
+			return ((CardioExerciseStatus) theExercises.get(rowIndex)).getIntensity().name();
+		case "TIME":
+			return ((CardioExerciseStatus) theExercises.get(rowIndex)).getTime();
+	}
+	return null;
 	}
 	
 	@Override

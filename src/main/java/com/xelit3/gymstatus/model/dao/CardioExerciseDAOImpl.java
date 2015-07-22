@@ -45,8 +45,10 @@ public class CardioExerciseDAOImpl extends ExerciseDAO {
 
 	@Override
 	public Exercise getExercise(int id) {
-		this.openSession();		
-		return (Exercise) session.get(Exercise.class, id);
+		this.openSession();
+		Exercise tmpExercise = (Exercise) session.get(Exercise.class, id);
+		this.closeSession();
+		return tmpExercise;
 	}
 
 	@SuppressWarnings("unchecked")

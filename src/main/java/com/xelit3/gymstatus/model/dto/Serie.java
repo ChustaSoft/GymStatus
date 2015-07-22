@@ -51,5 +51,13 @@ public class Serie implements Serializable{
 	public void setWithOwnWeight(boolean withOwnWeight) {
 		this.withOwnWeight = withOwnWeight;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "[REP=" + repetitions + ", WEIGHT=" + weight + ", OWN?=" + withOwnWeight + "]";
+	}
 	
 }

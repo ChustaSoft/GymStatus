@@ -12,10 +12,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
 import com.xelit3.gymstatus.control.Controller;
-import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
-import com.xelit3.gymstatus.model.dto.FitnessExercise;
+import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 
 public class ExerciseListPanel extends JPanel implements ActionListener{
 	/**
@@ -56,37 +55,32 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent ae) {
 		switch(ae.getActionCommand()){
 			case "btnListCardio":
-				showExercises(CardioExercise.class);
+				showExercises(CardioExerciseStatus.class);
 				break;
 				
 			case "btnListFitness":
-				showExercises(FitnessExercise.class);
-				break;
+				showExercises(FitnessExerciseStatus.class);
+				break;	
 		
 		}		
 	}
 	
 	public void showExercises(Class<?> exerciseClass){
-		//TODO Sería adecuado realizar un Factory en este caso
-		//TODO Refresco de la tabla al cambiar de ejercicio -> Recibe FitnessExercise
 		List<Exercise> exercisesList = mainController.getExercises(exerciseClass);
+		//We show a different table depending of the class we recive, expecting for a CardioExerciseStatus or FitnessExerciseStatus
 		switch(exerciseClass.getSimpleName()){
 			case "CardioExerciseStatus":
-				exercisesTable = new TableCardioExercise(new CardioExerciseTableModel());
+				exercisesTable = new TableCardioExercise(new CardioExerciseTableModel(exercisesList));
 				break;
 				
-			case "FitnessExerciseStatus":
-				exercisesTable = new TableFitnessExercise(new FitnessExerciseTableModel());
+			case "FitnessExerciseStatus":				
+				exercisesTable = new TableFitnessExercise(new FitnessExerciseTableModel(exercisesList));
 				break;
 		}
 		JScrollPane scrollPane = new JScrollPane(exercisesTable);
+		exercisesTable.setFillsViewportHeight(true);
 		
 		mainSplitPane.setRightComponent(scrollPane);
-		scrollPane.revalidate();
-		scrollPane.updateUI();		
-		mainSplitPane.revalidate();
-		mainSplitPane.repaint();
-		mainSplitPane.updateUI();
 	}	
 
 }

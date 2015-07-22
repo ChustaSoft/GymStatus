@@ -19,7 +19,7 @@ public class FitnessExerciseStatus extends FitnessExercise {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@ElementCollection(fetch=FetchType.LAZY)
+	@ElementCollection(fetch=FetchType.EAGER)
 	@JoinTable (name="FITNESS_EXERCISE_SERIES",
 		joinColumns = @JoinColumn(name="EXERCISE_ID")
 	)
