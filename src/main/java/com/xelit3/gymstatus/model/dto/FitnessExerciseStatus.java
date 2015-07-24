@@ -29,6 +29,11 @@ public class FitnessExerciseStatus extends FitnessExercise {
 		
 	}
 	
+	public FitnessExerciseStatus(FitnessExercise anExercise){
+		this.setExerciseName(anExercise.getExerciseName());
+		this.setTrainedMuscle(anExercise.getTrainedMuscle());
+	}
+	
 	public FitnessExerciseStatus(String name, Muscle muscle) {
 		super(name, muscle);
 	}

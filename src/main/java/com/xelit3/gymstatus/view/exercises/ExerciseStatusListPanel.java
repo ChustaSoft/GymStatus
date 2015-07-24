@@ -16,7 +16,7 @@ import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 
-public class ExerciseListPanel extends JPanel implements ActionListener{
+public class ExerciseStatusListPanel extends JPanel implements ActionListener{
 	/**
 	 * 
 	 */
@@ -25,7 +25,7 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 	private Controller mainController = new Controller();
 	private JTable exercisesTable;
 	
-	public ExerciseListPanel() {
+	public ExerciseStatusListPanel() {
 		super(new BorderLayout());
 		mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		mainSplitPane.setEnabled(false);
@@ -70,11 +70,11 @@ public class ExerciseListPanel extends JPanel implements ActionListener{
 		//We show a different table depending of the class we recive, expecting for a CardioExerciseStatus or FitnessExerciseStatus
 		switch(exerciseClass.getSimpleName()){
 			case "CardioExerciseStatus":
-				exercisesTable = new TableCardioExercise(new CardioExerciseTableModel(exercisesList));
+				exercisesTable = new TableCardioExerciseStatus(new CardioExerciseStatusTableModel(exercisesList));
 				break;
 				
 			case "FitnessExerciseStatus":				
-				exercisesTable = new TableFitnessExercise(new FitnessExerciseTableModel(exercisesList));
+				exercisesTable = new TableFitnessExerciseStatus(new FitnessExerciseStatusTableModel(exercisesList));
 				break;
 		}
 		JScrollPane scrollPane = new JScrollPane(exercisesTable);

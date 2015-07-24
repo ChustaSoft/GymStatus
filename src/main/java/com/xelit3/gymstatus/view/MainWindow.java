@@ -18,8 +18,8 @@ import javax.swing.KeyStroke;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.view.exercises.ExerciseManagementPanel;
-import com.xelit3.gymstatus.view.exercises.ExerciseListPanel;
-import com.xelit3.gymstatus.view.exercises.ExerciseStatusPanel;
+import com.xelit3.gymstatus.view.exercises.ExerciseStatusListPanel;
+import com.xelit3.gymstatus.view.exercises.ExerciseStatusManagementPanel;
 import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 import com.xelit3.gymstatus.view.routines.TableRoutines;
 import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
@@ -61,7 +61,7 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				break;
 				
 			case "listExercises":
-				ExerciseListPanel listPanel = new ExerciseListPanel();
+				ExerciseStatusListPanel listPanel = new ExerciseStatusListPanel();
 				setContentPane(listPanel);
 				listPanel.updateUI();
 				break;
@@ -73,7 +73,7 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				break;
 				
 			case "manageExercisesStatus":
-				ExerciseStatusPanel exerciseStatPanel = new ExerciseStatusPanel();
+				ExerciseStatusManagementPanel exerciseStatPanel = new ExerciseStatusManagementPanel();
 				setContentPane(exerciseStatPanel);
 				this.refreshWindow(exerciseStatPanel);
 				break;

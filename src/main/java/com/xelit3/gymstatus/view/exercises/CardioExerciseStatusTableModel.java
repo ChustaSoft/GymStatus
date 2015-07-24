@@ -7,14 +7,14 @@ import javax.swing.table.AbstractTableModel;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 
-public class CardioExerciseTableModel extends AbstractTableModel{
+public class CardioExerciseStatusTableModel extends AbstractTableModel{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private List<Exercise> theExercises;
 	private String[] columnNames = {"NAME", "INTENSITY", "TIME"};
 	
-	public CardioExerciseTableModel(List<Exercise> aList){
+	public CardioExerciseStatusTableModel(List<Exercise> aList){
 		theExercises = aList;
 	}
 

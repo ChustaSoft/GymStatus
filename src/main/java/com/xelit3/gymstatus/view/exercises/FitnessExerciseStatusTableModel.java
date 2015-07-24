@@ -8,14 +8,14 @@ import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 
-public class FitnessExerciseTableModel extends AbstractTableModel{
+public class FitnessExerciseStatusTableModel extends AbstractTableModel{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private List<Exercise> theExercises;
 	private String[] columnNames = {"NAME", "MUSCLE", "MAX WEIGHT"};
 	
-	public FitnessExerciseTableModel(List<Exercise> aList){
+	public FitnessExerciseStatusTableModel(List<Exercise> aList){
 		theExercises = aList;
 	}
 

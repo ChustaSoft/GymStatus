@@ -22,35 +22,50 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
 
 import com.xelit3.gymstatus.control.Controller;
+import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
+import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Muscle;
 
 public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener, ActionListener {
+	
+	private enum PanelAction{SAVE, MODIFY};
 
 	private static final long serialVersionUID = 1L;
 	
+	private static int MAX_SERIES = 5;
+	
 	private Controller mainController = new Controller();
 	
-	private FitnessExerciseStatus tmpFitnessExercise;
-	private List<Muscle> musclesList;	
+	private FitnessExerciseStatus theFitnessExercise;
+	private List<Muscle> theMusclesList;	
 	
 	private JLabel lblExerciseName, lblTrainedMuscle, lbRepetitions, lblSeriesRepetitions;
 	private SpringLayout springLayout;
 	private JTextField tfExerciseName;
-	private JComboBox cbTrainedMuscle;
+	private JComboBox<Muscle> cbTrainedMuscle;
 	private JSpinner spNumberRepetitions;
-	private List<JFormattedTextField> tfListRepetitions = new ArrayList<JFormattedTextField>();
-	private JButton btnSave;
+	private List<JFormattedTextField> theListTfRepetitions = new ArrayList<JFormattedTextField>();
+	private JButton btnAction;
 	
-	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExercise) {
-		this.createComponents();		
+	public FitnessExerciseStatusPanel(FitnessExercise anExercise) {
+		this.theFitnessExercise = new FitnessExerciseStatus(anExercise);
+		springLayout = new SpringLayout();
+		setLayout(springLayout);
+		this.createComponents();
+		setBtnSave(PanelAction.SAVE);
+	}
+	
+	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExerciseStatus){
+		this.theFitnessExercise = anExerciseStatus;
+		springLayout = new SpringLayout();
+		setLayout(springLayout);
+		this.createComponents();
+		setBtnSave(PanelAction.MODIFY);
 	}
 	
 	private void createComponents(){
-		//TODO Problemas con los JFormattedTextField, también con eliminación dinámica
-		springLayout = new SpringLayout();
-		setLayout(springLayout);
-				
+		
 		ButtonGroup bgCrud = new ButtonGroup();
 		
 		this.lblExerciseName = new JLabel("Exercise name");
@@ -59,8 +74,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		springLayout.putConstraint(SpringLayout.EAST, lblExerciseName, 200, SpringLayout.WEST, this);
 		add(lblExerciseName);
 		
-		this.tfExerciseName = new JTextField();
+		this.tfExerciseName = new JTextField(theFitnessExercise.getExerciseName());
 		tfExerciseName.setHorizontalAlignment(JTextField.RIGHT);
+		tfExerciseName.setEditable(false);
 		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, tfExerciseName, 0, SpringLayout.VERTICAL_CENTER, lblExerciseName);
 		springLayout.putConstraint(SpringLayout.WEST, tfExerciseName, 25, SpringLayout.EAST, lblExerciseName);
 		springLayout.putConstraint(SpringLayout.EAST, tfExerciseName, 325, SpringLayout.WEST, lblExerciseName);
@@ -73,7 +89,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		springLayout.putConstraint(SpringLayout.EAST, lblTrainedMuscle, 0, SpringLayout.EAST, lblExerciseName);
 		add(lblTrainedMuscle);
 		
-		setUpMuscles();
+		setCbMuscles();
 				
 		this.lbRepetitions = new JLabel("Repetitions");
 		springLayout.putConstraint(SpringLayout.NORTH, lbRepetitions, 35, SpringLayout.NORTH, lblTrainedMuscle);
@@ -81,15 +97,8 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		springLayout.putConstraint(SpringLayout.EAST, lbRepetitions, 0, SpringLayout.EAST, lblTrainedMuscle);
 		add(lbRepetitions);
 		
-		this.btnSave = new JButton("Save exercise");
-		springLayout.putConstraint(SpringLayout.EAST, btnSave, 0, SpringLayout.EAST, tfExerciseName);
-		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 225, SpringLayout.NORTH, this);
-		btnSave.setActionCommand("createExercise");
-		btnSave.addActionListener(this);
-		add(btnSave);
-		
 		//Definimos un modelo que obligará a elegir entre uno y 5 ejercicios 
-		SpinnerModel spNumberRepetitionsModel = new SpinnerNumberModel(1, 1, 5, 1);		
+		SpinnerModel spNumberRepetitionsModel = new SpinnerNumberModel(5, 1, MAX_SERIES, 1);		
 		this.spNumberRepetitions = new JSpinner(spNumberRepetitionsModel);
 		springLayout.putConstraint(SpringLayout.WEST, spNumberRepetitions, 0, SpringLayout.WEST, tfExerciseName);
 		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spNumberRepetitions, 0, SpringLayout.VERTICAL_CENTER, lbRepetitions);
@@ -97,19 +106,64 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		spNumberRepetitions.addChangeListener(this);
 		add(spNumberRepetitions);
 		
+		this.lblSeriesRepetitions = new JLabel("Series");
+		springLayout.putConstraint(SpringLayout.NORTH, lblSeriesRepetitions, 35, SpringLayout.NORTH, lbRepetitions);
+		springLayout.putConstraint(SpringLayout.WEST, lblSeriesRepetitions, 0, SpringLayout.WEST, lbRepetitions);
+		springLayout.putConstraint(SpringLayout.EAST, lblSeriesRepetitions, 0, SpringLayout.EAST, lbRepetitions);	
+		add(lblSeriesRepetitions);
+		
+		//Colocamos los 5 campos para el peso en las diferentes series, después mediante el ComboBox, se ocultarán o no dependiendo de las series que escojamos
+		JFormattedTextField tmpFtfRepetitions;
+		MaskFormatter mascara;
+		int tmpWestPosition = 0;
+		for (int i=0; i<MAX_SERIES; i++) {
+			tmpFtfRepetitions = new JFormattedTextField();
+			try {
+				mascara = new MaskFormatter("##.##");
+				tmpFtfRepetitions = new JFormattedTextField(mascara);				
+			}
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			theListTfRepetitions.add(tmpFtfRepetitions);
+			
+			springLayout.putConstraint(SpringLayout.NORTH, theListTfRepetitions.get(i), 35, SpringLayout.NORTH, spNumberRepetitions);
+			springLayout.putConstraint(SpringLayout.WEST, theListTfRepetitions.get(i), tmpWestPosition, SpringLayout.WEST, spNumberRepetitions);
+			springLayout.putConstraint(SpringLayout.EAST, theListTfRepetitions.get(i), 35, SpringLayout.WEST, theListTfRepetitions.get(i));
+			add(theListTfRepetitions.get(i));
+			tmpWestPosition += 38;			
+		}	
 		
 	}
 
-	private void setUpMuscles() {
-		musclesList = mainController.getMuscles();
-		
-		String [] tmpMusclesStr = new String[musclesList.size()];
-		
-		for(int i= 0; i< musclesList.size(); i++){
-			tmpMusclesStr[i] = musclesList.get(i).getMusclename();
+	private void setBtnSave(PanelAction anAction) {
+		switch(anAction){
+			case SAVE:
+				this.btnAction = new JButton("Save status");
+				btnAction.setActionCommand(anAction.toString());
+				break;
+				
+			case MODIFY:
+				this.btnAction = new JButton("Modify status");
+				btnAction.setActionCommand(anAction.toString());
+				break;
 		}
 		
-		this.cbTrainedMuscle = new JComboBox(tmpMusclesStr);
+		springLayout.putConstraint(SpringLayout.EAST, btnAction, 0, SpringLayout.EAST, tfExerciseName);
+		springLayout.putConstraint(SpringLayout.NORTH, btnAction, 225, SpringLayout.NORTH, this);
+		
+		btnAction.addActionListener(this);
+		add(btnAction);
+	}
+
+	private void setCbMuscles() {
+		theMusclesList = mainController.getMuscles();
+		
+		this.cbTrainedMuscle = new JComboBox<Muscle>(ConversorUtilitiy.obtainMuscles(theMusclesList));
+		
+		// Ambas soluciones son correctas, en un principio fallaba porque al comparar los objetos, los identificaba como diferentes, sobrescribir el metodo equals conforme nuestros intereses soluciona el problema	
+		this.cbTrainedMuscle.setSelectedItem(theFitnessExercise.getTrainedMuscle());
+//		this.cbTrainedMuscle.setSelectedIndex(theMusclesList.indexOf(theFitnessExercise.getTrainedMuscle()));
 		this.cbTrainedMuscle.setEnabled(false);
 		springLayout.putConstraint(SpringLayout.WEST, cbTrainedMuscle, 0, SpringLayout.WEST, tfExerciseName);
 		springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, cbTrainedMuscle, 0, SpringLayout.VERTICAL_CENTER, lblTrainedMuscle);
@@ -119,85 +173,27 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		SpinnerNumberModel sm = (SpinnerNumberModel) spNumberRepetitions.getModel();
-		this.lblSeriesRepetitions = new JLabel("Series");
-		springLayout.putConstraint(SpringLayout.NORTH, lbRepetitions, 35, SpringLayout.NORTH, lblTrainedMuscle);
-		springLayout.putConstraint(SpringLayout.WEST, lbRepetitions, 0, SpringLayout.WEST, lblTrainedMuscle);
-		springLayout.putConstraint(SpringLayout.EAST, lbRepetitions, 0, SpringLayout.EAST, lblTrainedMuscle);
+		//Recogemos el valor escogido en el Spinner para mostrar u ocultar los diferentes JTFF para el peso de cada serie
+		SpinnerNumberModel tmpNumberModel = (SpinnerNumberModel) spNumberRepetitions.getModel();
+		int tmpRepetitions = tmpNumberModel.getNumber().intValue();
 		
-//		//Eliminamos los TextFields primero de la interfaz, para volver a colcarlos dependiendo de la actualización
-//		for(JFormattedTextField tf : tfListRepetitions){
-//			this.remove(tf);
-//		}
-		tfListRepetitions = new ArrayList<JFormattedTextField>();
-		int xPosWest = 25, yPosEast = 50;
-		
-		for(int i=0; i<sm.getNumber().intValue(); i++){
-			JFormattedTextField tmpField = null;
-			try {
-				MaskFormatter mascara = new MaskFormatter("##.##");
-				tmpField = new JFormattedTextField(mascara);
-//				tmpField.setSize(new Dimension(tmpField.getHeight(), tmpField.getWidth() + 10));
-				tmpField.invalidate();
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}			 
-			
-			tfListRepetitions.add(tmpField);
-			springLayout.putConstraint(SpringLayout.NORTH, tmpField, 0, SpringLayout.NORTH, lbRepetitions);
-			springLayout.putConstraint(SpringLayout.WEST, tmpField, xPosWest, SpringLayout.EAST, lblSeriesRepetitions);
-			springLayout.putConstraint(SpringLayout.EAST, tmpField, yPosEast, SpringLayout.WEST, lblSeriesRepetitions);
-			add(tmpField);
-			
-			xPosWest += 70;
-			yPosEast += 70;
+		for (int i = 0; i < MAX_SERIES; i++) {
+			if(i < tmpRepetitions)
+				theListTfRepetitions.get(i).setVisible(true);
+			else
+				theListTfRepetitions.get(i).setVisible(false);
 		}
 		
-		//TODO Problemas con el resfresco del panel padre, funcionaba siendo unico con .updateUI();
-		//Diferencias entre los metodos invalidate(), revalidate(), updateUI(), repaint() y pack() 
-		this.updateUI();
-		this.invalidate();
-		ExerciseManagementPanel parent = (ExerciseManagementPanel) this.getParent();
-		parent.repaint();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO Realizar una enum para determinar si vamos a arreglar un ejercicio o el estado de un ejercicio, swtich case pertinenete primero antes del CRUD
-		switch(e.getActionCommand()){
-			case "setCreateForm":
-				btnSave.setActionCommand("createExercise");
-				break;
-				
-			case "setModifyForm":
-				btnSave.setActionCommand("modifyExercise");
-				break;
-				
-			case "setDeleteForm":
-				btnSave.setActionCommand("removeExercise");
-				break;
-				
-			case "createExercise":
-				saveExercise();
-				break;
-				
-			case "modifyExercise":
-				System.out.println("updating");
-				break;
-				
-			case "removeExercise":
-				System.out.println("removing");
-				break;
-		}
+		//TODO Guardar el ejercicio o modificarlo, dependiendo desde que constructor se llame sabremos si es modificacion o creacion
 		
 	}
 	
 	private void saveExercise(){
-//		tmpFitnessExercise = new FitnessExercise();
-//		tmpFitnessExercise.setExerciseName(tfExerciseName.getText());
-//		tmpFitnessExercise.setTrainedMuscle(musclesList.get(cbTrainedMuscle.getSelectedIndex()));
-//		
-//		this.mainController.saveExercise(tmpFitnessExercise);
+
 	}
 	
 	private void modifyExercise(){

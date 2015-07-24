@@ -65,6 +65,23 @@ public class Muscle implements Serializable{
 	@Override
 	public String toString() {
 		return this.getMusclename();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Muscle other = (Muscle) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}	
 	
 }
