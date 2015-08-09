@@ -33,6 +33,10 @@ public class CardioExerciseStatus extends CardioExercise {
 		this.setTime(time);
 	}
 	
+	public CardioExerciseStatus(CardioExercise anExercise) {
+		this.setExerciseName(anExercise.getExerciseName());		
+	}
+
 	public CardioExerciseIntensity getIntensity() {
 		return intensity;
 	}
