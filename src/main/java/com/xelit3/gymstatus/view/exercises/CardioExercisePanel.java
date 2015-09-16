@@ -80,6 +80,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 				
 			case "setModifyForm":
 				this.setCbExerciseName();
+				refreshControlsModifyPanel();
 				this.cbExerciseName.setVisible(true);
 				this.tfExerciseName.setVisible(true);
 				this.lblSelectExercise.setVisible(true);
@@ -91,6 +92,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 				
 			case "setDeleteForm":
 				this.setCbExerciseName();
+				this.cbExerciseName.removeActionListener(this);
 				this.lblExerciseName.setVisible(false);
 				this.lblSelectExercise.setVisible(true);
 				this.cbExerciseName.setVisible(true);
@@ -110,6 +112,10 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 				
 			case "removeExercise":
 				removeExercise();
+				break;
+				
+			case "changeExerciseData":
+				refreshControlsModifyPanel();
 				break;
 		}
 		
@@ -228,6 +234,9 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 		List<Exercise> tmpExerciseList = mainController.getExercises(CardioExercise.class);
 
 		this.cbExerciseName = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExerciseList));
+		this.cbExerciseName.setActionCommand("changeExerciseData");
+		this.cbExerciseName.addActionListener(this);
+		
 		this.add(cbExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));			
 	}
 	
@@ -238,9 +247,8 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 		CardioExercise tmpCardioExercise = new CardioExercise();
 		tmpCardioExercise.setExerciseName(this.tfExerciseName.getText());
 		
-		boolean tmpResponse = mainController.saveExercise(tmpCardioExercise);
+		mainController.saveExercise(tmpCardioExercise);
 		
-//		this.setCbExerciseName();
 		this.updateUI();
 	}
 	
@@ -270,7 +278,14 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 			this.getCbExerciseName().removeItemAt(this.getCbExerciseName().getSelectedIndex());;
 		
 		this.updateUI();
-	}	
+	}
+	
+	/**
+	 * Refresh controls when the modify panel is set.
+	 */
+	private void refreshControlsModifyPanel() {
+		this.tfExerciseName.setText(((Exercise)this.cbExerciseName.getSelectedItem()).getExerciseName());
+	}
 	
 }
 

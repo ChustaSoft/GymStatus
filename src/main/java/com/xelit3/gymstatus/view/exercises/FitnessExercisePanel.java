@@ -90,8 +90,8 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 			case "setModifyForm":				
 				this.setCbExerciseName();
 				this.setTfExerciseName();
-				refreshControlsModifyPanel();
 				this.setCbMuscles();
+				refreshControlsModifyPanel();				
 				this.lblSelectExercise.setVisible(true);
 				this.lblExerciseName.setVisible(true);
 				this.lblTrainedMuscle.setVisible(true);
@@ -112,6 +112,7 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 					this.cbTrainedMuscle = null;
 				}
 				this.setCbExerciseName();
+				this.getCbExerciseName().removeActionListener(this);
 				this.lblSelectExercise.setVisible(true);
 				this.lblExerciseName.setVisible(false);
 				this.lblTrainedMuscle.setVisible(false);
@@ -139,6 +140,9 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 		
 	}
 
+	/**
+	 * Refresh controls when the modify panel is set.
+	 */
 	private void refreshControlsModifyPanel() {
 		this.tfExerciseName.setText(((Exercise)this.cbExerciseName.getSelectedItem()).getExerciseName());
 		this.cbTrainedMuscle.setSelectedItem(((FitnessExercise)this.cbExerciseName.getSelectedItem()).getTrainedMuscle());

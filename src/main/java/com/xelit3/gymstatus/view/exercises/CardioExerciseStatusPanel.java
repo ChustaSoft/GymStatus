@@ -113,7 +113,7 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		this.tfTime = new JFormattedTextField(timeFormatMask);
 		tfTime.setValue(tmpInitTime);
 		tfTime.setHorizontalAlignment(JTextField.RIGHT);
-		tfTime.addPropertyChangeListener(this);
+//		tfTime.addPropertyChangeListener(this);
 		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, tfTime, 35, SpringLayout.VERTICAL_CENTER, spIntensity);
 		theLayout.putConstraint(SpringLayout.WEST, tfTime, 25, SpringLayout.EAST, lblTime);
 		theLayout.putConstraint(SpringLayout.EAST, tfTime, 325, SpringLayout.WEST, lblTime);
