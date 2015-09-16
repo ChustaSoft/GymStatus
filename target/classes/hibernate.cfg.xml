@@ -18,7 +18,7 @@
 	   	<property name="hibernate.connection.pool_size">1</property>
 	   	<!-- Con create, cada vez que se ejecute la aplicacion se generan de nuevo las tablas -->
 	   	<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
-		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="show_sql">true</property>
 	   
 	    <!-- List of XML mapping files -->

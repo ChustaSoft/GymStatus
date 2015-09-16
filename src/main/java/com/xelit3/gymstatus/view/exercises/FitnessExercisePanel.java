@@ -87,9 +87,10 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 				this.updateUI();
 				break;
 				
-			case "setModifyForm":
-				this.setTfExerciseName();
+			case "setModifyForm":				
 				this.setCbExerciseName();
+				this.setTfExerciseName();
+				refreshControlsModifyPanel();
 				this.setCbMuscles();
 				this.lblSelectExercise.setVisible(true);
 				this.lblExerciseName.setVisible(true);
@@ -130,8 +131,17 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 			case "removeExercise":
 				removeExercise();
 				break;
+				
+			case "changeExerciseData":
+				refreshControlsModifyPanel();
+				break;
 		}
 		
+	}
+
+	private void refreshControlsModifyPanel() {
+		this.tfExerciseName.setText(((Exercise)this.cbExerciseName.getSelectedItem()).getExerciseName());
+		this.cbTrainedMuscle.setSelectedItem(((FitnessExercise)this.cbExerciseName.getSelectedItem()).getTrainedMuscle());
 	}
 	
 	/**
@@ -222,9 +232,9 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 	 */
 	public void setTfExerciseName() {
 		if(this.getTfExerciseName() == null){
-			this.tfExerciseName = new JTextField(JTextField.RIGHT);
+			this.tfExerciseName = new JTextField(JTextField.RIGHT);			
 			this.add(tfExerciseName, getGridConstraint(1, 1, 2, new Insets(0, 0, 10, 0)));
-		}		
+		}
 	}
 
 	/**
@@ -244,6 +254,9 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 			List<Exercise> tmpExerciseList = mainController.getExercises(FitnessExercise.class);
 
 			this.cbExerciseName = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExerciseList));
+			this.cbExerciseName.setActionCommand("changeExerciseData");
+			this.cbExerciseName.addActionListener(this);
+			
 			this.add(cbExerciseName, getGridConstraint(1, 1, 1, new Insets(0, 0, 10, 0)));
 		}		
 	}
@@ -286,6 +299,7 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 	private void modifyExercise(){		
 		FitnessExercise tmpExercise = (FitnessExercise) cbExerciseName.getSelectedItem();
 		tmpExercise.setExerciseName(this.getTfExerciseName().getText());
+		tmpExercise.setTrainedMuscle((Muscle)this.getCbMuscles().getSelectedItem());
 				
 		boolean tmpResponse = mainController.updateExercise(tmpExercise);
 		
