@@ -2,34 +2,27 @@ package com.xelit3.gymstatus.view.exercises;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpringLayout;
+import javax.swing.JSpinner.DateEditor;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.MaskFormatter;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus.CardioExerciseIntensity;
 
-public class CardioExerciseStatusPanel extends JPanel implements ActionListener, ChangeListener, PropertyChangeListener {
+public class CardioExerciseStatusPanel extends JPanel implements ActionListener, ChangeListener {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -38,14 +31,14 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	private Controller mainController = new Controller();
 	
 	private CardioExerciseStatus theExercise;
-	
-	private JTextField tfExerciseName;
-	private JSpinner spIntensity;
-	private JFormattedTextField tfTime;
-	private JButton btnAction;
 
 	private SpringLayout theLayout;
 	
+	private JTextField tfExerciseName;
+	private JSpinner spIntensity, spTime;
+//	private JFormattedTextField tfTime;
+	private JButton btnAction;
+				
 	public CardioExerciseStatusPanel(CardioExercise anExercise) {
 		this.theExercise = new CardioExerciseStatus(anExercise);
 		this.createComponents();	
@@ -100,24 +93,16 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		theLayout.putConstraint(SpringLayout.WEST, lblTime, 0, SpringLayout.WEST, lblIntensity);
 		theLayout.putConstraint(SpringLayout.EAST, lblTime, 0, SpringLayout.EAST, lblIntensity);
 		add(lblTime);
-		
-		
-		//Establecemos el control para el tiempo, y le establecemos un tiempo por defecto de 0 horas, 0 minutos, 0 segundos.
-		Format timeFormatMask = new SimpleDateFormat("HH:mm:ss");
-		Calendar tmpHelpCalendar = Calendar.getInstance();
-		tmpHelpCalendar.set(Calendar.HOUR_OF_DAY, 0);
-		tmpHelpCalendar.set(Calendar.MINUTE, 0);
-		tmpHelpCalendar.set(Calendar.SECOND, 0);
-		Date tmpInitTime = tmpHelpCalendar.getTime();
-		
-		this.tfTime = new JFormattedTextField(timeFormatMask);
-		tfTime.setValue(tmpInitTime);
-		tfTime.setHorizontalAlignment(JTextField.RIGHT);
-//		tfTime.addPropertyChangeListener(this);
-		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, tfTime, 35, SpringLayout.VERTICAL_CENTER, spIntensity);
-		theLayout.putConstraint(SpringLayout.WEST, tfTime, 25, SpringLayout.EAST, lblTime);
-		theLayout.putConstraint(SpringLayout.EAST, tfTime, 325, SpringLayout.WEST, lblTime);
-		add(this.tfTime);		
+
+		//Establecemos el Spinner para los minutos
+		SpinnerDateModel tmpDateModel = new SpinnerDateModel(new Date(0), null, null, Calendar.HOUR_OF_DAY);
+		spTime = new JSpinner(tmpDateModel);
+		DateEditor tmpDateEditor = new DateEditor(spTime, "mm");
+		spTime.setEditor(tmpDateEditor);
+		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spTime, 35, SpringLayout.VERTICAL_CENTER, spIntensity);
+		theLayout.putConstraint(SpringLayout.WEST, spTime, 25, SpringLayout.EAST, lblTime);
+		theLayout.putConstraint(SpringLayout.EAST, spTime, 325, SpringLayout.WEST, lblTime);
+		add(this.spTime);	
 	}
 	
 	private void setBtnAction(PanelAction anAction) {
@@ -142,7 +127,16 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		switch(e.getActionCommand()){
+		
+			case "SAVE":
+				saveExerciseStatus();
+				break;
+				
+			case "MODIFY":
+				modifyExerciseStatus();
+				break;
+		}
 	}
 	
 	@Override
@@ -150,19 +144,16 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		CardioExerciseIntensity tmIntensity = (CardioExerciseIntensity) spIntensity.getValue();
 		this.theExercise.setIntensity(tmIntensity);
 	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		//TODO Recoger el tiempo establecido y guardarlo dentro del ejercicio
-		try{
-			
-			Date tmpTimeSelected = new Date(tfTime.getText());
-			System.out.println();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		
+	
+	private void saveExerciseStatus() {
+		this.theExercise.setIntensity((CardioExerciseIntensity) this.spIntensity.getValue());
+		Date tmpTime = (Date) this.spTime.getValue();
+		this.theExercise.setTime(tmpTime.getTime());
+		this.theExercise.setTime(0);
 	}
 	
+	private void modifyExerciseStatus() {
+		// TODO Modificar ejercicio, desde el panel de Rutinas
+		
+	}
 }
