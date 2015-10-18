@@ -8,8 +8,10 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -25,6 +27,7 @@ import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Muscle;
+import com.xelit3.gymstatus.model.dto.Serie;
 
 public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener, ActionListener {
 		
@@ -40,23 +43,26 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	private List<Muscle> theMusclesList;	
 	
 	private SpringLayout theLayout;
-	private JLabel lblExerciseName, lblTrainedMuscle, lbRepetitions, lblSeriesRepetitions;
+	private JLabel lblExerciseName, lblTrainedMuscle, lbSeriesNumber, lblSerieRepetitions, lblSerieMaxWeight;
 	private JTextField tfExerciseName;
 	private JComboBox<Muscle> cbTrainedMuscle;
-	private JSpinner spNumberRepetitions;
-	private List<JFormattedTextField> theListTfRepetitions = new ArrayList<JFormattedTextField>();
+	private JSpinner spNumberSeries;
+	private List<JFormattedTextField> theListTfNumberRepetitions = new ArrayList<JFormattedTextField>();
+	private List<JFormattedTextField> theListTfMaxWeight = new ArrayList<JFormattedTextField>();
 	private JButton btnAction;
+
+	private boolean theErrors = false;
 	
 	public FitnessExerciseStatusPanel(FitnessExercise anExercise) {
 		this.theFitnessExercise = new FitnessExerciseStatus(anExercise);		
 		this.createComponents();
-		setBtnSave(PanelAction.SAVE);
+		setBtnAction(PanelAction.SAVE);
 	}
 	
 	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExerciseStatus){
 		this.theFitnessExercise = anExerciseStatus;		
 		this.createComponents();
-		setBtnSave(PanelAction.MODIFY);
+		setBtnAction(PanelAction.MODIFY);
 	}
 	
 	private void createComponents(){
@@ -86,52 +92,78 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		
 		setCbMuscles();
 				
-		this.lbRepetitions = new JLabel("Repetitions");
-		theLayout.putConstraint(SpringLayout.NORTH, lbRepetitions, 35, SpringLayout.NORTH, lblTrainedMuscle);
-		theLayout.putConstraint(SpringLayout.WEST, lbRepetitions, 0, SpringLayout.WEST, lblTrainedMuscle);
-		theLayout.putConstraint(SpringLayout.EAST, lbRepetitions, 0, SpringLayout.EAST, lblTrainedMuscle);
-		add(lbRepetitions);
+		this.lbSeriesNumber = new JLabel("Number repetitions");
+		theLayout.putConstraint(SpringLayout.NORTH, lbSeriesNumber, 35, SpringLayout.NORTH, lblTrainedMuscle);
+		theLayout.putConstraint(SpringLayout.WEST, lbSeriesNumber, 0, SpringLayout.WEST, lblTrainedMuscle);
+		theLayout.putConstraint(SpringLayout.EAST, lbSeriesNumber, 0, SpringLayout.EAST, lblTrainedMuscle);
+		add(lbSeriesNumber);
 		
 		//Definimos un modelo que obligará a elegir entre uno y 5 ejercicios 
 		SpinnerModel spNumberRepetitionsModel = new SpinnerNumberModel(5, 1, MAX_SERIES, 1);		
-		this.spNumberRepetitions = new JSpinner(spNumberRepetitionsModel);
-		theLayout.putConstraint(SpringLayout.WEST, spNumberRepetitions, 0, SpringLayout.WEST, tfExerciseName);
-		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spNumberRepetitions, 0, SpringLayout.VERTICAL_CENTER, lbRepetitions);
-		theLayout.putConstraint(SpringLayout.EAST, spNumberRepetitions, 0, SpringLayout.EAST, tfExerciseName);
-		spNumberRepetitions.addChangeListener(this);
-		add(spNumberRepetitions);
+		this.spNumberSeries = new JSpinner(spNumberRepetitionsModel);
+		theLayout.putConstraint(SpringLayout.WEST, spNumberSeries, 0, SpringLayout.WEST, tfExerciseName);
+		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spNumberSeries, 0, SpringLayout.VERTICAL_CENTER, lbSeriesNumber);
+		theLayout.putConstraint(SpringLayout.EAST, spNumberSeries, 0, SpringLayout.EAST, tfExerciseName);
+		spNumberSeries.addChangeListener(this);
+		add(spNumberSeries);
 		
-		this.lblSeriesRepetitions = new JLabel("Series");
-		theLayout.putConstraint(SpringLayout.NORTH, lblSeriesRepetitions, 35, SpringLayout.NORTH, lbRepetitions);
-		theLayout.putConstraint(SpringLayout.WEST, lblSeriesRepetitions, 0, SpringLayout.WEST, lbRepetitions);
-		theLayout.putConstraint(SpringLayout.EAST, lblSeriesRepetitions, 0, SpringLayout.EAST, lbRepetitions);	
-		add(lblSeriesRepetitions);
+		this.lblSerieRepetitions = new JLabel("Number repetitions");
+		theLayout.putConstraint(SpringLayout.NORTH, lblSerieRepetitions, 35, SpringLayout.NORTH, lbSeriesNumber);
+		theLayout.putConstraint(SpringLayout.WEST, lblSerieRepetitions, 0, SpringLayout.WEST, lbSeriesNumber);
+		theLayout.putConstraint(SpringLayout.EAST, lblSerieRepetitions, 0, SpringLayout.EAST, lbSeriesNumber);	
+		add(lblSerieRepetitions);
 		
-		//Colocamos los 5 campos para el peso en las diferentes series, después mediante el ComboBox, se ocultarán o no dependiendo de las series que escojamos
-		JFormattedTextField tmpFtfRepetitions;
+		this.lblSerieMaxWeight = new JLabel("Max weight");
+		theLayout.putConstraint(SpringLayout.NORTH, lblSerieMaxWeight, 35, SpringLayout.NORTH, lblSerieRepetitions);
+		theLayout.putConstraint(SpringLayout.WEST, lblSerieMaxWeight, 0, SpringLayout.WEST, lblSerieRepetitions);
+		theLayout.putConstraint(SpringLayout.EAST, lblSerieMaxWeight, 0, SpringLayout.EAST, lblSerieRepetitions);	
+		add(lblSerieMaxWeight);
+		
+		//Colocamos los 5 campos para el numero de repetitiones y peso en las diferentes series, después mediante el ComboBox, se ocultarán o no dependiendo de las series que escojamos
+		JFormattedTextField tmpFtfNumberRepetitions;
 		MaskFormatter mascara;
 		int tmpWestPosition = 0;
-		for (int i=0; i<MAX_SERIES; i++) {
-			tmpFtfRepetitions = new JFormattedTextField();
+		for (int i = 0; i < MAX_SERIES; i++) {
+			tmpFtfNumberRepetitions = new JFormattedTextField();
 			try {
-				mascara = new MaskFormatter("##.##");
-				tmpFtfRepetitions = new JFormattedTextField(mascara);				
+				mascara = new MaskFormatter("##");
+				tmpFtfNumberRepetitions = new JFormattedTextField(mascara);
 			}
 			catch (ParseException e) {
 				e.printStackTrace();
 			}
-			theListTfRepetitions.add(tmpFtfRepetitions);
+			theListTfNumberRepetitions.add(tmpFtfNumberRepetitions);
+
+			theLayout.putConstraint(SpringLayout.NORTH, theListTfNumberRepetitions.get(i), 35, SpringLayout.NORTH, spNumberSeries);
+			theLayout.putConstraint(SpringLayout.WEST, theListTfNumberRepetitions.get(i), tmpWestPosition, SpringLayout.WEST, spNumberSeries);
+			theLayout.putConstraint(SpringLayout.EAST, theListTfNumberRepetitions.get(i), 35, SpringLayout.WEST, theListTfNumberRepetitions.get(i));
+			add(theListTfNumberRepetitions.get(i));
+			tmpWestPosition += 38;
+		}
+		
+		JFormattedTextField tmpFtfMaxWeight;
+		tmpWestPosition = 0;
+		for (int i=0; i<MAX_SERIES; i++) {
+			tmpFtfMaxWeight = new JFormattedTextField();
+			try {
+				mascara = new MaskFormatter("##.##");
+				tmpFtfMaxWeight = new JFormattedTextField(mascara);				
+			}
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			theListTfMaxWeight.add(tmpFtfMaxWeight);
 			
-			theLayout.putConstraint(SpringLayout.NORTH, theListTfRepetitions.get(i), 35, SpringLayout.NORTH, spNumberRepetitions);
-			theLayout.putConstraint(SpringLayout.WEST, theListTfRepetitions.get(i), tmpWestPosition, SpringLayout.WEST, spNumberRepetitions);
-			theLayout.putConstraint(SpringLayout.EAST, theListTfRepetitions.get(i), 35, SpringLayout.WEST, theListTfRepetitions.get(i));
-			add(theListTfRepetitions.get(i));
+			theLayout.putConstraint(SpringLayout.NORTH, theListTfMaxWeight.get(i), 70, SpringLayout.NORTH, spNumberSeries);
+			theLayout.putConstraint(SpringLayout.WEST, theListTfMaxWeight.get(i), tmpWestPosition, SpringLayout.WEST, spNumberSeries);
+			theLayout.putConstraint(SpringLayout.EAST, theListTfMaxWeight.get(i), 35, SpringLayout.WEST, theListTfMaxWeight.get(i));
+			add(theListTfMaxWeight.get(i));
 			tmpWestPosition += 38;			
 		}	
 		
 	}
 
-	private void setBtnSave(PanelAction anAction) {
+	private void setBtnAction(PanelAction anAction) {
 		switch(anAction){
 			case SAVE:
 				this.btnAction = new JButton("Save status");
@@ -145,7 +177,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		}
 		
 		theLayout.putConstraint(SpringLayout.EAST, btnAction, 0, SpringLayout.EAST, tfExerciseName);
-		theLayout.putConstraint(SpringLayout.NORTH, btnAction, 225, SpringLayout.NORTH, this);
+		theLayout.putConstraint(SpringLayout.NORTH, btnAction, 250, SpringLayout.NORTH, this);
 		
 		btnAction.addActionListener(this);
 		add(btnAction);
@@ -168,22 +200,39 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		//Recogemos el valor escogido en el Spinner para mostrar u ocultar los diferentes JTFF para el peso de cada serie
-		SpinnerNumberModel tmpNumberModel = (SpinnerNumberModel) spNumberRepetitions.getModel();
-		int tmpRepetitions = tmpNumberModel.getNumber().intValue();
+		int tmpRepetitions = getNumberSeries();
 		
 		for (int i = 0; i < MAX_SERIES; i++) {
-			if(i < tmpRepetitions)
-				theListTfRepetitions.get(i).setVisible(true);
-			else
-				theListTfRepetitions.get(i).setVisible(false);
+			if(i < tmpRepetitions){
+				theListTfMaxWeight.get(i).setVisible(true);
+				theListTfNumberRepetitions.get(i).setVisible(true);
+			}				
+			else{
+				theListTfMaxWeight.get(i).setVisible(false);
+				theListTfNumberRepetitions.get(i).setVisible(false);
+			}				
 		}
 		
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent anEvent) {
 		//TODO Guardar el ejercicio o modificarlo, dependiendo desde que constructor se llame sabremos si es modificacion o creacion
+		setExerciseStatusSeries();
+		if(!theErrors){
+			switch(anEvent.getActionCommand()){
+				case "SAVE":
+					mainController.saveExercise(theFitnessExercise);
+					break;
+					
+				case "MODIFY":
+					//TODO Mirar cuando se modifica porque ahora mismo esta añadiendo a lo existente una serie mas asi que se duplicarian
+					break;
+			}
+		}
+		else{
+			JOptionPane.showMessageDialog(this, "There are any error(s) in the data for any or multiple exercises. Check it first");
+		}		
 		
 	}
 	
@@ -197,5 +246,33 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	
 	private void removeExercise(){
 		
+	}
+	
+	private int getNumberSeries() {
+		//Recogemos el valor escogido en el Spinner para mostrar u ocultar los diferentes JTFF para el peso de cada serie
+		SpinnerNumberModel tmpNumberModel = (SpinnerNumberModel) spNumberSeries.getModel();
+		int tmpSeriesNumber = tmpNumberModel.getNumber().intValue();
+		
+		return tmpSeriesNumber;
+	}
+	
+	private void setExerciseStatusSeries(){
+		try {
+			Serie tmpSerie;
+			for(int tmpI = 0; tmpI < getNumberSeries(); tmpI++){
+				tmpSerie = new Serie();
+				tmpSerie.setRepetitions(Integer.parseInt(this.theListTfNumberRepetitions.get(tmpI).getText()));
+				tmpSerie.setWeight(Double.parseDouble(this.theListTfMaxWeight.get(tmpI).getText()));
+				if(tmpSerie.getRepetitions() != 0){
+					this.theFitnessExercise.getSeries().add(tmpSerie);
+				}
+				else{
+					theErrors = true;
+				}
+				
+			}
+		} catch (NumberFormatException e) {
+			theErrors = true;
+		}		
 	}
 }

@@ -32,7 +32,7 @@ public abstract class Exercise implements Serializable{
 	@Id @GeneratedValue
 	@Column(name="EXERCISE_ID")
 	private int id;
-	@Column(name="EXERCISE_NAME", unique=true)
+	@Column(name="EXERCISE_NAME")
 	private String exerciseName;
 	
 	@ManyToMany (mappedBy="exercisesIncluded")

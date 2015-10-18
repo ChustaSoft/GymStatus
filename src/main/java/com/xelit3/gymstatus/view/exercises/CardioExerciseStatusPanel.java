@@ -119,7 +119,7 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		}
 		
 		theLayout.putConstraint(SpringLayout.EAST, btnAction, 0, SpringLayout.EAST, tfExerciseName);
-		theLayout.putConstraint(SpringLayout.NORTH, btnAction, 225, SpringLayout.NORTH, this);
+		theLayout.putConstraint(SpringLayout.NORTH, btnAction, 250, SpringLayout.NORTH, this);
 		
 		btnAction.addActionListener(this);
 		add(btnAction);
