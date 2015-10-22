@@ -240,7 +240,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	}
 	
 	private void modifyExercise(){
-		
+		// TODO Modificar ejercicio, desde el panel de Rutinas
 	}
 	
 	private int getNumberSeries() {

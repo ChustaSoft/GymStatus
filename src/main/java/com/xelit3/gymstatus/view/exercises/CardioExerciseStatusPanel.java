@@ -154,7 +154,6 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	}
 	
 	private void modifyExerciseStatus() {
-		// TODO Modificar ejercicio, desde el panel de Rutinas
-		
+		// TODO Modificar ejercicio, desde el panel de Rutinas		
 	}
 }

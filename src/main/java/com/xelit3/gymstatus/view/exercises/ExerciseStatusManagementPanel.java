@@ -68,6 +68,7 @@ public class ExerciseStatusManagementPanel extends JSplitPane implements ActionL
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
+			
 			case "SET_CARDIO":
 				this.setRightComponent(null);
 				setCbSelectedExercise(CardioExercise.class);

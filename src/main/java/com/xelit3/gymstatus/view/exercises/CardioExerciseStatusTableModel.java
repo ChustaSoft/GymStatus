@@ -31,14 +31,17 @@ public class CardioExerciseStatusTableModel extends AbstractTableModel{
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		switch(columnNames[columnIndex]){			
-		case "NAME":
-			return theExercises.get(rowIndex).getExerciseName();
-		case "INTENSITY":
-			return ((CardioExerciseStatus) theExercises.get(rowIndex)).getIntensity().name();
-		case "TIME":
-			return ((CardioExerciseStatus) theExercises.get(rowIndex)).getTime();
-	}
-	return null;
+			
+			case "NAME":
+				return theExercises.get(rowIndex).getExerciseName();
+			
+			case "INTENSITY":
+				return ((CardioExerciseStatus) theExercises.get(rowIndex)).getIntensity().name();
+			
+			case "TIME":
+				return ((CardioExerciseStatus) theExercises.get(rowIndex)).getTime();
+		}
+		return null;
 	}
 	
 	@Override
