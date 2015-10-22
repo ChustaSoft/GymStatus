@@ -12,6 +12,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.JSpinner.DateEditor;
 import javax.swing.event.ChangeEvent;
@@ -95,10 +96,8 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		add(lblTime);
 
 		//Establecemos el Spinner para los minutos
-		SpinnerDateModel tmpDateModel = new SpinnerDateModel(new Date(0), null, null, Calendar.HOUR_OF_DAY);
-		spTime = new JSpinner(tmpDateModel);
-		DateEditor tmpDateEditor = new DateEditor(spTime, "mm");
-		spTime.setEditor(tmpDateEditor);
+		SpinnerNumberModel snm = new SpinnerNumberModel(1, 1, 250, 1);
+		spTime = new JSpinner(snm);
 		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spTime, 35, SpringLayout.VERTICAL_CENTER, spIntensity);
 		theLayout.putConstraint(SpringLayout.WEST, spTime, 25, SpringLayout.EAST, lblTime);
 		theLayout.putConstraint(SpringLayout.EAST, spTime, 325, SpringLayout.WEST, lblTime);
@@ -146,10 +145,12 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	}
 	
 	private void saveExerciseStatus() {
-		this.theExercise.setIntensity((CardioExerciseIntensity) this.spIntensity.getValue());
-		Date tmpTime = (Date) this.spTime.getValue();
-		this.theExercise.setTime(tmpTime.getTime());
-		this.theExercise.setTime(0);
+		int tmpMinutes = (int) this.spTime.getModel().getValue();
+		long tmpSeconds = (long) (tmpMinutes * 60 * 1000);
+		
+		this.theExercise.setTime(tmpSeconds);
+		
+		this.mainController.saveExercise(theExercise);
 	}
 	
 	private void modifyExerciseStatus() {

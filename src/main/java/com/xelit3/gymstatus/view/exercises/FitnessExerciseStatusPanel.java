@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -219,32 +218,28 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	public void actionPerformed(ActionEvent anEvent) {
 		//TODO Guardar el ejercicio o modificarlo, dependiendo desde que constructor se llame sabremos si es modificacion o creacion
 		setExerciseStatusSeries();
-		if(!theErrors){
-			switch(anEvent.getActionCommand()){
-				case "SAVE":
-					mainController.saveExercise(theFitnessExercise);
-					break;
+		switch(anEvent.getActionCommand()){
+			case "SAVE":
+				saveExercise();
+				break;
 					
-				case "MODIFY":
-					//TODO Mirar cuando se modifica porque ahora mismo esta añadiendo a lo existente una serie mas asi que se duplicarian
-					break;
-			}
-		}
-		else{
-			JOptionPane.showMessageDialog(this, "There are any error(s) in the data for any or multiple exercises. Check it first");
-		}		
+			case "MODIFY":
+				modifyExercise();
+				break;
+		}			
 		
 	}
 	
 	private void saveExercise(){
-
+		if(!theErrors){
+			mainController.saveExercise(theFitnessExercise);
+		}
+		else{
+			JOptionPane.showMessageDialog(this, "There are any error(s) in the data for any or multiple exercises. Check it first");
+		}		
 	}
 	
 	private void modifyExercise(){
-		
-	}
-	
-	private void removeExercise(){
 		
 	}
 	
