@@ -16,26 +16,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import com.xelit3.gymstatus.GymStatusMain;
 import com.xelit3.gymstatus.control.Controller;
+import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.view.exercises.ExerciseManagementPanel;
 import com.xelit3.gymstatus.view.exercises.ExerciseStatusListPanel;
 import com.xelit3.gymstatus.view.exercises.ExerciseStatusManagementPanel;
 import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 import com.xelit3.gymstatus.view.routines.TableRoutines;
 import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
+import com.xelit3.gymstatus.view.settings.ConfigurationPanel;
 
 public class MainWindow extends JFrame implements ActionListener, Observer {
 
 	private static final long serialVersionUID = 1L;
-	private Controller controller;
+	private Controller mainController;
 	
-	public MainWindow(Controller controller){
-		this.controller = controller;
+	public MainWindow(Controller aController){
+		this.mainController = aController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(250, 250, 640, 480);
 		setResizable(false);
 //		setUndecorated(true);
 		setRootPane(this.createRootPane());
+		setTitle("ChustaSoft GymStatus App - " + AppSettings.getInstance().getUsername());
 				
 		buildMenu();
 		
@@ -58,6 +62,12 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 				
 			case "aboutUs":
 				this.showMsg("Xavi Rueda\nChustaSoft\nGymStatus App\n2014-2015");
+				break;
+				
+			case "appConfig":
+				ConfigurationPanel configPanel = new ConfigurationPanel();
+				setContentPane(configPanel);
+				configPanel.updateUI();
 				break;
 				
 			case "listExercises":
@@ -134,6 +144,11 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 		mitem.addActionListener(this);
 		menu.add(mitem);
 		
+		mitem = new JMenuItem("Configuration");
+		mitem.setActionCommand("appConfig");
+		mitem.addActionListener(this);
+		menu.add(mitem);
+		
 		mitem = new JMenuItem("Abount us");
 		mitem.setActionCommand("aboutUs");
 		mitem.addActionListener(this);
@@ -143,11 +158,6 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 		
 		//Exercise menu
 		menu = new JMenu("Exercise");
-		
-		mitem = new JMenuItem("List Exercise");
-		mitem.setActionCommand("listExercises");
-		mitem.addActionListener(this);
-		menu.add(mitem);
 		
 		mitem = new JMenuItem("Manage Exercises");
 		mitem.setActionCommand("manageExercises");
@@ -159,21 +169,26 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 		mitem.addActionListener(this);
 		menu.add(mitem);
 		
+		mitem = new JMenuItem("List Exercise Status");
+		mitem.setActionCommand("listExercises");
+		mitem.addActionListener(this);
+		menu.add(mitem);
+		
 		menubar.add(menu);
 		
 		//Routine menu
 		menu = new JMenu("Routine");
-				
-		mitem = new JMenuItem("List Routines");
-		mitem.setActionCommand("listRoutines");
-		mitem.addActionListener(this);
-		menu.add(mitem);
 				
 		mitem = new JMenuItem("Create Routine");
 		mitem.setActionCommand("createRoutine");
 		mitem.addActionListener(this);
 		menu.add(mitem);
 				
+		mitem = new JMenuItem("List Routines");
+		mitem.setActionCommand("listRoutines");
+		mitem.addActionListener(this);
+		menu.add(mitem);
+		
 		menubar.add(menu);
 		
 		this.setJMenuBar(menubar);
@@ -211,11 +226,11 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 	}
 
 	public Controller getController() {
-		return controller;
+		return mainController;
 	}
 
 	public void setController(Controller controller) {
-		this.controller = controller;
+		this.mainController = controller;
 	}
 	
 	private void showMsg(String msg) {
