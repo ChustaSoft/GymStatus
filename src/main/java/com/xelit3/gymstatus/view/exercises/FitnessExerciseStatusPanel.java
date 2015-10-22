@@ -164,6 +164,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 
 	private void setBtnAction(PanelAction anAction) {
 		switch(anAction){
+			
 			case SAVE:
 				this.btnAction = new JButton("Save status");
 				btnAction.setActionCommand(anAction.toString());

@@ -37,7 +37,6 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	
 	private JTextField tfExerciseName;
 	private JSpinner spIntensity, spTime;
-//	private JFormattedTextField tfTime;
 	private JButton btnAction;
 				
 	public CardioExerciseStatusPanel(CardioExercise anExercise) {
@@ -154,6 +153,6 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	}
 	
 	private void modifyExerciseStatus() {
-		// TODO Modificar ejercicio, desde el panel de Rutinas		
+		// TODO Modificar ejercicio, desde el panel de Rutinas
 	}
 }
