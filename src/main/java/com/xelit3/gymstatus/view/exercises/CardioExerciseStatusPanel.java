@@ -149,6 +149,8 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		
 		this.theExercise.setTime(tmpSeconds);
 		
+		stateChanged(null);
+		
 		this.mainController.saveExercise(theExercise);
 	}
 	
