@@ -125,7 +125,8 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		for (int i = 0; i < MAX_SERIES; i++) {
 			tmpFtfNumberRepetitions = new JFormattedTextField();
 			try {
-				mascara = new MaskFormatter("##");
+				mascara = new MaskFormatter("**");
+				mascara.setValidCharacters(" 0123456789");
 				tmpFtfNumberRepetitions = new JFormattedTextField(mascara);
 			}
 			catch (ParseException e) {
@@ -145,7 +146,8 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		for (int i=0; i<MAX_SERIES; i++) {
 			tmpFtfMaxWeight = new JFormattedTextField();
 			try {
-				mascara = new MaskFormatter("##.##");
+				mascara = new MaskFormatter("**.**");
+				mascara.setValidCharacters(" 0123456789");
 				tmpFtfMaxWeight = new JFormattedTextField(mascara);				
 			}
 			catch (ParseException e) {
@@ -257,8 +259,8 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 			Serie tmpSerie;
 			for(int tmpI = 0; tmpI < getNumberSeries(); tmpI++){
 				tmpSerie = new Serie();
-				tmpSerie.setRepetitions(Integer.parseInt(this.theListTfNumberRepetitions.get(tmpI).getText()));
-				tmpSerie.setWeight(Double.parseDouble(this.theListTfMaxWeight.get(tmpI).getText()));
+				tmpSerie.setRepetitions(Integer.parseInt(this.theListTfNumberRepetitions.get(tmpI).getText().trim()));
+				tmpSerie.setWeight(Double.parseDouble(this.theListTfMaxWeight.get(tmpI).getText().trim()));
 				if(tmpSerie.getRepetitions() != 0){
 					this.theFitnessExercise.getSeries().add(tmpSerie);
 				}
