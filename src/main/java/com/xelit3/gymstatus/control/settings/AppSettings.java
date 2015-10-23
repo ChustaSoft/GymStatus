@@ -9,7 +9,9 @@ import java.io.UnsupportedEncodingException;
 
 public class AppSettings {
 
-	private static final String SETTINGS_FILE = "src/main/resources/app_config.txt";
+	//In DEBUG MOED USE THIS
+//	private static final String SETTINGS_RESOURCE = "src/main/resources/app_config.txt";
+	private static final String SETTINGS_RESOURCE = "app_config.txt";
 	private static final String USERNAME_SETTING = "USERNAME";
 	private static final String LANGUAGE_SETTING = "LANGUAGE";
 
@@ -20,7 +22,7 @@ public class AppSettings {
 
 	private AppSettings() {
 
-		try (BufferedReader br = new BufferedReader(new FileReader(AppSettings.SETTINGS_FILE))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(AppSettings.SETTINGS_RESOURCE))) {
 			String line = br.readLine();
 
 			while (line != null) {
@@ -72,7 +74,7 @@ public class AppSettings {
 	
 	public static boolean saveState() throws FileNotFoundException, UnsupportedEncodingException{
 		if(singleton != null){
-			PrintWriter writer = new PrintWriter(SETTINGS_FILE, "UTF-8");
+			PrintWriter writer = new PrintWriter(SETTINGS_RESOURCE, "UTF-8");
 			writer.println(USERNAME_SETTING + ":" + singleton.getUsername());
 			writer.println(LANGUAGE_SETTING + ":" + singleton.getLanguage());
 			writer.close();
