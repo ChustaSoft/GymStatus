@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 public class AppSettings {
 
@@ -66,6 +68,18 @@ public class AppSettings {
 			singleton = new AppSettings();
 
 		return singleton;
+	}
+	
+	public static boolean saveState() throws FileNotFoundException, UnsupportedEncodingException{
+		if(singleton != null){
+			PrintWriter writer = new PrintWriter(SETTINGS_FILE, "UTF-8");
+			writer.println(USERNAME_SETTING + ":" + singleton.getUsername());
+			writer.println(LANGUAGE_SETTING + ":" + singleton.getLanguage());
+			writer.close();
+			
+			return true;
+		}
+		else return false;
 	}
 
 }

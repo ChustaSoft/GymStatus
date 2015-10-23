@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
-import com.xelit3.gymstatus.GymStatusMain;
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.view.exercises.ExerciseManagementPanel;
@@ -200,25 +199,45 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 	    this.getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, KeyEvent.VK_UNDEFINED), "moveDown");
 	    this.getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, KeyEvent.VK_UNDEFINED), "moveUp");
 	    this.getRootPane().getActionMap().put("moveRight", new AbstractAction() {
-	        @Override
+	        /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
 	        public void actionPerformed(ActionEvent e) {
 	        	setLocation(getX() + 5, getY());
 	        }
 	    });
 	    this.getRootPane().getActionMap().put("moveLeft", new AbstractAction() {
-	        @Override
+	        /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
 	        public void actionPerformed(ActionEvent e) {
 	        	setLocation(getX() - 5, getY());
 	        }
 	    });
 	    this.getRootPane().getActionMap().put("moveDown", new AbstractAction() {
-	        @Override
+	        /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
 	        public void actionPerformed(ActionEvent e) {
 	        	setLocation(getX(), getY() + 5);
 	        }
 	    });
 	    this.getRootPane().getActionMap().put("moveUp", new AbstractAction() {
-	        @Override
+	        /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
 	        public void actionPerformed(ActionEvent e) {
 	        	setLocation(getX(), getY() - 5);
 	        }
