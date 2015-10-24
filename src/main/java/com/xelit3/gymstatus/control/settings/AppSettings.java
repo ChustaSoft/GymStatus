@@ -10,8 +10,9 @@ import java.io.UnsupportedEncodingException;
 public class AppSettings {
 
 	//In DEBUG MOED USE THIS
-//	private static final String SETTINGS_RESOURCE = "src/main/resources/app_config.txt";
-	private static final String SETTINGS_RESOURCE = "app_config.txt";
+	private static final String SETTINGS_RESOURCE = "src/main/resources/app_config.txt";
+	//In production
+//	private static final String SETTINGS_RESOURCE = "app_config.txt";
 	private static final String USERNAME_SETTING = "USERNAME";
 	private static final String LANGUAGE_SETTING = "LANGUAGE";
 

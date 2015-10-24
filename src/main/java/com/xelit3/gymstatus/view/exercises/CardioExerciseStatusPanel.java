@@ -88,7 +88,7 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		spIntensity.addChangeListener(this);
 		add(spIntensity);
 		
-		JLabel lblTime = new JLabel("Time");
+		JLabel lblTime = new JLabel("Time (min)");
 		theLayout.putConstraint(SpringLayout.NORTH, lblTime, 35, SpringLayout.NORTH, lblIntensity);
 		theLayout.putConstraint(SpringLayout.WEST, lblTime, 0, SpringLayout.WEST, lblIntensity);
 		theLayout.putConstraint(SpringLayout.EAST, lblTime, 0, SpringLayout.EAST, lblIntensity);

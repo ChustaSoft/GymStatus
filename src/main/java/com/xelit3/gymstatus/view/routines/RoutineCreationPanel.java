@@ -35,13 +35,13 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		setLayout(null);
 		
 		JComboBox cbExerciseType = new JComboBox(EXERCISES_TYPES);
-		cbExerciseType.setBounds(30, 119, 100, 20);
+		cbExerciseType.setBounds(30, 119, 123, 17);
 		cbExerciseType.setActionCommand("changeExerciseType");
 		cbExerciseType.addActionListener(this);
 		add(cbExerciseType);
 		
 		JComboBox cbSelectedExercise = new JComboBox();
-		cbSelectedExercise.setBounds(169, 119, 180, 20);
+		cbSelectedExercise.setBounds(248, 119, 145, 17);
 		add(cbSelectedExercise);
 		
 		JLabel lblExerciseSelector = new JLabel("Select a exercise to add");
@@ -58,26 +58,26 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		tfRoutineName.setColumns(10);
 		
 		JLabel lblInitDate = new JLabel("Init date");
-		lblInitDate.setBounds(224, 25, 48, 17);
+		lblInitDate.setBounds(270, 25, 48, 17);
 		add(lblInitDate);
 		
 		JLabel lblEndDate = new JLabel("End date");
-		lblEndDate.setBounds(383, 25, 129, 17);
+		lblEndDate.setBounds(470, 25, 129, 17);
 		add(lblEndDate);
 		
 		UtilDateModel modelInitDate = new UtilDateModel(), modelEndDate = new UtilDateModel();
 		JDatePanelImpl datePanelInitDate = new JDatePanelImpl(modelInitDate);
 		JDatePickerImpl dpInitDate = new JDatePickerImpl(datePanelInitDate);
-		dpInitDate.setBounds(226, 53, 123, 20);
+		dpInitDate.setBounds(270, 53, 123, 20);
 		this.add(dpInitDate);
 		JDatePanelImpl datePanelEndDate = new JDatePanelImpl(modelEndDate);
 		JDatePickerImpl dpEndDate = new JDatePickerImpl(datePanelEndDate);
-		dpEndDate.setBounds(383, 53, 129, 20);
+		dpEndDate.setBounds(470, 53, 129, 20);
 		this.add(dpEndDate);
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(67, 78, 84));
-		separator.setBounds(29, 169, 469, 5);
+		separator.setBounds(48, 169, 530, 2);
 		add(separator);
 		
 		jtableAddedExercises = new JTable();
@@ -90,13 +90,13 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		));
 		
 		JScrollPane scrollPane = new JScrollPane(jtableAddedExercises);
-		scrollPane.setSize(410, 167);
-		scrollPane.setLocation(58, 198);
+		scrollPane.setSize(569, 167);
+		scrollPane.setLocation(30, 198);
 		add(scrollPane);
 		
 		JButton btnAddExercise = new JButton("Add to routine");
 		btnAddExercise.setActionCommand("addExerciseToRoutine");
-		btnAddExercise.setBounds(383, 118, 129, 20);
+		btnAddExercise.setBounds(470, 119, 129, 20);
 		btnAddExercise.addActionListener(this);
 		add(btnAddExercise);	
 		
