@@ -3,9 +3,13 @@ package com.xelit3.gymstatus.view.routines;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,6 +17,15 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import com.xelit3.gymstatus.control.Controller;
+import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
+import com.xelit3.gymstatus.model.dto.CardioExercise;
+import com.xelit3.gymstatus.model.dto.Exercise;
+import com.xelit3.gymstatus.model.dto.FitnessExercise;
+import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
+import com.xelit3.gymstatus.view.exercises.CardioExerciseStatusPanel;
+import com.xelit3.gymstatus.view.exercises.FitnessExerciseStatusPanel;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -23,8 +36,14 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private Controller mainController;
+	
 	private JTextField tfRoutineName;
 	private JTable jtableAddedExercises;
+	private JComboBox<String> cbExerciseType;
+	private JComboBox<Exercise> cbSelectedExercise;	
+	private JButton btnAddExercise, btnCreateRoutine;
 	
 	private static String[] EXERCISES_TYPES = {"CARDIO", "FITNESS"};
 
@@ -34,13 +53,20 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 	public RoutineCreationPanel() {
 		setLayout(null);
 		
-		JComboBox cbExerciseType = new JComboBox(EXERCISES_TYPES);
+		mainController = new Controller();
+		
+		createComponents();		
+	}
+
+	private void createComponents() {
+		cbExerciseType = new JComboBox<String>(EXERCISES_TYPES);
 		cbExerciseType.setBounds(30, 119, 123, 17);
 		cbExerciseType.setActionCommand("changeExerciseType");
 		cbExerciseType.addActionListener(this);
 		add(cbExerciseType);
 		
-		JComboBox cbSelectedExercise = new JComboBox();
+		cbSelectedExercise = new JComboBox<Exercise>();
+		cbSelectedExercise.setEditable(false);
 		cbSelectedExercise.setBounds(248, 119, 145, 17);
 		add(cbSelectedExercise);
 		
@@ -94,18 +120,17 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		scrollPane.setLocation(30, 198);
 		add(scrollPane);
 		
-		JButton btnAddExercise = new JButton("Add to routine");
+		btnAddExercise = new JButton("Add to routine");
 		btnAddExercise.setActionCommand("addExerciseToRoutine");
 		btnAddExercise.setBounds(470, 119, 129, 20);
 		btnAddExercise.addActionListener(this);
 		add(btnAddExercise);	
 		
-		JButton btnCreateRoutine = new JButton("Create routine");
+		btnCreateRoutine = new JButton("Create routine");
 		btnCreateRoutine.setActionCommand("createRoutine");
 		btnCreateRoutine.setBounds(395, 376, 117, 23);
 		btnCreateRoutine.addActionListener(this);
 		add(btnCreateRoutine);
-		
 	}
 
 	@Override
@@ -113,12 +138,18 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		switch(event.getActionCommand()){
 		
 		case "changeExerciseType":
-			//TODO Cargar en el segundo combobox los ejercicios dependiendo de lo clickado.
-			System.out.println("Change type - Not implemented");
+			//Así cambiamos dinámicamente los ejercicios del JComboBox
+			Class<?> aClass = getClassOnDemand((String) cbExerciseType.getSelectedItem());
+			List<Exercise> tmpExercises = new ArrayList<Exercise>();
+			tmpExercises = mainController.getExercises(aClass);
+			DefaultComboBoxModel<Exercise> tmpModel = new DefaultComboBoxModel<Exercise>(ConversorUtilitiy.obtainExercises(tmpExercises));
+			this.cbSelectedExercise.setModel(tmpModel);
 			break;
 			
 		case "addExerciseToRoutine":
-			System.out.println("Adding exercises - Not implemented yet");
+			//TODO: Abrir una ventana modal con el panel de ejercicio de turno
+			openExerciseStatusCreationWindow(this.cbSelectedExercise.getSelectedItem());
+			
 			break;
 			
 		case "createRoutine":
@@ -128,4 +159,31 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		}
 		
 	}
+
+	private void openExerciseStatusCreationWindow(Object anExercise) {
+		Class<?> aClass = anExercise.getClass();
+		JFrame tmpFrame = new JFrame();
+				
+		switch(aClass.getSimpleName()){
+			case "FitnessExercise":
+				tmpFrame.setContentPane(new FitnessExerciseStatusPanel((FitnessExercise) anExercise));				
+				break;
+				
+			case "CardioExercise":
+				tmpFrame.setContentPane(new CardioExerciseStatusPanel((CardioExercise) anExercise));		
+				break;
+		}
+		tmpFrame.setBounds(this.getX(), this.getY(), 640, 480);
+		tmpFrame.setVisible(true);
+	}
+
+	private Class<?> getClassOnDemand(String selectedItem) {
+		if(selectedItem.equals(EXERCISES_TYPES[0]))
+			return CardioExercise.class;
+		else if(selectedItem.equals(EXERCISES_TYPES[1]))
+			return FitnessExercise.class;
+		else 
+			return null;
+	}
+	
 }

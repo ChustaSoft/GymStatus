@@ -45,5 +45,5 @@ public class FitnessExerciseStatus extends FitnessExercise {
 	public void setSeries(Collection<Serie> series) {
 		this.series = series;
 	}
-
+	
 }
