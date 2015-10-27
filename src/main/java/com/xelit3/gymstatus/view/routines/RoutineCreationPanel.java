@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,26 +14,25 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
+import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.view.exercises.CardioExerciseStatusPanel;
 import com.xelit3.gymstatus.view.exercises.FitnessExerciseStatusPanel;
+import com.xelit3.gymstatus.view.exercises.TableExercisesGeneral;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-public class RoutineCreationPanel extends JPanel implements ActionListener{
+public class RoutineCreationPanel extends JPanel implements ActionListener, Observer{
 	/**
 	 * 
 	 */
@@ -40,7 +41,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 	private Controller mainController;
 	
 	private JTextField tfRoutineName;
-	private JTable jtableAddedExercises;
+	private TableExercisesGeneral jtableAddedExercises;
 	private JComboBox<String> cbExerciseType;
 	private JComboBox<Exercise> cbSelectedExercise;	
 	private JButton btnAddExercise, btnCreateRoutine;
@@ -53,7 +54,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 	public RoutineCreationPanel() {
 		setLayout(null);
 		
-		mainController = new Controller();
+		mainController = new Controller(this);
 		
 		createComponents();		
 	}
@@ -106,19 +107,8 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 		separator.setBounds(48, 169, 530, 2);
 		add(separator);
 		
-		jtableAddedExercises = new JTable();
-		
-		jtableAddedExercises.setModel(new DefaultTableModel(
-			new Object[][]{},
-			new String[] {
-				"Exercise type", "Exercise name", "Trained muscle", "Intensity", "Time"
-			}
-		));
-		
-		JScrollPane scrollPane = new JScrollPane(jtableAddedExercises);
-		scrollPane.setSize(569, 167);
-		scrollPane.setLocation(30, 198);
-		add(scrollPane);
+		jtableAddedExercises = new TableExercisesGeneral();		
+		add(jtableAddedExercises);
 		
 		btnAddExercise = new JButton("Add to routine");
 		btnAddExercise.setActionCommand("addExerciseToRoutine");
@@ -147,7 +137,6 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 			break;
 			
 		case "addExerciseToRoutine":
-			//TODO: Abrir una ventana modal con el panel de ejercicio de turno
 			openExerciseStatusCreationWindow(this.cbSelectedExercise.getSelectedItem());
 			
 			break;
@@ -184,6 +173,16 @@ public class RoutineCreationPanel extends JPanel implements ActionListener{
 			return FitnessExercise.class;
 		else 
 			return null;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(arg instanceof FitnessExerciseStatus){
+			//TODO
+		}
+		else if(arg instanceof CardioExerciseStatus){
+			//TODO
+		}
 	}
 	
 }

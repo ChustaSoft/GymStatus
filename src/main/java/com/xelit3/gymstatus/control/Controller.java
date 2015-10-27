@@ -1,7 +1,9 @@
 package com.xelit3.gymstatus.control;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.model.dao.CardioExerciseDAOImpl;
@@ -14,20 +16,25 @@ import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Muscle;
-import com.xelit3.gymstatus.test.TestApp;
 import com.xelit3.gymstatus.view.MainWindow;
 
 
 public class Controller extends Observable{
+	
 	MainWindow view;
 	ExerciseDAO exerciseDao;
 	MuscleDAO muscleDao;
+	
+	private List<Observer> observers = new LinkedList<Observer>();
 		
 	public Controller(){}
 	
+	public Controller(Observer aObserver){
+		this.addObserver(aObserver);
+	}
+	
 	public void startApp(){
 		AppSettings settings = AppSettings.getInstance();
-		//TODO Implementación futura, aprovecharemos el singleton para hacer apliación multidioma
 		System.out.println("DONE - Settings loaded:\n" + settings.getUsername() + "\n" + settings.getLanguage());
 						
 		view = new MainWindow(this);
@@ -43,6 +50,7 @@ public class Controller extends Observable{
 			exerciseDao = new CardioExerciseDAOImpl();
 		}
 		
+		notifyObservers(anExercise);
 		return exerciseDao.saveExercise(anExercise);		
 	}
 	
@@ -96,15 +104,16 @@ public class Controller extends Observable{
 		return muscleDao.getMuscles();
 	}
 	
-	@Override
-	public void notifyObservers() {
-		// TODO Auto-generated method stub
-		super.notifyObservers();
+	public void addObserver(Observer o) {
+		observers.add(o);
 	}
 	
-	//Testing
-	public void testApp() {
-		TestApp test = new TestApp();
-		test.testMethod();
+	@Override
+	public void notifyObservers(Object o) {
+		if(observers.size() > 0){
+			for (Observer obs: observers)
+				obs.update(this, o);
+		}
 	}
+	
 }

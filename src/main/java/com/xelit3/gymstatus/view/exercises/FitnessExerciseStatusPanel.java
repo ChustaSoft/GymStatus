@@ -39,7 +39,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	private Controller mainController = new Controller();
 	
 	private FitnessExerciseStatus theFitnessExercise;
-	private List<Muscle> theMusclesList;	
+	private List<Muscle> theMusclesList;
 	
 	private SpringLayout theLayout;
 	private JLabel lblExerciseName, lblTrainedMuscle, lbSeriesNumber, lblSerieRepetitions, lblSerieMaxWeight;
@@ -273,4 +273,5 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 			theErrors = true;
 		}		
 	}
+
 }

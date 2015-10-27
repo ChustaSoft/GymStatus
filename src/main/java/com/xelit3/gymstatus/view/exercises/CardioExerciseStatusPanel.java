@@ -2,19 +2,15 @@ package com.xelit3.gymstatus.view.exercises;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
-import javax.swing.JSpinner.DateEditor;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -38,7 +34,7 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	private JTextField tfExerciseName;
 	private JSpinner spIntensity, spTime;
 	private JButton btnAction;
-				
+	
 	public CardioExerciseStatusPanel(CardioExercise anExercise) {
 		this.theExercise = new CardioExerciseStatus(anExercise);
 		this.createComponents();	
@@ -157,4 +153,5 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	private void modifyExerciseStatus() {
 		// TODO Modificar ejercicio, desde el panel de Rutinas
 	}
+	
 }
