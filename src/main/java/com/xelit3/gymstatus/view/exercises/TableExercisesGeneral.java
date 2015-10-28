@@ -1,6 +1,8 @@
 package com.xelit3.gymstatus.view.exercises;
 
-import java.util.Vector;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,23 +19,35 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Vector<String> theColumnNames = new Vector<String>();
+//	private Vector<String> theColumnNames = new Vector<String>();
+	private Object[] theColumnNames = {"Exercise type", "Name"};
 	
 	private JScrollPane theScrollPane;
 	private JTable theTableExercises;
 	
-	private Vector<Exercise> theExercises = new Vector<Exercise>();	
+	private Object[][] theExercises;
 	/**
 	 * Create the panel.
 	 */
-	public TableExercisesGeneral() {
-		theColumnNames.addElement("Exercise type");
-		theColumnNames.addElement("Name");
+	public TableExercisesGeneral(List<Exercise> aList) {
+		createObjectHash(aList);
+		
+		setLayout(new GridLayout(1, 0, 0, 0));
 		theTableExercises = new JTable(theExercises, theColumnNames);
+		theTableExercises.setPreferredScrollableViewportSize(new Dimension(500, 70));         
+		theTableExercises.setFillsViewportHeight(true); 
 		theScrollPane = new JScrollPane(theTableExercises);
 		theScrollPane.setSize(569, 167);
 		theScrollPane.setLocation(30, 198);
 		add(theScrollPane);
+	}
+
+	private void createObjectHash(List<Exercise> aList) {
+		theExercises = new Object[aList.size()][theColumnNames.length];
+		for(Exercise cntE : aList){
+			theExercises[aList.indexOf(cntE)][0] = cntE.getClass().getName();
+			theExercises[aList.indexOf(cntE)][1] = cntE.getExerciseName();
+		}
 	}
 
 	@Override
@@ -43,17 +57,17 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 
 	@Override
 	public int getColumnCount() {
-		return theColumnNames.size();
+		return theColumnNames.length;
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return theColumnNames.get(columnIndex);
+		return theColumnNames[columnIndex].toString();
 	}
 
 	@Override
 	public int getRowCount() {
-		return theExercises.size();
+		return theExercises.length;
 	}
 
 	@Override
@@ -64,14 +78,7 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		switch(columnIndex){
-			case 0:
-				return theExercises.get(rowIndex).getClass().toString();
-				
-			case 1:
-				return theExercises.get(rowIndex).getExerciseName();
-		}
-		return null;
+		return theExercises[rowIndex][columnIndex];
 	}
 
 	@Override

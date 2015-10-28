@@ -106,8 +106,8 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		separator.setForeground(new Color(67, 78, 84));
 		separator.setBounds(48, 169, 530, 2);
 		add(separator);
-		
-		jtableAddedExercises = new TableExercisesGeneral();		
+		//TODO: TEST
+		jtableAddedExercises = new TableExercisesGeneral(mainController.getExercises(FitnessExerciseStatus.class));		
 		add(jtableAddedExercises);
 		
 		btnAddExercise = new JButton("Add to routine");
