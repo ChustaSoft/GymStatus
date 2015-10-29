@@ -19,28 +19,37 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-//	private Vector<String> theColumnNames = new Vector<String>();
 	private Object[] theColumnNames = {"Exercise type", "Name"};
 	
 	private JScrollPane theScrollPane;
 	private JTable theTableExercises;
 	
 	private Object[][] theExercises;
+	
 	/**
 	 * Create the panel.
 	 */
-	public TableExercisesGeneral(List<Exercise> aList) {
-		createObjectHash(aList);
+	public TableExercisesGeneral() {
+		theTableExercises = new JTable(this);
+		theExercises = new Object[0][0];
+		createComponents();
+	}
 		
-		setLayout(new GridLayout(1, 0, 0, 0));
+	public TableExercisesGeneral(List<Exercise> aList) {
+		createObjectHash(aList);		
+		
 		theTableExercises = new JTable(theExercises, theColumnNames);
+		createComponents();
+	}
+
+	private void createComponents() {
+		setLayout(new GridLayout(1, 0, 0, 0));
+		
 		theTableExercises.setPreferredScrollableViewportSize(new Dimension(500, 70));         
 		theTableExercises.setFillsViewportHeight(true); 
-		theScrollPane = new JScrollPane(theTableExercises);
-		theScrollPane.setSize(569, 167);
-		theScrollPane.setLocation(30, 198);
+		theScrollPane = new JScrollPane(theTableExercises);		
 		add(theScrollPane);
-	}
+	}	
 
 	private void createObjectHash(List<Exercise> aList) {
 		theExercises = new Object[aList.size()][theColumnNames.length];
