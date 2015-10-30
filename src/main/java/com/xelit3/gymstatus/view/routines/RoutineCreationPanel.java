@@ -18,6 +18,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 import com.xelit3.gymstatus.control.Controller;
+import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
@@ -138,7 +139,9 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 			break;
 			
 		case "addExerciseToRoutine":
-			openExerciseStatusCreationWindow(this.cbSelectedExercise.getSelectedItem());
+			if(this.cbSelectedExercise.getSelectedItem() != null){
+				openExerciseStatusCreationWindow(this.cbSelectedExercise.getSelectedItem());
+			}
 			
 			break;
 			
@@ -163,7 +166,8 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 				tmpFrame.setContentPane(new CardioExerciseStatusPanel((CardioExercise) anExercise));		
 				break;
 		}
-		tmpFrame.setBounds(this.getX(), this.getY(), 640, 480);
+		tmpFrame.setBounds(AppSettings.getInstance().getMainWindowPosX(), AppSettings.getInstance().getMainWindowPosY(), 640, 480);
+//		tmpFrame.setBounds(this.getParent().getParent().getX(), this.getParent().getParent().getY(), 640, 480);
 		tmpFrame.setVisible(true);
 	}
 

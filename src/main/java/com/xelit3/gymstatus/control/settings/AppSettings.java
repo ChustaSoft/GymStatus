@@ -20,6 +20,7 @@ public class AppSettings {
 
 	public String username;
 	public String language;
+	public int mainWindowPosX = 0, mainWindowPosY = 0;
 
 	private AppSettings() {
 
@@ -49,23 +50,7 @@ public class AppSettings {
 		}
 
 	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
+	
 	public static AppSettings getInstance() {
 		if (singleton == null)
 			singleton = new AppSettings();
@@ -83,6 +68,50 @@ public class AppSettings {
 			return true;
 		}
 		else return false;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	/**
+	 * @return the mainWindowPosX
+	 */
+	public int getMainWindowPosX() {
+		return mainWindowPosX;
+	}
+
+	/**
+	 * @param mainWindowPosX the mainWindowPosX to set
+	 */
+	public void setMainWindowPosX(int mainWindowPosX) {
+		this.mainWindowPosX = mainWindowPosX;
+	}
+
+	/**
+	 * @return the mainWindowPosY
+	 */
+	public int getMainWindowPosY() {
+		return mainWindowPosY;
+	}
+
+	/**
+	 * @param mainWindowPosY the mainWindowPosY to set
+	 */
+	public void setMainWindowPosY(int mainWindowPosY) {
+		this.mainWindowPosY = mainWindowPosY;
 	}
 
 }

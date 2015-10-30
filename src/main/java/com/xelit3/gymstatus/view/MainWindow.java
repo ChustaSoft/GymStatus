@@ -3,9 +3,9 @@ package com.xelit3.gymstatus.view;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -26,7 +26,7 @@ import com.xelit3.gymstatus.view.routines.TableRoutines;
 import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
 import com.xelit3.gymstatus.view.settings.ConfigurationPanel;
 
-public class MainWindow extends JFrame implements ActionListener, Observer {
+public class MainWindow extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private Controller mainController;
@@ -39,17 +39,44 @@ public class MainWindow extends JFrame implements ActionListener, Observer {
 //		setUndecorated(true);
 		setRootPane(this.createRootPane());
 		setTitle("ChustaSoft GymStatus App - " + AppSettings.getInstance().getUsername());
+		setFramePositionSettings();
+		
+		this.addComponentListener(new ComponentListener() {
+			
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				setFramePositionSettings();				
+			}
+			
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 				
 		buildMenu();
 		
 	    setMovementKeys();
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		//TODO Aprovechar metodo update
+	private void setFramePositionSettings() {
+		AppSettings.getInstance().setMainWindowPosX(this.getX());
+		AppSettings.getInstance().setMainWindowPosY(this.getY());
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		ExerciseManagementPanel exercisePanel;
