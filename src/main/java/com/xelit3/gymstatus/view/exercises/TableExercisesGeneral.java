@@ -24,6 +24,7 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	private JScrollPane theScrollPane;
 	private JTable theTableExercises;
 	
+	private List<Exercise> theExercisesList;
 	private Object[][] theExercises;
 	
 	/**
@@ -36,7 +37,8 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	}
 		
 	public TableExercisesGeneral(List<Exercise> aList) {
-		createObjectHash(aList);		
+		theExercisesList = aList;
+		createObjectHash();		
 		
 		theTableExercises = new JTable(theExercises, theColumnNames);
 		createComponents();
@@ -51,11 +53,11 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 		add(theScrollPane);
 	}	
 
-	private void createObjectHash(List<Exercise> aList) {
-		theExercises = new Object[aList.size()][theColumnNames.length];
-		for(Exercise cntE : aList){
-			theExercises[aList.indexOf(cntE)][0] = cntE.getClass().getName();
-			theExercises[aList.indexOf(cntE)][1] = cntE.getExerciseName();
+	private void createObjectHash() {
+		theExercises = new Object[theExercisesList.size()][theColumnNames.length];
+		for(Exercise cntE : theExercisesList){
+			theExercises[theExercisesList.indexOf(cntE)][0] = cntE.getClass().getName();
+			theExercises[theExercisesList.indexOf(cntE)][1] = cntE.getExerciseName();
 		}
 	}
 
@@ -108,6 +110,13 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	public void removeTableModelListener(TableModelListener l) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void addNewRow(Object anExercise) {
+		Exercise tmpExercise = (Exercise) anExercise;
+		theExercisesList.add(tmpExercise);
+		createObjectHash();
+		theTableExercises = new JTable(theExercises, theColumnNames);
 	}
 
 }

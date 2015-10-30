@@ -181,13 +181,8 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		if(arg instanceof FitnessExerciseStatus){
-			//TODO
-		}
-		else if(arg instanceof CardioExerciseStatus){
-			//TODO
-		}
+	public void update(Observable aController, Object anExercise) {
+		jtableAddedExercises.addNewRow(anExercise);
 	}
 	
 }
