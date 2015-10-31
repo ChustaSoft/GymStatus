@@ -2,6 +2,7 @@ package com.xelit3.gymstatus.view.exercises;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -24,7 +25,7 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	private JScrollPane theScrollPane;
 	private JTable theTableExercises;
 	
-	private List<Exercise> theExercisesList;
+	private List<Exercise> theExercisesList = new ArrayList<Exercise>();
 	private Object[][] theExercises;
 	
 	/**
@@ -101,22 +102,25 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	}	
 	
 	@Override
-	public void addTableModelListener(TableModelListener l) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void addTableModelListener(TableModelListener l) {}
 	
 	@Override
-	public void removeTableModelListener(TableModelListener l) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void removeTableModelListener(TableModelListener l) {}
 
 	public void addNewRow(Object anExercise) {
+		//Añadimos el ejercicio creado en el panel y devuelto mediante Observer-observable a la tabla, y refrescamos el panel
 		Exercise tmpExercise = (Exercise) anExercise;
 		theExercisesList.add(tmpExercise);
 		createObjectHash();
 		theTableExercises = new JTable(theExercises, theColumnNames);
+		this.updateUI();
+	}
+
+	/**
+	 * @return the theExercisesList
+	 */
+	public List<Exercise> getExercisesList() {
+		return theExercisesList;
 	}
 
 }

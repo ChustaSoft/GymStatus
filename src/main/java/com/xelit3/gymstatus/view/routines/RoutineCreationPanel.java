@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -21,10 +23,9 @@ import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
-import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
-import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
+import com.xelit3.gymstatus.model.dto.Routine;
 import com.xelit3.gymstatus.view.exercises.CardioExerciseStatusPanel;
 import com.xelit3.gymstatus.view.exercises.FitnessExerciseStatusPanel;
 import com.xelit3.gymstatus.view.exercises.TableExercisesGeneral;
@@ -41,13 +42,18 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	
 	private Controller mainController;
 	
+	private Routine theRoutine = new Routine();
+	
 	private JTextField tfRoutineName;
 	private TableExercisesGeneral jtableAddedExercises;
 	private JComboBox<String> cbExerciseType;
 	private JComboBox<Exercise> cbSelectedExercise;	
 	private JButton btnAddExercise, btnCreateRoutine;
+	private JDatePickerImpl dpInitDate, dpEndDate;
 	
 	private static String[] EXERCISES_TYPES = {"CARDIO", "FITNESS"};
+
+	private JFrame frameStatusCreation;
 
 	/**
 	 * Create the panel.
@@ -95,11 +101,11 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		
 		UtilDateModel modelInitDate = new UtilDateModel(), modelEndDate = new UtilDateModel();
 		JDatePanelImpl datePanelInitDate = new JDatePanelImpl(modelInitDate);
-		JDatePickerImpl dpInitDate = new JDatePickerImpl(datePanelInitDate);
+		dpInitDate = new JDatePickerImpl(datePanelInitDate);
 		dpInitDate.setBounds(270, 53, 123, 20);
 		this.add(dpInitDate);
 		JDatePanelImpl datePanelEndDate = new JDatePanelImpl(modelEndDate);
-		JDatePickerImpl dpEndDate = new JDatePickerImpl(datePanelEndDate);
+		dpEndDate = new JDatePickerImpl(datePanelEndDate);
 		dpEndDate.setBounds(470, 53, 129, 20);
 		this.add(dpEndDate);
 		
@@ -128,26 +134,38 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		switch(event.getActionCommand()){
-		
-		case "changeExerciseType":
-			//Así cambiamos dinámicamente los ejercicios del JComboBox
-			Class<?> aClass = getClassOnDemand((String) cbExerciseType.getSelectedItem());
-			List<Exercise> tmpExercises = new ArrayList<Exercise>();
-			tmpExercises = mainController.getExercises(aClass);
-			DefaultComboBoxModel<Exercise> tmpModel = new DefaultComboBoxModel<Exercise>(ConversorUtilitiy.obtainExercises(tmpExercises));
-			this.cbSelectedExercise.setModel(tmpModel);
-			break;
 			
-		case "addExerciseToRoutine":
-			if(this.cbSelectedExercise.getSelectedItem() != null){
-				openExerciseStatusCreationWindow(this.cbSelectedExercise.getSelectedItem());
-			}
-			
-			break;
-			
-		case "createRoutine":
-			System.out.println("Create routine - Not implemented yet");
-			break;
+			case "changeExerciseType":
+				//Así cambiamos dinámicamente los ejercicios del JComboBox
+				Class<?> aClass = getClassOnDemand((String) cbExerciseType.getSelectedItem());
+				List<Exercise> tmpExercises = new ArrayList<Exercise>();
+				tmpExercises = mainController.getExercises(aClass);
+				DefaultComboBoxModel<Exercise> tmpModel = new DefaultComboBoxModel<Exercise>(ConversorUtilitiy.obtainExercises(tmpExercises));
+				this.cbSelectedExercise.setModel(tmpModel);
+				break;
+				
+			case "addExerciseToRoutine":
+				if(this.cbSelectedExercise.getSelectedItem() != null){
+					openExerciseStatusCreationWindow(this.cbSelectedExercise.getSelectedItem());
+				}
+				
+				break;
+				
+			case "createRoutine":
+				Date tmpInitDate = (Date) dpInitDate.getModel().getValue();
+				Date tmpEndDate = (Date) dpEndDate.getModel().getValue();
+				
+				//Creamos la rutina
+				theRoutine.setRoutineName(this.tfRoutineName.getText());
+				theRoutine.setInitDate(tmpInitDate);
+				theRoutine.setFinishDate(tmpEndDate);
+				theRoutine.setExercises(jtableAddedExercises.getExercisesList());
+				
+				if(theRoutine.isValid())
+					mainController.createRoutine(theRoutine);
+				else
+					JOptionPane.showMessageDialog(this, "Check out data first, some errors found");
+				break;
 			
 		}
 		
@@ -155,20 +173,20 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 
 	private void openExerciseStatusCreationWindow(Object anExercise) {
 		Class<?> aClass = anExercise.getClass();
-		JFrame tmpFrame = new JFrame();
-				
+		frameStatusCreation = new JFrame();
+			
+		//Hemos de pasarle el controller del panel padre a los hijos para que estos notifiquen adecuadamente a este sobre la insercion del ejercicio
 		switch(aClass.getSimpleName()){
 			case "FitnessExercise":
-				tmpFrame.setContentPane(new FitnessExerciseStatusPanel((FitnessExercise) anExercise));				
+				frameStatusCreation.setContentPane(new FitnessExerciseStatusPanel((FitnessExercise) anExercise, mainController));				
 				break;
 				
 			case "CardioExercise":
-				tmpFrame.setContentPane(new CardioExerciseStatusPanel((CardioExercise) anExercise));		
+				frameStatusCreation.setContentPane(new CardioExerciseStatusPanel((CardioExercise) anExercise, mainController));		
 				break;
 		}
-		tmpFrame.setBounds(AppSettings.getInstance().getMainWindowPosX(), AppSettings.getInstance().getMainWindowPosY(), 640, 480);
-//		tmpFrame.setBounds(this.getParent().getParent().getX(), this.getParent().getParent().getY(), 640, 480);
-		tmpFrame.setVisible(true);
+		frameStatusCreation.setBounds(AppSettings.getInstance().getMainWindowPosX(), AppSettings.getInstance().getMainWindowPosY(), 640, 480);
+		frameStatusCreation.setVisible(true);
 	}
 
 	private Class<?> getClassOnDemand(String selectedItem) {
@@ -182,6 +200,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 
 	@Override
 	public void update(Observable aController, Object anExercise) {
+		frameStatusCreation.setVisible(false);
 		jtableAddedExercises.addNewRow(anExercise);
 	}
 	

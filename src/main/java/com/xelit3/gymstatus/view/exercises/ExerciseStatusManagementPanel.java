@@ -24,14 +24,14 @@ public class ExerciseStatusManagementPanel extends JSplitPane implements ActionL
 	
 	private JPanel theTopPanel;
 	private JPanel theExercisePanel;
-	private Controller theController;
+	private Controller mainController;
 	private JLabel lblSelectExercise;
 	private JComboBox<Exercise> cbSelectedExercise;
 	private ButtonGroup bgSelectedExerciseType;
 	private JRadioButton rbCardioSelected, rbFitnessSelected;
 	
 	public ExerciseStatusManagementPanel() {
-		theController = new Controller();
+		mainController = new Controller();
 		
 		setOrientation(JSplitPane.VERTICAL_SPLIT);		
 		
@@ -81,9 +81,9 @@ public class ExerciseStatusManagementPanel extends JSplitPane implements ActionL
 				
 			case "EXERCISE_CHANGED":
 				if(rbCardioSelected.isSelected())			
-					theExercisePanel = new CardioExerciseStatusPanel((CardioExercise)this.cbSelectedExercise.getSelectedItem());
+					theExercisePanel = new CardioExerciseStatusPanel((CardioExercise)this.cbSelectedExercise.getSelectedItem(), mainController);
 				else if(rbFitnessSelected.isSelected())
-					theExercisePanel = new FitnessExerciseStatusPanel((FitnessExercise)this.cbSelectedExercise.getSelectedItem());
+					theExercisePanel = new FitnessExerciseStatusPanel((FitnessExercise)this.cbSelectedExercise.getSelectedItem(), mainController);
 				
 				this.setRightComponent(theExercisePanel);				
 				break;
@@ -95,7 +95,7 @@ public class ExerciseStatusManagementPanel extends JSplitPane implements ActionL
 		if(cbSelectedExercise!= null)
 			theTopPanel.remove(cbSelectedExercise);
 		
-		List<Exercise> tmpExercises = theController.getExercises(aClass);
+		List<Exercise> tmpExercises = mainController.getExercises(aClass);
 		cbSelectedExercise = new JComboBox<Exercise>(ConversorUtilitiy.obtainExercises(tmpExercises));
 		cbSelectedExercise.setActionCommand("EXERCISE_CHANGED");		
 		cbSelectedExercise.addActionListener(this);

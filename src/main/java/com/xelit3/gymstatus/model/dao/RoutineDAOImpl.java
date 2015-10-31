@@ -20,7 +20,7 @@ public class RoutineDAOImpl extends GenericGymStatDAO {
 			this.openSession();
 			
 			session.beginTransaction();
-	        session.persist(aRoutine);
+	        session.save(aRoutine);
 	        session.getTransaction().commit();
 	        
 	        this.closeSession();

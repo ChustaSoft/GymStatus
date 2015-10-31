@@ -52,8 +52,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 
 	private boolean theErrors = false;
 	
-	public FitnessExerciseStatusPanel(FitnessExercise anExercise) {
-		this.theFitnessExercise = new FitnessExerciseStatus(anExercise);		
+	public FitnessExerciseStatusPanel(FitnessExercise anExercise, Controller aController) {
+		this.theFitnessExercise = new FitnessExerciseStatus(anExercise);
+		this.mainController = aController;
 		this.createComponents();
 		setBtnAction(PanelAction.SAVE);
 	}
@@ -239,7 +240,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		}
 		else{
 			JOptionPane.showMessageDialog(this, "There are any error(s) in the data for any or multiple exercises. Check it first");
-		}		
+		}
 	}
 	
 	private void modifyExercise(){

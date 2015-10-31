@@ -35,8 +35,9 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	private JSpinner spIntensity, spTime;
 	private JButton btnAction;
 	
-	public CardioExerciseStatusPanel(CardioExercise anExercise) {
+	public CardioExerciseStatusPanel(CardioExercise anExercise, Controller aController) {
 		this.theExercise = new CardioExerciseStatus(anExercise);
+		this.mainController = aController;
 		this.createComponents();	
 		this.setBtnAction(PanelAction.SAVE);
 	}
