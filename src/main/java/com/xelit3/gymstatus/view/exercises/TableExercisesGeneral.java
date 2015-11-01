@@ -12,6 +12,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import com.xelit3.gymstatus.model.dto.Exercise;
+import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 
 public class TableExercisesGeneral extends JPanel implements TableModel {
 
@@ -57,7 +58,17 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	private void createObjectHash() {
 		theExercises = new Object[theExercisesList.size()][theColumnNames.length];
 		for(Exercise cntE : theExercisesList){
-			theExercises[theExercisesList.indexOf(cntE)][0] = cntE.getClass().getName();
+			switch(cntE.getClass().getSimpleName()){
+			
+				case "FitnessExerciseStatus":
+					theExercises[theExercisesList.indexOf(cntE)][0] = "FITNESS";
+					break;
+					
+				case "CardioExerciseStatus":
+					theExercises[theExercisesList.indexOf(cntE)][0] = "CARDIO";
+					break;
+			}
+//			theExercises[theExercisesList.indexOf(cntE)][0] = cntE.getClass().getName();
 			theExercises[theExercisesList.indexOf(cntE)][1] = cntE.getExerciseName();
 		}
 	}
