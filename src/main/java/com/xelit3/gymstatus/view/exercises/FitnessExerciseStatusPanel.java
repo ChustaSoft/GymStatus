@@ -36,7 +36,7 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	
 	private static int MAX_SERIES = 5;
 	
-	private Controller mainController = new Controller();
+	private Controller mainController;
 	
 	private FitnessExerciseStatus theFitnessExercise;
 	private List<Muscle> theMusclesList;
@@ -59,8 +59,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		setBtnAction(PanelAction.SAVE);
 	}
 	
-	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExerciseStatus){
-		this.theFitnessExercise = anExerciseStatus;		
+	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExerciseStatus, Controller aController){
+		this.theFitnessExercise = anExerciseStatus;
+		this.mainController = aController;
 		this.createComponents();
 		setBtnAction(PanelAction.MODIFY);
 	}

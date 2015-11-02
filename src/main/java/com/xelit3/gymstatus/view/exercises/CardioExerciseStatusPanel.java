@@ -25,7 +25,7 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	
 	private enum PanelAction{SAVE, MODIFY};
 	
-	private Controller mainController = new Controller();
+	private Controller mainController;
 	
 	private CardioExerciseStatus theExercise;
 
@@ -42,12 +42,13 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		this.setBtnAction(PanelAction.SAVE);
 	}
 	
-	public CardioExerciseStatusPanel(CardioExerciseStatus anExercise){
+	public CardioExerciseStatusPanel(CardioExerciseStatus anExercise, Controller aController) {
 		this.theExercise = anExercise;
-		this.createComponents();
+		this.mainController = aController;
+		this.createComponents();	
 		this.setBtnAction(PanelAction.MODIFY);
 	}
-	
+
 	private void createComponents(){
 		theLayout = new SpringLayout();
 		setLayout(theLayout);

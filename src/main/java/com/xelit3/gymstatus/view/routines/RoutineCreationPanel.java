@@ -25,6 +25,7 @@ import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
+import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Routine;
 import com.xelit3.gymstatus.view.exercises.CardioExerciseStatusPanel;
 import com.xelit3.gymstatus.view.exercises.FitnessExerciseStatusPanel;
@@ -113,7 +114,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		separator.setForeground(new Color(67, 78, 84));
 		separator.setBounds(48, 169, 530, 2);
 		add(separator);
-		jtableAddedExercises = new TableExercisesGeneral();
+		jtableAddedExercises = new TableExercisesGeneral(this);
 		jtableAddedExercises.setSize(569, 167);
 		jtableAddedExercises.setLocation(30, 198);
 		add(jtableAddedExercises);
@@ -171,7 +172,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		
 	}
 
-	private void openExerciseStatusCreationWindow(Object anExercise) {
+	public void openExerciseStatusCreationWindow(Object anExercise) {
 		Class<?> aClass = anExercise.getClass();
 		frameStatusCreation = new JFrame();
 			
@@ -183,6 +184,15 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 				
 			case "CardioExercise":
 				frameStatusCreation.setContentPane(new CardioExerciseStatusPanel((CardioExercise) anExercise, mainController));		
+				break;
+				
+			//TODO Adaptar los constructores ya creados de los estados de ejercicio para que carguen los datos del estado ya por defecto
+			case "FitnessExerciseStatus":
+				System.out.println("OK");
+				break;
+				
+			case "CardioExerciseStatus":
+				System.out.println("OK");
 				break;
 		}
 		frameStatusCreation.setBounds(AppSettings.getInstance().getMainWindowPosX(), AppSettings.getInstance().getMainWindowPosY(), 640, 480);

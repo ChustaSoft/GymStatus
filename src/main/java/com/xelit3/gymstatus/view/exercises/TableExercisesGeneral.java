@@ -2,6 +2,8 @@ package com.xelit3.gymstatus.view.exercises;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,9 @@ import javax.swing.table.TableModel;
 
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
+import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 
-public class TableExercisesGeneral extends JPanel implements TableModel {
+public class TableExercisesGeneral extends JPanel implements TableModel, MouseListener {
 
 	/**
 	 * 
@@ -22,6 +25,8 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private Object[] theColumnNames = {"Exercise type", "Name"};
+	
+	private RoutineCreationPanel theParent;
 	
 	private JScrollPane theScrollPane;
 	private JTable theTableExercises;
@@ -32,8 +37,9 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	/**
 	 * Create the panel.
 	 */
-	public TableExercisesGeneral() {
+	public TableExercisesGeneral(RoutineCreationPanel aParent) {
 		theTableExercises = new JTable(this);
+		theParent = aParent;
 		theExercises = new Object[0][0];
 		createComponents();
 	}
@@ -51,7 +57,8 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 		
 		theTableExercises.setPreferredScrollableViewportSize(new Dimension(500, 70));         
 		theTableExercises.setFillsViewportHeight(true); 
-		theScrollPane = new JScrollPane(theTableExercises);		
+		theScrollPane = new JScrollPane(theTableExercises);	
+		theTableExercises.addMouseListener(this);
 		add(theScrollPane);
 	}	
 
@@ -133,5 +140,39 @@ public class TableExercisesGeneral extends JPanel implements TableModel {
 	public List<Exercise> getExercisesList() {
 		return theExercisesList;
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = theTableExercises.rowAtPoint(e.getPoint());
+//		int col = theTableExercises.columnAtPoint(e.getPoint());
+		if(row >= 0 && row <= getExercisesList().size())
+			theParent.openExerciseStatusCreationWindow(getExercisesList().get(row));        	
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 }
