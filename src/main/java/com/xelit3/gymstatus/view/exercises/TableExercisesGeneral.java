@@ -16,25 +16,37 @@ import javax.swing.table.TableModel;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TableExercisesGeneral.
+ */
 public class TableExercisesGeneral extends JPanel implements TableModel, MouseListener {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The column names. */
 	private Object[] theColumnNames = {"Exercise type", "Name"};
 	
+	/** The parent. */
 	private RoutineCreationPanel theParent;
 	
+	/** The scroll pane. */
 	private JScrollPane theScrollPane;
+	
+	/** The table exercises. */
 	private JTable theTableExercises;
 	
+	/** The exercises list. */
 	private List<Exercise> theExercisesList = new ArrayList<Exercise>();
+	
+	/** The exercises. */
 	private Object[][] theExercises;
 	
 	/**
 	 * Create the panel.
+	 *
+	 * @param aParent the a parent
 	 */
 	public TableExercisesGeneral(RoutineCreationPanel aParent) {
 		theTableExercises = new JTable(this);
@@ -43,6 +55,11 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 		createComponents();
 	}
 		
+	/**
+	 * Instantiates a new table exercises general.
+	 *
+	 * @param aList the a list
+	 */
 	public TableExercisesGeneral(List<Exercise> aList) {
 		theExercisesList = aList;
 		createObjectHash();		
@@ -51,6 +68,9 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 		createComponents();
 	}
 
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents() {
 		setLayout(new GridLayout(1, 0, 0, 0));
 		
@@ -61,6 +81,9 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 		add(theScrollPane);
 	}	
 
+	/**
+	 * Creates the object hash.
+	 */
 	private void createObjectHash() {
 		theExercises = new Object[theExercisesList.size()][theColumnNames.length];
 		for(Exercise cntE : theExercisesList){
@@ -79,37 +102,58 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#getColumnClass(int)
+	 */
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		return getValueAt(0, columnIndex).getClass();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#getColumnCount()
+	 */
 	@Override
 	public int getColumnCount() {
 		return theColumnNames.length;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#getColumnName(int)
+	 */
 	@Override
 	public String getColumnName(int columnIndex) {
 		return theColumnNames[columnIndex].toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#getRowCount()
+	 */
 	@Override
 	public int getRowCount() {
 		return theExercises.length;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
+	 */
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#getValueAt(int, int)
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return theExercises[rowIndex][columnIndex];
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#isCellEditable(int, int)
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		if (columnIndex < 2)
@@ -118,12 +162,23 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 			return true;  
 	}	
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#addTableModelListener(javax.swing.event.TableModelListener)
+	 */
 	@Override
 	public void addTableModelListener(TableModelListener l) {}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableModel#removeTableModelListener(javax.swing.event.TableModelListener)
+	 */
 	@Override
 	public void removeTableModelListener(TableModelListener l) {}
 
+	/**
+	 * Adds the new row.
+	 *
+	 * @param anExercise the an exercise
+	 */
 	public void addNewRow(Object anExercise) {
 		//Añadimos el ejercicio creado en el panel y devuelto mediante Observer-observable a la tabla, y refrescamos el panel
 		Exercise tmpExercise = (Exercise) anExercise;
@@ -137,12 +192,17 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 	}
 
 	/**
+	 * Gets the exercises list.
+	 *
 	 * @return the theExercisesList
 	 */
 	public List<Exercise> getExercisesList() {
 		return theExercisesList;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = theTableExercises.rowAtPoint(e.getPoint());
@@ -151,24 +211,36 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 			theParent.openExerciseStatusCreationWindow(getExercisesList().get(row));        	
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub

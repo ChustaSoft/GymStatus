@@ -200,7 +200,7 @@ public class FitnessExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * With this method we get the constraints for a component inside the panel
+	 * With this method we get the constraints for a component inside the panel.
 	 *
 	 * @param aWidth thw width for the component
 	 * @param aCol the column

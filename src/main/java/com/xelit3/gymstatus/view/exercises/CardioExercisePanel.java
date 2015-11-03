@@ -22,6 +22,7 @@ import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 
+// TODO: Auto-generated Javadoc
 //TODO: Auto-generated Javadoc
 /**
  * The Class CardioExercisePanel.
@@ -174,7 +175,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * With this method we get the constraints for a component inside the panel
+	 * With this method we get the constraints for a component inside the panel.
 	 *
 	 * @param aWidth thw width for the component
 	 * @param aCol the column

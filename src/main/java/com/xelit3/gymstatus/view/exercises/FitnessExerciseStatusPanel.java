@@ -28,30 +28,67 @@ import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Muscle;
 import com.xelit3.gymstatus.model.dto.Serie;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FitnessExerciseStatusPanel.
+ */
 public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener, ActionListener {
 		
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	private enum PanelAction{SAVE, MODIFY};
+	/**
+	 * The Enum PanelAction.
+	 */
+	private enum PanelAction{/** The save. */
+SAVE, /** The modify. */
+ MODIFY};
 	
+	/** The max series. */
 	private static int MAX_SERIES = 5;
 	
+	/** The main controller. */
 	private Controller mainController;
 	
+	/** The fitness exercise. */
 	private FitnessExerciseStatus theFitnessExercise;
+	
+	/** The muscles list. */
 	private List<Muscle> theMusclesList;
 	
+	/** The layout. */
 	private SpringLayout theLayout;
+	
+	/** The lbl serie max weight. */
 	private JLabel lblExerciseName, lblTrainedMuscle, lbSeriesNumber, lblSerieRepetitions, lblSerieMaxWeight;
+	
+	/** The tf exercise name. */
 	private JTextField tfExerciseName;
+	
+	/** The cb trained muscle. */
 	private JComboBox<Muscle> cbTrainedMuscle;
+	
+	/** The sp number series. */
 	private JSpinner spNumberSeries;
+	
+	/** The list tf number repetitions. */
 	private List<JFormattedTextField> theListTfNumberRepetitions = new ArrayList<JFormattedTextField>();
+	
+	/** The list tf max weight. */
 	private List<JFormattedTextField> theListTfMaxWeight = new ArrayList<JFormattedTextField>();
+	
+	/** The btn action. */
 	private JButton btnAction;
 
+	/** The errors. */
 	private boolean theErrors = false;
 	
+	/**
+	 * Instantiates a new fitness exercise status panel.
+	 *
+	 * @param anExercise the an exercise
+	 * @param aController the a controller
+	 */
 	public FitnessExerciseStatusPanel(FitnessExercise anExercise, Controller aController) {
 		this.theFitnessExercise = new FitnessExerciseStatus(anExercise);
 		this.mainController = aController;
@@ -59,6 +96,12 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		setBtnAction(PanelAction.SAVE);
 	}
 	
+	/**
+	 * Instantiates a new fitness exercise status panel.
+	 *
+	 * @param anExerciseStatus the an exercise status
+	 * @param aController the a controller
+	 */
 	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExerciseStatus, Controller aController){
 		this.theFitnessExercise = anExerciseStatus;
 		this.mainController = aController;
@@ -66,6 +109,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		setBtnAction(PanelAction.MODIFY);
 	}
 	
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents(){
 		boolean tmpUpdating = false;
 		
@@ -132,6 +178,11 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		
 	}
 
+	/**
+	 * Sets the dynamic controls.
+	 *
+	 * @param isUpdating the new dynamic controls
+	 */
 	private void setDynamicControls(boolean isUpdating) {
 		int tmpMax = MAX_SERIES;
 		if(isUpdating)
@@ -184,6 +235,11 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		}		
 	}
 
+	/**
+	 * Sets the btn action.
+	 *
+	 * @param anAction the new btn action
+	 */
 	private void setBtnAction(PanelAction anAction) {
 		switch(anAction){
 			
@@ -205,6 +261,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		add(btnAction);
 	}
 
+	/**
+	 * Sets the cb muscles.
+	 */
 	private void setCbMuscles() {
 		theMusclesList = mainController.getMuscles();
 		
@@ -220,6 +279,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		add(cbTrainedMuscle);
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		int tmpRepetitions = getNumberSeries();
@@ -235,11 +297,20 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		
 	}
 	
+	/**
+	 * Sets the dynamic controls visibility.
+	 *
+	 * @param anIndex the an index
+	 * @param aVisibility the a visibility
+	 */
 	private void setDynamicControlsVisibility(int anIndex, boolean aVisibility){
 		theListTfMaxWeight.get(anIndex).setVisible(aVisibility);
 		theListTfNumberRepetitions.get(anIndex).setVisible(aVisibility);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent anEvent) {
 		//TODO Guardar el ejercicio o modificarlo, dependiendo desde que constructor se llame sabremos si es modificacion o creacion
@@ -257,6 +328,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		
 	}
 	
+	/**
+	 * Save exercise.
+	 */
 	private void saveExercise(){
 		if(!theErrors){
 			mainController.saveExercise(theFitnessExercise);
@@ -266,6 +340,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		}
 	}
 	
+	/**
+	 * Modify exercise.
+	 */
 	private void modifyExercise(){
 		if(!theErrors){
 			mainController.updateExercise(theFitnessExercise);
@@ -275,6 +352,11 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		}
 	}
 	
+	/**
+	 * Gets the number series.
+	 *
+	 * @return the number series
+	 */
 	private int getNumberSeries() {
 		//Recogemos el valor escogido en el Spinner para mostrar u ocultar los diferentes JTFF para el peso de cada serie
 		SpinnerNumberModel tmpNumberModel = (SpinnerNumberModel) spNumberSeries.getModel();
@@ -283,6 +365,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 		return tmpSeriesNumber;
 	}
 	
+	/**
+	 * Sets the exercise status series.
+	 */
 	private void setExerciseStatusSeries(){
 		this.theFitnessExercise.getSeries().clear();
 		try {

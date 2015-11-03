@@ -14,54 +14,104 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Muscle.
+ */
 @Entity
 @Table(name="MUSCLES")
 public class Muscle implements Serializable{
 	
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The id. */
 	@Id @GeneratedValue
 	@Column(name="MUSCLE_ID")
 	private int id;
+	
+	/** The muscle name. */
 	@Basic
 	private String muscleName;
 	
+	/** The exercises list. */
 	@OneToMany
 	@JoinTable(name="MUSCLE_EXERCISE", joinColumns=@JoinColumn(name="MUSCLE_ID"),
 		inverseJoinColumns=@JoinColumn(name="EXERCISE_ID")
 	)
 	private Collection<Exercise> exercisesList = new ArrayList<Exercise>();
 	
+	/**
+	 * Instantiates a new muscle.
+	 */
 	public Muscle(){}
 	
+	/**
+	 * Instantiates a new muscle.
+	 *
+	 * @param name the name
+	 */
 	public Muscle(String name){
 		this.setMusclename(name);
 	}
 	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
+	
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	 * Gets the musclename.
+	 *
+	 * @return the musclename
+	 */
 	public String getMusclename() {
 		return muscleName;
 	}
+	
+	/**
+	 * Sets the musclename.
+	 *
+	 * @param name the new musclename
+	 */
 	public void setMusclename(String name) {
 		this.muscleName = name;
 	}
 
+	/**
+	 * Gets the exercises list.
+	 *
+	 * @return the exercises list
+	 */
 	public Collection<Exercise> getExercisesList() {
 		return exercisesList;
 	}
 
+	/**
+	 * Sets the exercises list.
+	 *
+	 * @param exercisesList the new exercises list
+	 */
 	public void setExercisesList(Collection<Exercise> exercisesList) {
 		this.exercisesList = exercisesList;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return this.getMusclename();

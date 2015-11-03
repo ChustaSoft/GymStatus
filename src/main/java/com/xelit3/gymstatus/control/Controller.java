@@ -20,22 +20,43 @@ import com.xelit3.gymstatus.model.dto.Muscle;
 import com.xelit3.gymstatus.model.dto.Routine;
 import com.xelit3.gymstatus.view.MainWindow;
 
-
+/**
+ * The Class Controller.
+ */
 public class Controller extends Observable{
 	
+	/** Vista principal de la aplicación, el controlador crea la vista inicial */
 	MainWindow view;
+	
+	/** Capa DAO para los Ejercicios */
 	ExerciseDAO exerciseDao;
-	RoutineDAOImpl routineDa0;
+	
+	/** Capa DAO para las rutinas */
+	RoutineDAOImpl routineDao;
+	
+	/** Capa DAO para los músculos */
 	MuscleDAO muscleDao;
 	
+	/** Lista de observadores para el controlador */
 	private List<Observer> observers = new LinkedList<Observer>();
 		
+	/**
+	 * Instantiates a new controller.
+	 */
 	public Controller(){}
 	
+	/**
+	 * Instantiates a new controller.
+	 *
+	 * @param aObserver the a observer
+	 */
 	public Controller(Observer aObserver){
 		this.addObserver(aObserver);
 	}
 	
+	/**
+	 * Start app.
+	 */
 	public void startApp(){
 		AppSettings settings = AppSettings.getInstance();
 		System.out.println("DONE - Settings loaded:\n" + settings.getUsername() + "\n" + settings.getLanguage());
@@ -44,11 +65,22 @@ public class Controller extends Observable{
 		view.setVisible(true);		
 	}
 	
+	/**
+	 * Gets the muscles.
+	 *
+	 * @return the muscles
+	 */
 	public List<Muscle> getMuscles() {
 		muscleDao = new MuscleDAO();
 		return muscleDao.getMuscles();
 	}
 	
+	/**
+	 * Gets the exercises.
+	 *
+	 * @param exerciseClass the exercise class
+	 * @return the exercises
+	 */
 	public List<Exercise> getExercises(Class<?> exerciseClass){
 		switch(exerciseClass.getSimpleName()){
 		
@@ -72,6 +104,12 @@ public class Controller extends Observable{
 		return exerciseDao.getExercises();		
 	}
 	
+	/**
+	 * Save exercise.
+	 *
+	 * @param anExercise the an exercise
+	 * @return true, if successful
+	 */
 	public boolean saveExercise(Exercise anExercise){
 		
 		if(anExercise instanceof FitnessExercise){
@@ -89,6 +127,12 @@ public class Controller extends Observable{
 		return tmpFlag;		
 	}
 		
+	/**
+	 * Update exercise.
+	 *
+	 * @param anExercise the an exercise
+	 * @return true, if successful
+	 */
 	public boolean updateExercise(Exercise anExercise){
 		if(anExercise instanceof FitnessExercise){
 			exerciseDao = new FitnessExerciseDAOImpl();
@@ -105,6 +149,12 @@ public class Controller extends Observable{
 		return tmpFlag;		
 	}
 	
+	/**
+	 * Removes the exercise.
+	 *
+	 * @param anExercise the an exercise
+	 * @return true, if successful
+	 */
 	public boolean removeExercise(Exercise anExercise){
 		if(anExercise instanceof FitnessExercise){
 			exerciseDao = new FitnessExerciseDAOImpl();
@@ -116,16 +166,28 @@ public class Controller extends Observable{
 		return exerciseDao.deleteExercise(anExercise.getId());
 	}
 	
+	/**
+	 * Creates the routine.
+	 *
+	 * @param aRoutine the a routine
+	 * @return true, if successful
+	 */
 	public boolean createRoutine(Routine aRoutine) {
-		routineDa0 = new RoutineDAOImpl();
+		routineDao = new RoutineDAOImpl();
 		
-		return routineDa0.saveRoutine(aRoutine);		
+		return routineDao.saveRoutine(aRoutine);		
 	}
 		
+	/* (non-Javadoc)
+	 * @see java.util.Observable#addObserver(java.util.Observer)
+	 */
 	public void addObserver(Observer o) {
 		observers.add(o);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.util.Observable#notifyObservers(java.lang.Object)
+	 */
 	@Override
 	public void notifyObservers(Object o) {
 		if(observers.size() > 0){

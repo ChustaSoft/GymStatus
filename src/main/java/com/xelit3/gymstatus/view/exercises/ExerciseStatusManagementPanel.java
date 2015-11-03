@@ -18,18 +18,39 @@ import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ExerciseStatusManagementPanel.
+ */
 public class ExerciseStatusManagementPanel extends JSplitPane implements ActionListener{
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The top panel. */
 	private JPanel theTopPanel;
+	
+	/** The exercise panel. */
 	private JPanel theExercisePanel;
+	
+	/** The main controller. */
 	private Controller mainController;
+	
+	/** The lbl select exercise. */
 	private JLabel lblSelectExercise;
+	
+	/** The cb selected exercise. */
 	private JComboBox<Exercise> cbSelectedExercise;
+	
+	/** The bg selected exercise type. */
 	private ButtonGroup bgSelectedExerciseType;
+	
+	/** The rb fitness selected. */
 	private JRadioButton rbCardioSelected, rbFitnessSelected;
 	
+	/**
+	 * Instantiates a new exercise status management panel.
+	 */
 	public ExerciseStatusManagementPanel() {
 		mainController = new Controller();
 		
@@ -38,6 +59,9 @@ public class ExerciseStatusManagementPanel extends JSplitPane implements ActionL
 		createComponents();		
 	}
 
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents() {
 		theTopPanel = new JPanel();
 		setLeftComponent(theTopPanel);
@@ -65,6 +89,9 @@ public class ExerciseStatusManagementPanel extends JSplitPane implements ActionL
 		this.setRightComponent(null);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
@@ -91,6 +118,11 @@ public class ExerciseStatusManagementPanel extends JSplitPane implements ActionL
 		}		
 	}
 	
+	/**
+	 * Sets the cb selected exercise.
+	 *
+	 * @param aClass the new cb selected exercise
+	 */
 	private void setCbSelectedExercise(Class<?> aClass) {
 		if(cbSelectedExercise!= null)
 			theTopPanel.remove(cbSelectedExercise);

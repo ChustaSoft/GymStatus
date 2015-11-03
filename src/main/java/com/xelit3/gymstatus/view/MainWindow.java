@@ -26,11 +26,23 @@ import com.xelit3.gymstatus.view.routines.TableRoutines;
 import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
 import com.xelit3.gymstatus.view.settings.ConfigurationPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainWindow.
+ */
 public class MainWindow extends JFrame implements ActionListener {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The main controller. */
 	private Controller mainController;
 	
+	/**
+	 * Instantiates a new main window.
+	 *
+	 * @param aController the a controller
+	 */
 	public MainWindow(Controller aController){
 		this.mainController = aController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,11 +84,17 @@ public class MainWindow extends JFrame implements ActionListener {
 	    setMovementKeys();
 	}
 
+	/**
+	 * Sets the frame position settings.
+	 */
 	private void setFramePositionSettings() {
 		AppSettings.getInstance().setMainWindowPosX(this.getX());
 		AppSettings.getInstance().setMainWindowPosY(this.getY());
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		ExerciseManagementPanel exercisePanel;
@@ -149,6 +167,11 @@ public class MainWindow extends JFrame implements ActionListener {
 		return super.getY();
 	}
 	
+	/**
+	 * Refresh window.
+	 *
+	 * @param aComponent the a component
+	 */
 	private void refreshWindow(Component aComponent){
 		aComponent.repaint();
 		aComponent.revalidate();
@@ -157,6 +180,9 @@ public class MainWindow extends JFrame implements ActionListener {
 		this.getRootPane().revalidate();		
 	}
 	
+	/**
+	 * Builds the menu.
+	 */
 	private void buildMenu(){
 		JMenuBar menubar = new JMenuBar();
 		JMenu menu;
@@ -220,6 +246,9 @@ public class MainWindow extends JFrame implements ActionListener {
 		this.setJMenuBar(menubar);
 	}
 	
+	/**
+	 * Sets the movement keys.
+	 */
 	private void setMovementKeys() {
 		this.getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.VK_UNDEFINED), "moveRight");
 	    this.getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, KeyEvent.VK_UNDEFINED), "moveLeft");
@@ -271,14 +300,29 @@ public class MainWindow extends JFrame implements ActionListener {
 	    });
 	}
 
+	/**
+	 * Gets the controller.
+	 *
+	 * @return the controller
+	 */
 	public Controller getController() {
 		return mainController;
 	}
 
+	/**
+	 * Sets the controller.
+	 *
+	 * @param controller the new controller
+	 */
 	public void setController(Controller controller) {
 		this.mainController = controller;
 	}
 	
+	/**
+	 * Show msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void showMsg(String msg) {
 		JOptionPane.showMessageDialog(this, msg);	
 	}

@@ -16,8 +16,15 @@ import com.xelit3.gymstatus.model.dto.Muscle;
 import com.xelit3.gymstatus.model.dto.Routine;
 import com.xelit3.gymstatus.model.dto.Serie;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TestApp.
+ */
 public class TestApp {
 	
+	/**
+	 * Test method.
+	 */
 	public void testMethod() {
 		//Iniciamos el archivo de configuracion, y la SessinFactory
 		Configuration configuration = new Configuration().configure();

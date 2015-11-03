@@ -18,24 +18,40 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConfigurationPanel.
+ */
 public class ConfigurationPanel extends JPanel implements ActionListener{
 	
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The lbl language. */
 	private JLabel lblUser, lblLanguage; 
+	
+	/** The tf user. */
 	private JTextField tfUser;
+	
+	/** The cb language. */
 	private JComboBox<String> cbLanguage;
+	
+	/** The btn save settings. */
 	private JButton btnSaveSettings;
 	
+	/** The app languages. */
 	private static String[] APP_LANGUAGES= {"SPANISH", "ENGLISH"};
 		
+	/**
+	 * Instantiates a new configuration panel.
+	 */
 	public ConfigurationPanel() {
 		createComponents();
 	}
 
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents() {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
@@ -84,6 +100,9 @@ public class ConfigurationPanel extends JPanel implements ActionListener{
 		add(btnSaveSettings, "10, 16, center, default");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		boolean tmpFlag = true;
@@ -109,6 +128,9 @@ public class ConfigurationPanel extends JPanel implements ActionListener{
 			
 	}
 
+	/**
+	 * Settings not saved.
+	 */
 	private void settingsNotSaved() {
 		JOptionPane.showMessageDialog(this, "Undefined username or language");
 	}	

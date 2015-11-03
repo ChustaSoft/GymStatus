@@ -16,15 +16,27 @@ import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ExerciseStatusListPanel.
+ */
 public class ExerciseStatusListPanel extends JPanel implements ActionListener{
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The main split pane. */
 	private JSplitPane mainSplitPane;
+	
+	/** The main controller. */
 	private Controller mainController = new Controller();
+	
+	/** The exercises table. */
 	private JTable exercisesTable;
 	
+	/**
+	 * Instantiates a new exercise status list panel.
+	 */
 	public ExerciseStatusListPanel() {
 		super(new BorderLayout());
 		mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -51,6 +63,9 @@ public class ExerciseStatusListPanel extends JPanel implements ActionListener{
        
 	}	
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		switch(ae.getActionCommand()){
@@ -65,6 +80,11 @@ public class ExerciseStatusListPanel extends JPanel implements ActionListener{
 		}		
 	}
 	
+	/**
+	 * Show exercises.
+	 *
+	 * @param exerciseClass the exercise class
+	 */
 	public void showExercises(Class<?> exerciseClass){
 		List<Exercise> exercisesList = mainController.getExercises(exerciseClass);
 		//We show a different table depending of the class we recive, expecting for a CardioExerciseStatus or FitnessExerciseStatus

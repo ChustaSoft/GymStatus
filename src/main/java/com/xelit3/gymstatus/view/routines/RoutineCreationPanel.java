@@ -36,25 +36,43 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RoutineCreationPanel.
+ */
 public class RoutineCreationPanel extends JPanel implements ActionListener, Observer{
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The main controller. */
 	private Controller mainController;
 	
+	/** The routine. */
 	private Routine theRoutine = new Routine();
 	
+	/** The tf routine name. */
 	private JTextField tfRoutineName;
+	
+	/** The jtable added exercises. */
 	private TableExercisesGeneral jtableAddedExercises;
+	
+	/** The cb exercise type. */
 	private JComboBox<String> cbExerciseType;
+	
+	/** The cb selected exercise. */
 	private JComboBox<Exercise> cbSelectedExercise;	
+	
+	/** The btn create routine. */
 	private JButton btnAddExercise, btnCreateRoutine;
+	
+	/** The dp end date. */
 	private JDatePickerImpl dpInitDate, dpEndDate;
 	
+	/** The exercises types. */
 	private static String[] EXERCISES_TYPES = {"CARDIO", "FITNESS"};
 
+	/** The frame status creation. */
 	private JFrame frameStatusCreation;
 
 	/**
@@ -68,6 +86,9 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		createComponents();		
 	}
 
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents() {
 		cbExerciseType = new JComboBox<String>(EXERCISES_TYPES);
 		cbExerciseType.setBounds(30, 119, 123, 17);
@@ -133,6 +154,9 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		add(btnCreateRoutine);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		switch(event.getActionCommand()){
@@ -173,6 +197,11 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		
 	}
 
+	/**
+	 * Open exercise status creation window.
+	 *
+	 * @param anExercise the an exercise
+	 */
 	public void openExerciseStatusCreationWindow(Object anExercise) {
 		Class<?> aClass = anExercise.getClass();
 		frameStatusCreation = new JFrame();
@@ -200,6 +229,12 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		frameStatusCreation.setVisible(true);
 	}
 
+	/**
+	 * Gets the class on demand.
+	 *
+	 * @param selectedItem the selected item
+	 * @return the class on demand
+	 */
 	private Class<?> getClassOnDemand(String selectedItem) {
 		if(selectedItem.equals(EXERCISES_TYPES[0]))
 			return CardioExercise.class;
@@ -209,6 +244,9 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 			return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable aController, Object anExercise) {
 		frameStatusCreation.setVisible(false);

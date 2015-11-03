@@ -7,8 +7,15 @@ import org.hibernate.Query;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FitnessExerciseDAOImpl.
+ */
 public class FitnessExerciseDAOImpl extends ExerciseDAO {
 
+	/* (non-Javadoc)
+	 * @see com.xelit3.gymstatus.model.dao.ExerciseDAO#saveExercise(com.xelit3.gymstatus.model.dto.Exercise)
+	 */
 	@Override
 	public boolean saveExercise(Exercise anExercise) {
 		try{
@@ -26,6 +33,9 @@ public class FitnessExerciseDAOImpl extends ExerciseDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.xelit3.gymstatus.model.dao.ExerciseDAO#updateExercise(com.xelit3.gymstatus.model.dto.Exercise)
+	 */
 	@Override
 	public boolean updateExercise(Exercise anExercise) {
 		try{
@@ -43,6 +53,9 @@ public class FitnessExerciseDAOImpl extends ExerciseDAO {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.xelit3.gymstatus.model.dao.ExerciseDAO#getExercise(int)
+	 */
 	@Override
 	public Exercise getExercise(int id) {
 		this.openSession();
@@ -51,6 +64,9 @@ public class FitnessExerciseDAOImpl extends ExerciseDAO {
 		return tmpExercise;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.xelit3.gymstatus.model.dao.ExerciseDAO#getExercises()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Exercise> getExercises() {
@@ -67,6 +83,9 @@ public class FitnessExerciseDAOImpl extends ExerciseDAO {
 		return tmpList;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.xelit3.gymstatus.model.dao.ExerciseDAO#deleteExercise(int)
+	 */
 	@Override
 	public boolean deleteExercise(int id) {
 		try{

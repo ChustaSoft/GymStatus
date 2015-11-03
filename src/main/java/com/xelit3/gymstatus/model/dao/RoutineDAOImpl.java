@@ -3,9 +3,10 @@ package com.xelit3.gymstatus.model.dao;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.Routine;
 
+// TODO: Auto-generated Javadoc
 /**
  * DAO layer for Routine bean
- * TODO: Test class
+ * TODO: Test class.
  */
 public class RoutineDAOImpl extends GenericGymStatDAO {
 	

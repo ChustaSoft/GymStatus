@@ -19,22 +19,46 @@ import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus.CardioExerciseIntensity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CardioExerciseStatusPanel.
+ */
 public class CardioExerciseStatusPanel extends JPanel implements ActionListener, ChangeListener {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	private enum PanelAction{SAVE, MODIFY};
+	/**
+	 * The Enum PanelAction.
+	 */
+	private enum PanelAction{/** The save. */
+SAVE, /** The modify. */
+ MODIFY};
 	
+	/** The main controller. */
 	private Controller mainController;
 	
+	/** The exercise. */
 	private CardioExerciseStatus theExercise;
 
+	/** The layout. */
 	private SpringLayout theLayout;
 	
+	/** The tf exercise name. */
 	private JTextField tfExerciseName;
+	
+	/** The sp time. */
 	private JSpinner spIntensity, spTime;
+	
+	/** The btn action. */
 	private JButton btnAction;
 	
+	/**
+	 * Instantiates a new cardio exercise status panel.
+	 *
+	 * @param anExercise the an exercise
+	 * @param aController the a controller
+	 */
 	public CardioExerciseStatusPanel(CardioExercise anExercise, Controller aController) {
 		this.theExercise = new CardioExerciseStatus(anExercise);
 		this.mainController = aController;
@@ -42,6 +66,12 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		this.setBtnAction(PanelAction.SAVE);
 	}
 	
+	/**
+	 * Instantiates a new cardio exercise status panel.
+	 *
+	 * @param anExercise the an exercise
+	 * @param aController the a controller
+	 */
 	public CardioExerciseStatusPanel(CardioExerciseStatus anExercise, Controller aController) {
 		this.theExercise = anExercise;
 		this.mainController = aController;
@@ -49,6 +79,9 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		this.setBtnAction(PanelAction.MODIFY);
 	}
 
+	/**
+	 * Creates the components.
+	 */
 	private void createComponents(){
 		theLayout = new SpringLayout();
 		setLayout(theLayout);
@@ -106,6 +139,11 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		add(this.spTime);	
 	}
 	
+	/**
+	 * Sets the btn action.
+	 *
+	 * @param anAction the new btn action
+	 */
 	private void setBtnAction(PanelAction anAction) {
 		switch(anAction){
 			case SAVE:
@@ -126,6 +164,9 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		add(btnAction);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
@@ -140,22 +181,36 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		CardioExerciseIntensity tmIntensity = (CardioExerciseIntensity) spIntensity.getValue();
 		this.theExercise.setIntensity(tmIntensity);
 	}
 	
+	/**
+	 * Save exercise status.
+	 */
 	private void saveExerciseStatus() {		
 		if(setData())		
 			this.mainController.saveExercise(theExercise);
 	}
 	
+	/**
+	 * Modify exercise status.
+	 */
 	private void modifyExerciseStatus() {
 		if(setData())	
 			this.mainController.updateExercise(theExercise);
 	}
 	
+	/**
+	 * Sets the data.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean setData(){
 		try{
 			int tmpMinutes = (int) this.spTime.getModel().getValue();
