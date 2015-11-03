@@ -44,21 +44,9 @@ public class Controller extends Observable{
 		view.setVisible(true);		
 	}
 	
-	public boolean saveExercise(Exercise anExercise){
-		
-		if(anExercise instanceof FitnessExercise){
-			exerciseDao = new FitnessExerciseDAOImpl();
-		}
-		else if(anExercise instanceof CardioExercise){
-			exerciseDao = new CardioExerciseDAOImpl();
-		}
-		boolean tmpFlag = exerciseDao.saveExercise(anExercise);
-		
-		//Nofificamos de la correcta insercion primero a los obervadores en caso de ser correcta
-		if(tmpFlag)
-			notifyObservers(anExercise);
-		
-		return tmpFlag;		
+	public List<Muscle> getMuscles() {
+		muscleDao = new MuscleDAO();
+		return muscleDao.getMuscles();
 	}
 	
 	public List<Exercise> getExercises(Class<?> exerciseClass){
@@ -84,6 +72,23 @@ public class Controller extends Observable{
 		return exerciseDao.getExercises();		
 	}
 	
+	public boolean saveExercise(Exercise anExercise){
+		
+		if(anExercise instanceof FitnessExercise){
+			exerciseDao = new FitnessExerciseDAOImpl();
+		}
+		else if(anExercise instanceof CardioExercise){
+			exerciseDao = new CardioExerciseDAOImpl();
+		}
+		boolean tmpFlag = exerciseDao.saveExercise(anExercise);
+		
+		//Nofificamos de la correcta insercion primero a los obervadores en caso de ser correcta
+		if(tmpFlag)
+			notifyObservers(anExercise);
+		
+		return tmpFlag;		
+	}
+		
 	public boolean updateExercise(Exercise anExercise){
 		if(anExercise instanceof FitnessExercise){
 			exerciseDao = new FitnessExerciseDAOImpl();
@@ -91,8 +96,13 @@ public class Controller extends Observable{
 		else if(anExercise instanceof CardioExercise){
 			exerciseDao = new CardioExerciseDAOImpl();
 		}
+		boolean tmpFlag = exerciseDao.updateExercise(anExercise);
 		
-		return exerciseDao.updateExercise(anExercise);
+		//Nofificamos de la correcta insercion primero a los obervadores en caso de ser correcta
+		if(tmpFlag)
+			notifyObservers(anExercise);
+				
+		return tmpFlag;		
 	}
 	
 	public boolean removeExercise(Exercise anExercise){
@@ -111,12 +121,7 @@ public class Controller extends Observable{
 		
 		return routineDa0.saveRoutine(aRoutine);		
 	}
-	
-	public List<Muscle> getMuscles() {
-		muscleDao = new MuscleDAO();
-		return muscleDao.getMuscles();
-	}
-	
+		
 	public void addObserver(Observer o) {
 		observers.add(o);
 	}

@@ -14,7 +14,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import com.xelit3.gymstatus.model.dto.Exercise;
-import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 
 public class TableExercisesGeneral extends JPanel implements TableModel, MouseListener {
@@ -128,10 +127,13 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 	public void addNewRow(Object anExercise) {
 		//Añadimos el ejercicio creado en el panel y devuelto mediante Observer-observable a la tabla, y refrescamos el panel
 		Exercise tmpExercise = (Exercise) anExercise;
-		theExercisesList.add(tmpExercise);
-		createObjectHash();
-		theTableExercises = new JTable(theExercises, theColumnNames);
-		this.updateUI();
+		
+		if(!this.getExercisesList().contains(tmpExercise)){
+			theExercisesList.add(tmpExercise);
+			createObjectHash();
+			theTableExercises = new JTable(theExercises, theColumnNames);
+			this.updateUI();
+		}		
 	}
 
 	/**

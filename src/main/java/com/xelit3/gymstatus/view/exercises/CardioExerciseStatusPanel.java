@@ -78,12 +78,15 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		SpinnerListModel spIntensityModel = new SpinnerListModel(new Object[] {
 				CardioExerciseIntensity.HIGH, CardioExerciseIntensity.MEDIUM, CardioExerciseIntensity.SOFT}
 		);
+		if(theExercise.getIntensity() != null)
+			spIntensityModel.setValue(theExercise.getIntensity());
 		
 		this.spIntensity = new JSpinner(spIntensityModel);
 		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spIntensity, 35, SpringLayout.VERTICAL_CENTER, tfExerciseName);
 		theLayout.putConstraint(SpringLayout.WEST, spIntensity, 25, SpringLayout.EAST, lblIntensity);
 		theLayout.putConstraint(SpringLayout.EAST, spIntensity, 325, SpringLayout.WEST, lblIntensity);
 		spIntensity.addChangeListener(this);
+				
 		add(spIntensity);
 		
 		JLabel lblTime = new JLabel("Time (min)");
@@ -95,6 +98,8 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		//Establecemos el Spinner para los minutos
 		SpinnerNumberModel snm = new SpinnerNumberModel(1, 1, 250, 1);
 		spTime = new JSpinner(snm);
+		if(theExercise.getTime() > 0)
+			spTime.setValue(theExercise.getTime() / 60000);
 		theLayout.putConstraint(SpringLayout.VERTICAL_CENTER, spTime, 35, SpringLayout.VERTICAL_CENTER, spIntensity);
 		theLayout.putConstraint(SpringLayout.WEST, spTime, 25, SpringLayout.EAST, lblTime);
 		theLayout.putConstraint(SpringLayout.EAST, spTime, 325, SpringLayout.WEST, lblTime);
@@ -141,19 +146,29 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 		this.theExercise.setIntensity(tmIntensity);
 	}
 	
-	private void saveExerciseStatus() {
-		int tmpMinutes = (int) this.spTime.getModel().getValue();
-		long tmpSeconds = (long) (tmpMinutes * 60 * 1000);
-		
-		this.theExercise.setTime(tmpSeconds);
-		
-		stateChanged(null);
-		
-		this.mainController.saveExercise(theExercise);
+	private void saveExerciseStatus() {		
+		if(setData())		
+			this.mainController.saveExercise(theExercise);
 	}
 	
 	private void modifyExerciseStatus() {
-		// TODO Modificar ejercicio, desde el panel de Rutinas
+		if(setData())	
+			this.mainController.updateExercise(theExercise);
+	}
+	
+	public boolean setData(){
+		try{
+			int tmpMinutes = (int) this.spTime.getModel().getValue();
+			long tmpSeconds = (long) (tmpMinutes * 60 * 1000);
+			
+			this.theExercise.setTime(tmpSeconds);
+			
+			stateChanged(null);
+		}
+		catch(Exception e){
+			return false;
+		}
+		return true;
 	}
 	
 }

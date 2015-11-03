@@ -1,7 +1,7 @@
 package com.xelit3.gymstatus.model.dto;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
@@ -23,7 +23,7 @@ public class FitnessExerciseStatus extends FitnessExercise {
 	@JoinTable (name="FITNESS_EXERCISE_SERIES",
 		joinColumns = @JoinColumn(name="EXERCISE_ID")
 	)
-	private Collection<Serie> series = new ArrayList<Serie>();
+	private List<Serie> series = new ArrayList<Serie>();
 	
 	public FitnessExerciseStatus(){
 		
@@ -38,11 +38,11 @@ public class FitnessExerciseStatus extends FitnessExercise {
 		super(name, muscle);
 	}
 
-	public Collection<Serie> getSeries() {
+	public List<Serie> getSeries() {
 		return series;
 	}
 
-	public void setSeries(Collection<Serie> series) {
+	public void setSeries(List<Serie> series) {
 		this.series = series;
 	}
 	
