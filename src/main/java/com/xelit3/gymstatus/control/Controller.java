@@ -61,7 +61,7 @@ public class Controller extends Observable{
 		AppSettings settings = AppSettings.getInstance();
 		System.out.println("DONE - Settings loaded:\n" + settings.getUsername() + "\n" + settings.getLanguage());
 						
-		view = new MainWindow(this);
+		view = new MainWindow();
 		view.setVisible(true);		
 	}
 	
@@ -166,6 +166,12 @@ public class Controller extends Observable{
 		return exerciseDao.deleteExercise(anExercise.getId());
 	}
 	
+	public List<Routine> getAllRoutines(){
+		routineDao = new RoutineDAOImpl();
+		
+		return routineDao.getRoutines();
+	}
+	
 	/**
 	 * Creates the routine.
 	 *
@@ -177,7 +183,14 @@ public class Controller extends Observable{
 		
 		return routineDao.saveRoutine(aRoutine);		
 	}
+	
+	public boolean modifyRoutine(Routine aRoutine) {
+		routineDao = new RoutineDAOImpl();
 		
+		return routineDao.modifyRoutine(aRoutine);
+		
+	}
+			
 	/* (non-Javadoc)
 	 * @see java.util.Observable#addObserver(java.util.Observer)
 	 */
@@ -195,7 +208,5 @@ public class Controller extends Observable{
 				obs.update(this, o);
 		}
 	}
-
-	
 	
 }

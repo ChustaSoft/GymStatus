@@ -64,7 +64,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	private JComboBox<Exercise> cbSelectedExercise;	
 	
 	/** The btn create routine. */
-	private JButton btnAddExercise, btnCreateRoutine;
+	private JButton btnAddExercise, btnCreateRoutine, btnRemoveRoutine;
 	
 	/** The dp end date. */
 	private JDatePickerImpl dpInitDate, dpEndDate;
@@ -78,18 +78,25 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	/**
 	 * Create the panel.
 	 */
-	public RoutineCreationPanel() {
-		setLayout(null);
-		
+	public RoutineCreationPanel() {		
 		mainController = new Controller(this);
 		
-		createComponents();		
+		createComponents(false);
+	}
+
+	public RoutineCreationPanel(Routine aRoutine, Controller aController) {		
+		mainController = aController;
+		
+		createComponents(true);
+		loadRoutineData(aRoutine);
 	}
 
 	/**
 	 * Creates the components.
 	 */
-	private void createComponents() {
+	private void createComponents(boolean isUpdating) {
+		setLayout(null);
+		
 		cbExerciseType = new JComboBox<String>(EXERCISES_TYPES);
 		cbExerciseType.setBounds(30, 119, 123, 17);
 		cbExerciseType.setActionCommand("changeExerciseType");
@@ -145,13 +152,36 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		btnAddExercise.setActionCommand("addExerciseToRoutine");
 		btnAddExercise.setBounds(470, 119, 129, 20);
 		btnAddExercise.addActionListener(this);
-		add(btnAddExercise);	
+		add(btnAddExercise);
 		
-		btnCreateRoutine = new JButton("Create routine");
-		btnCreateRoutine.setActionCommand("createRoutine");
-		btnCreateRoutine.setBounds(395, 376, 117, 23);
+		if(isUpdating){
+			btnCreateRoutine = new JButton("Modify routine");
+			btnCreateRoutine.setActionCommand("updateRoutine");
+		}
+		else{
+			btnCreateRoutine = new JButton("Create routine");
+			btnCreateRoutine.setActionCommand("createRoutine");
+		}
+		btnCreateRoutine.setBounds(410, 380, 135, 23);
 		btnCreateRoutine.addActionListener(this);
 		add(btnCreateRoutine);
+		
+		if(isUpdating){
+			btnRemoveRoutine = new JButton("Remove routine");
+			btnRemoveRoutine.setBounds(270, 380, 135, 23);
+			add(btnRemoveRoutine);
+		}
+	}	
+	
+	private void loadRoutineData(Routine aRoutine) {
+		this.tfRoutineName.setText(aRoutine.getRoutineName());
+		this.dpInitDate.getModel().setDate(aRoutine.getInitDate().getYear(), aRoutine.getInitDate().getMonth(), aRoutine.getInitDate().getDate());
+		this.dpInitDate.getModel().setSelected(true);
+		this.dpEndDate.getModel().setDate(aRoutine.getFinishDate().getYear(), aRoutine.getFinishDate().getMonth(), aRoutine.getFinishDate().getDate());
+		this.dpEndDate.getModel().setSelected(true);
+		for(Exercise e : aRoutine.getExercises()){
+			jtableAddedExercises.addNewRow(e);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -173,28 +203,40 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 			case "addExerciseToRoutine":
 				if(this.cbSelectedExercise.getSelectedItem() != null){
 					openExerciseStatusCreationWindow(this.cbSelectedExercise.getSelectedItem());
-				}
-				
+				}				
 				break;
 				
 			case "createRoutine":
-				Date tmpInitDate = (Date) dpInitDate.getModel().getValue();
-				Date tmpEndDate = (Date) dpEndDate.getModel().getValue();
-				
-				//Creamos la rutina
-				theRoutine.setRoutineName(this.tfRoutineName.getText());
-				theRoutine.setInitDate(tmpInitDate);
-				theRoutine.setFinishDate(tmpEndDate);
-				theRoutine.setExercises(jtableAddedExercises.getExercisesList());
+				setRoutineData();
 				
 				if(theRoutine.isValid())
 					mainController.createRoutine(theRoutine);
 				else
 					JOptionPane.showMessageDialog(this, "Check out data first, some errors found");
 				break;
+				
+			case "updateRoutine":
+				setRoutineData();
+				
+				if(theRoutine.isValid())
+					mainController.modifyRoutine(theRoutine);
+				else
+					JOptionPane.showMessageDialog(this, "Check out data first, some errors found");
+				break;
 			
 		}
 		
+	}
+
+	private void setRoutineData() {
+		Date tmpInitDate = (Date) dpInitDate.getModel().getValue();
+		Date tmpEndDate = (Date) dpEndDate.getModel().getValue();
+		
+		//Creamos la rutina
+		theRoutine.setRoutineName(this.tfRoutineName.getText());
+		theRoutine.setInitDate(tmpInitDate);
+		theRoutine.setFinishDate(tmpEndDate);
+		theRoutine.setExercises(jtableAddedExercises.getExercisesList());
 	}
 
 	/**

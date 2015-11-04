@@ -1,5 +1,10 @@
 package com.xelit3.gymstatus.model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
+
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.Routine;
 
@@ -9,6 +14,19 @@ import com.xelit3.gymstatus.model.dto.Routine;
  * TODO: Test class.
  */
 public class RoutineDAOImpl extends GenericGymStatDAO {
+	
+	public List<Routine> getRoutines() {
+		this.openSession();
+		ArrayList<Routine> tmpList = new ArrayList<Routine>();
+		
+		Query selectAll = session.createQuery("FROM Routine");
+		
+		tmpList = (ArrayList<Routine>) selectAll.list();
+		
+		this.closeSession();
+		
+		return tmpList;
+	}
 	
 	/**
 	 * Save routine.

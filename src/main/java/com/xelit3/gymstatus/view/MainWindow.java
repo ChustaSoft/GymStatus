@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
-import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.view.exercises.ExerciseManagementPanel;
 import com.xelit3.gymstatus.view.exercises.ExerciseStatusListPanel;
@@ -35,16 +34,13 @@ public class MainWindow extends JFrame implements ActionListener {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The main controller. */
-	private Controller mainController;
 	
 	/**
 	 * Instantiates a new main window.
 	 *
 	 * @param aController the a controller
 	 */
-	public MainWindow(Controller aController){
-		this.mainController = aController;
+	public MainWindow(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(250, 250, 640, 480);
 		setResizable(false);
@@ -154,7 +150,6 @@ public class MainWindow extends JFrame implements ActionListener {
 	 */
 	@Override
 	public int getX() {
-		// TODO Auto-generated method stub
 		return super.getX();
 	}
 
@@ -163,7 +158,6 @@ public class MainWindow extends JFrame implements ActionListener {
 	 */
 	@Override
 	public int getY() {
-		// TODO Auto-generated method stub
 		return super.getY();
 	}
 	
@@ -298,25 +292,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	        	setLocation(getX(), getY() - 5);
 	        }
 	    });
-	}
-
-	/**
-	 * Gets the controller.
-	 *
-	 * @return the controller
-	 */
-	public Controller getController() {
-		return mainController;
-	}
-
-	/**
-	 * Sets the controller.
-	 *
-	 * @param controller the new controller
-	 */
-	public void setController(Controller controller) {
-		this.mainController = controller;
-	}
+	}	
 	
 	/**
 	 * Show msg.

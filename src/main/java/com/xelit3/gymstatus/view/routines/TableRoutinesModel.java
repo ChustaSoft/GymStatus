@@ -17,7 +17,7 @@ public class TableRoutinesModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	/** The routines. */
-	private List<Object[]> routines = new ArrayList<Object[]>();
+	private List<Routine> routines = new ArrayList<Routine>();
 	
 	/** The header. */
 	private String[] header = {"Name", "Initial date", "Finish date" };
@@ -50,7 +50,19 @@ public class TableRoutinesModel extends AbstractTableModel {
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return routines.get(rowIndex)[columnIndex];
+		switch(columnIndex){
+		
+			case 0:
+				return routines.get(rowIndex).getRoutineName();
+								
+			case 1:
+				return routines.get(rowIndex).getInitDate().toString();
+				
+			case 2:
+				return routines.get(rowIndex).getFinishDate().toString();
+		
+		}
+		return null;
 	}	
 
 	/* (non-Javadoc)
@@ -64,16 +76,15 @@ public class TableRoutinesModel extends AbstractTableModel {
 	/**
 	 * Adds the row.
 	 *
-	 * @param routine the routine
+	 * @param aRoutine the routine
 	 */
-	public void addRow(Routine routine){
-		Object [] tmpRow = new String[header.length];
-		tmpRow[0] = routine.getRoutineName();
-		tmpRow[1] = routine.getInitDate().toString();
-		tmpRow[2] = routine.getFinishDate().toString();
-		
-		routines.add(tmpRow);
+	public void addRow(Routine aRoutine){
+		routines.add(aRoutine);
 		fireTableDataChanged();
+	}
+	
+	public List<Routine> getRoutinesList(){
+		return routines;
 	}
 	
 }
