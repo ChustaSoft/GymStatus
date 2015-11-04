@@ -87,6 +87,8 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	public RoutineCreationPanel(Routine aRoutine, Controller aController) {		
 		mainController = aController;
 		
+		theRoutine = aRoutine;
+		
 		createComponents(true);
 		loadRoutineData(aRoutine);
 	}
@@ -169,6 +171,8 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		if(isUpdating){
 			btnRemoveRoutine = new JButton("Remove routine");
 			btnRemoveRoutine.setBounds(270, 380, 135, 23);
+			btnRemoveRoutine.setActionCommand("removeRoutine");
+			btnRemoveRoutine.addActionListener(this);
 			add(btnRemoveRoutine);
 		}
 	}	
@@ -223,6 +227,12 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 				else
 					JOptionPane.showMessageDialog(this, "Check out data first, some errors found");
 				break;
+				
+			case "removeRoutine":
+				int tmpConfirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete?");
+				if(tmpConfirm == 0)
+					mainController.removeRoutine(theRoutine);
+				break;
 			
 		}
 		
@@ -260,11 +270,11 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 				
 			//TODO Adaptar los constructores ya creados de los estados de ejercicio para que carguen los datos del estado ya por defecto
 			case "FitnessExerciseStatus":
-				frameStatusCreation.setContentPane(new FitnessExerciseStatusPanel((FitnessExerciseStatus) anExercise, mainController));	
+				frameStatusCreation.setContentPane(new FitnessExerciseStatusPanel(theRoutine, (FitnessExerciseStatus) anExercise, mainController));	
 				break;
 				
 			case "CardioExerciseStatus":
-				frameStatusCreation.setContentPane(new CardioExerciseStatusPanel((CardioExerciseStatus) anExercise, mainController));	
+				frameStatusCreation.setContentPane(new CardioExerciseStatusPanel(theRoutine, (CardioExerciseStatus) anExercise, mainController));	
 				break;
 		}
 		frameStatusCreation.setBounds(AppSettings.getInstance().getMainWindowPosX(), AppSettings.getInstance().getMainWindowPosY(), 640, 480);

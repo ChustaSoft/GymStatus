@@ -14,6 +14,7 @@ import com.xelit3.gymstatus.model.dao.FitnessExerciseStatusDAOImpl;
 import com.xelit3.gymstatus.model.dao.MuscleDAO;
 import com.xelit3.gymstatus.model.dao.RoutineDAOImpl;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
+import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Muscle;
@@ -191,6 +192,12 @@ public class Controller extends Observable{
 		
 	}
 			
+	public boolean removeRoutine(Routine aRoutine) {
+		routineDao = new RoutineDAOImpl();
+		
+		return routineDao.removeRoutine(aRoutine);		
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.util.Observable#addObserver(java.util.Observer)
 	 */
@@ -207,6 +214,12 @@ public class Controller extends Observable{
 			for (Observer obs: observers)
 				obs.update(this, o);
 		}
+	}
+
+	public void removeExerciseFromRoutine(Routine aRoutine, Exercise anExercise) {
+		routineDao = new RoutineDAOImpl();
+		
+		boolean tmpFlag = routineDao.removeExerciseFromRoutine(aRoutine, anExercise);
 	}
 	
 }

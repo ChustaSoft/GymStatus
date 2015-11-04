@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -18,6 +19,7 @@ import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus.CardioExerciseIntensity;
+import com.xelit3.gymstatus.model.dto.Routine;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -31,12 +33,15 @@ public class CardioExerciseStatusPanel extends JPanel implements ActionListener,
 	/**
 	 * The Enum PanelAction.
 	 */
-	private enum PanelAction{/** The save. */
-SAVE, /** The modify. */
- MODIFY};
+	private enum PanelAction{
+		SAVE, MODIFY
+	};
 	
 	/** The main controller. */
 	private Controller mainController;
+	
+	/** The routine including. */
+	private Routine theRoutineIncluding;
 	
 	/** The exercise. */
 	private CardioExerciseStatus theExercise;
@@ -52,6 +57,9 @@ SAVE, /** The modify. */
 	
 	/** The btn action. */
 	private JButton btnAction;
+	
+	/** The btn remove. */
+	private JButton btnRemove;
 	
 	/**
 	 * Instantiates a new cardio exercise status panel.
@@ -72,11 +80,13 @@ SAVE, /** The modify. */
 	 * @param anExercise the an exercise
 	 * @param aController the a controller
 	 */
-	public CardioExerciseStatusPanel(CardioExerciseStatus anExercise, Controller aController) {
+	public CardioExerciseStatusPanel(Routine aRoutine, CardioExerciseStatus anExercise, Controller aController) {
+		this.theRoutineIncluding = aRoutine;
 		this.theExercise = anExercise;
 		this.mainController = aController;
 		this.createComponents();	
 		this.setBtnAction(PanelAction.MODIFY);
+		this.setRemoveButton();
 	}
 
 	/**
@@ -163,6 +173,21 @@ SAVE, /** The modify. */
 		btnAction.addActionListener(this);
 		add(btnAction);
 	}
+	
+	/**
+	 * Sets the remove button.
+	 */
+	private void setRemoveButton() {
+		btnRemove = new JButton("Remove");
+		btnRemove.setActionCommand("removeExercise");
+		btnRemove.addActionListener(this);
+		
+		theLayout.putConstraint(SpringLayout.EAST, btnRemove, 0, SpringLayout.EAST, btnAction);
+		theLayout.putConstraint(SpringLayout.NORTH, btnRemove, 5, SpringLayout.SOUTH, btnAction);
+		
+		add(btnRemove);
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -177,6 +202,12 @@ SAVE, /** The modify. */
 				
 			case "MODIFY":
 				modifyExerciseStatus();
+				break;
+				
+			case "removeExercise":
+				int tmpConfirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove?");
+				if(tmpConfirm == 0)
+					mainController.removeExerciseFromRoutine(theRoutineIncluding, theExercise);
 				break;
 		}
 	}

@@ -26,6 +26,7 @@ import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Muscle;
+import com.xelit3.gymstatus.model.dto.Routine;
 import com.xelit3.gymstatus.model.dto.Serie;
 
 // TODO: Auto-generated Javadoc
@@ -49,6 +50,9 @@ SAVE, /** The modify. */
 	
 	/** The main controller. */
 	private Controller mainController;
+	
+	/** The routine including. */
+	private Routine theRoutineIncluding;
 	
 	/** The fitness exercise. */
 	private FitnessExerciseStatus theFitnessExercise;
@@ -79,6 +83,9 @@ SAVE, /** The modify. */
 	
 	/** The btn action. */
 	private JButton btnAction;
+	
+	/** The btn remove. */
+	private JButton btnRemove;
 
 	/** The errors. */
 	private boolean theErrors = false;
@@ -98,15 +105,18 @@ SAVE, /** The modify. */
 	
 	/**
 	 * Instantiates a new fitness exercise status panel.
+	 * @param aRoutine 
 	 *
 	 * @param anExerciseStatus the an exercise status
 	 * @param aController the a controller
 	 */
-	public FitnessExerciseStatusPanel(FitnessExerciseStatus anExerciseStatus, Controller aController){
+	public FitnessExerciseStatusPanel(Routine aRoutine, FitnessExerciseStatus anExerciseStatus, Controller aController){
+		theRoutineIncluding = aRoutine;
 		this.theFitnessExercise = anExerciseStatus;
 		this.mainController = aController;
 		this.createComponents();
 		setBtnAction(PanelAction.MODIFY);
+		this.setRemoveButton();
 	}
 	
 	/**
@@ -260,6 +270,21 @@ SAVE, /** The modify. */
 		btnAction.addActionListener(this);
 		add(btnAction);
 	}
+	
+	/**
+	 * Sets the remove button.
+	 */
+	private void setRemoveButton() {
+		btnRemove = new JButton("Remove");
+		btnRemove.setActionCommand("removeExercise");
+		btnRemove.addActionListener(this);
+		
+		theLayout.putConstraint(SpringLayout.EAST, btnRemove, 0, SpringLayout.EAST, btnAction);
+		theLayout.putConstraint(SpringLayout.NORTH, btnRemove, 5, SpringLayout.SOUTH, btnAction);
+		
+		add(btnRemove);
+		
+	}
 
 	/**
 	 * Sets the cb muscles.
@@ -323,6 +348,12 @@ SAVE, /** The modify. */
 					
 			case "MODIFY":
 				modifyExercise();
+				break;
+				
+			case "removeExercise":
+				int tmpConfirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove?");
+				if(tmpConfirm == 0)
+					mainController.removeExerciseFromRoutine(theRoutineIncluding, theFitnessExercise);
 				break;
 		}			
 		
