@@ -11,7 +11,7 @@ import com.xelit3.gymstatus.model.dto.Routine;
 /**
  * The Class TableRoutinesModel.
  */
-public class TableRoutinesModel extends AbstractTableModel  {
+public class TableRoutinesModel extends AbstractTableModel {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public class TableRoutinesModel extends AbstractTableModel  {
 	private List<Object[]> routines = new ArrayList<Object[]>();
 	
 	/** The header. */
-	private String[] header = {"Name", "Initial date", "Finish date"};
+	private String[] header = {"Name", "Initial date", "Finish date" };
 	
 	/**
 	 * Instantiates a new table routines model.
@@ -67,7 +67,7 @@ public class TableRoutinesModel extends AbstractTableModel  {
 	 * @param routine the routine
 	 */
 	public void addRow(Routine routine){
-		String [] tmpRow = new String[header.length];
+		Object [] tmpRow = new String[header.length];
 		tmpRow[0] = routine.getRoutineName();
 		tmpRow[1] = routine.getInitDate().toString();
 		tmpRow[2] = routine.getFinishDate().toString();
