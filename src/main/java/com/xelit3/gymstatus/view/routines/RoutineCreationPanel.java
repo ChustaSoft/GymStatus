@@ -86,6 +86,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 
 	public RoutineCreationPanel(Routine aRoutine, Controller aController) {		
 		mainController = aController;
+		aController.addObserver(this);
 		
 		theRoutine = aRoutine;
 		
