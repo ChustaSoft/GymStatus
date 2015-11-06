@@ -218,8 +218,15 @@ public class Controller extends Observable{
 	public boolean modifyRoutine(Routine aRoutine) {
 		routineDao = new RoutineDAOImpl();
 		
-		return routineDao.modifyRoutine(aRoutine);
+		boolean tmpFlag = routineDao.modifyRoutine(aRoutine);
 		
+		EventAction tmpAction = null;
+		if(tmpFlag){
+			tmpAction = new EventAction(Action.MODIFY, aRoutine);
+			notifyObservers(tmpAction);
+		}
+		
+		return tmpFlag;
 	}
 			
 	/**

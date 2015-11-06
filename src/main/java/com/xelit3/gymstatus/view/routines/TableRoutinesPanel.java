@@ -75,6 +75,9 @@ public class TableRoutinesPanel extends JScrollPane implements Observer {
 				getModel().fireTableDataChanged();
 			}
 		}
+		else if(tmpEA.getAction() == Action.MODIFY){
+			tableRoutines.getFrameModal().setVisible(false);
+		}
 	}
 
 }
