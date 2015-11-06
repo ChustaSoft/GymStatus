@@ -18,9 +18,8 @@ import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ExerciseStatusManagementPanel.
+ * Panel for ExerciseStatus
  */
 public class ExerciseStatusManagementPanel extends JSplitPane implements ActionListener{
 	

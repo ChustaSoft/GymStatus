@@ -2,9 +2,9 @@ package com.xelit3.gymstatus;
 
 import com.xelit3.gymstatus.control.Controller;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GymStatusMain.
+ * This class start the Application, it need a controller and controller start GUI
  */
 public class GymStatusMain {
 

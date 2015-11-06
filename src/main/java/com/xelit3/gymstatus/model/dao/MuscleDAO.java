@@ -6,9 +6,8 @@ import org.hibernate.Query;
 
 import com.xelit3.gymstatus.model.dto.Muscle;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class MuscleDAO.
+ * DAO layer for Muscle
  */
 public class MuscleDAO extends GenericGymStatDAO {
 	

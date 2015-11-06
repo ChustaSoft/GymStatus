@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.events.EventAction;
-import com.xelit3.gymstatus.control.events.EventAction.Action;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
@@ -38,9 +37,8 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class RoutineCreationPanel.
+ * Panel to manage Routine creation
  */
 public class RoutineCreationPanel extends JPanel implements ActionListener, Observer{
 	
@@ -86,6 +84,12 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		createComponents(false);
 	}
 
+	/**
+	 * Instantiates a new routine creation panel.
+	 *
+	 * @param aRoutine the a routine
+	 * @param aController the a controller
+	 */
 	public RoutineCreationPanel(Routine aRoutine, Controller aController) {		
 		mainController = aController;
 		aController.addObserver(this);
@@ -180,6 +184,12 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 		}
 	}	
 	
+	/**
+	 * Load routine data, used when the panel is used to update or remove a Routine
+	 *
+	 * @param aRoutine the a routine
+	 */
+	@SuppressWarnings("deprecation")
 	private void loadRoutineData(Routine aRoutine) {
 		this.tfRoutineName.setText(aRoutine.getRoutineName());
 		this.dpInitDate.getModel().setDate(aRoutine.getInitDate().getYear(), aRoutine.getInitDate().getMonth(), aRoutine.getInitDate().getDate());
@@ -196,6 +206,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		boolean tmpFlag = true;
 		switch(event.getActionCommand()){
 			
 			case "changeExerciseType":
@@ -217,7 +228,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 				setRoutineData();
 				
 				if(theRoutine.isValid())
-					mainController.createRoutine(theRoutine);
+					tmpFlag = mainController.createRoutine(theRoutine);				
 				else
 					JOptionPane.showMessageDialog(this, "Check out data first, some errors found");
 				break;
@@ -226,7 +237,7 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 				setRoutineData();
 				
 				if(theRoutine.isValid())
-					mainController.modifyRoutine(theRoutine);
+					tmpFlag = mainController.modifyRoutine(theRoutine);
 				else
 					JOptionPane.showMessageDialog(this, "Check out data first, some errors found");
 				break;
@@ -234,13 +245,18 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 			case "removeRoutine":
 				int tmpConfirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete?");
 				if(tmpConfirm == 0)
-					mainController.removeRoutine(theRoutine);
+					tmpFlag = mainController.removeRoutine(theRoutine);
 				break;
 			
 		}
 		
+		if(!tmpFlag)
+			JOptionPane.showMessageDialog(this, "Problem trying to manage the routine, check data and try again");
 	}
 
+	/**
+	 * Sets the routine data when the panel is opened to update/remove
+	 */
 	private void setRoutineData() {
 		Date tmpInitDate = (Date) dpInitDate.getModel().getValue();
 		Date tmpEndDate = (Date) dpEndDate.getModel().getValue();

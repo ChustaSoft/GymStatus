@@ -23,9 +23,8 @@ import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Muscle;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FitnessExercisePanel.
+ * Panel for FitnessExercisePanel.
  */
 public class FitnessExercisePanel extends JPanel implements ActionListener {
 

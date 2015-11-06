@@ -3,9 +3,8 @@ package com.xelit3.gymstatus.model.dto;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class CardioExerciseStatus.
+ * CardioExerciseStatus bean
  */
 @Entity
 @DiscriminatorValue(value = "CARDIO_STATUS") 
@@ -18,13 +17,7 @@ public class CardioExerciseStatus extends CardioExercise {
 	 * The Enum CardioExerciseIntensity.
 	 */
 	public enum CardioExerciseIntensity {
-	    
-    	/** The soft. */
-    	SOFT, 
- /** The medium. */
- MEDIUM, 
- /** The high. */
- HIGH 
+    	SOFT, MEDIUM, HIGH 
 	}
 	
 	/** The intensity. */

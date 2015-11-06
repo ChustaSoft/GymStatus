@@ -14,9 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Muscle.
+ * Muscle bean
  */
 @Entity
 @Table(name="MUSCLES")

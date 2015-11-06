@@ -5,14 +5,21 @@ import java.util.List;
 
 public class EventAction {
 	
+	/**
+	 * The Enum Action.
+	 * Used for specify an action for an event
+	 */
 	public enum Action{
 		SAVE, MODIFY, DELETE
 	}
 	
+	/** The action. */
 	private Action action;
 	
+	/** The target. */
 	private Object target;
 		
+	/** The errrors. */
 	private List<String> errrors = new ArrayList<String>();;
 	
 	/**
@@ -25,8 +32,8 @@ public class EventAction {
 	/**
 	 * Instantiates a new event action.
 	 *
-	 * @param anAction the an action
-	 * @param aTarget the a target
+	 * @param anAction the action
+	 * @param aTarget the target
 	 */
 	public EventAction(Action anAction, Object aTarget){
 		setAction(anAction);

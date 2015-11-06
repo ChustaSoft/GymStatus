@@ -4,9 +4,8 @@ import java.util.List;
 
 import com.xelit3.gymstatus.model.dto.Exercise;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ExerciseDAO.
+ * DAO definition interface for Exercise
  */
 public abstract class ExerciseDAO extends GenericGymStatDAO {
 	

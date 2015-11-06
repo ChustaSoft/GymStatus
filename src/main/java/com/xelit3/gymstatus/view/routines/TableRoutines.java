@@ -12,18 +12,21 @@ import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.model.dto.Routine;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class TableRoutines.
+ * Table for Routine
  */
 public class TableRoutines extends JTable implements MouseListener {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The main controller. */
 	private Controller mainController = new Controller();
+	
+	/** The table model. */
 	private TableRoutinesModel tableModel = null;
 	
+	/** The frame for RoutineCreationPanel modal window */
 	private JFrame frameStatusCreation = null;
 
 	/**
@@ -48,6 +51,9 @@ public class TableRoutines extends JTable implements MouseListener {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = this.rowAtPoint(e.getPoint());
@@ -56,6 +62,11 @@ public class TableRoutines extends JTable implements MouseListener {
 
 	}
 
+	/**
+	 * Open a JFrame with RoutineCreationPanel for modify or remove a routine
+	 *
+	 * @param routine the routine to manage
+	 */
 	private void openRoutineCreationWindow(Routine routine) {
 		frameStatusCreation = new JFrame();
 		frameStatusCreation.setContentPane(new RoutineCreationPanel(routine, mainController));
@@ -63,34 +74,56 @@ public class TableRoutines extends JTable implements MouseListener {
 		frameStatusCreation.setVisible(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Gets the controller.
+	 *
+	 * @return the controller
+	 */
 	public Controller getController() {		
 		return this.mainController;
 	}
 	
+	/**
+	 * Gets the frame modal.
+	 *
+	 * @return the frame modal
+	 */
 	public JFrame getFrameModal(){
 		return frameStatusCreation;
 	}

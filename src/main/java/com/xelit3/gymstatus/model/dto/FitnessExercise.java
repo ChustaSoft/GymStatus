@@ -4,9 +4,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FitnessExercise.
+ * FitnessExercise bean
  */
 @Entity
 @DiscriminatorValue(value = "FITNESS") 

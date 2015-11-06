@@ -5,12 +5,10 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.xelit3.gymstatus.model.dto.Exercise;
-import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.FitnessExerciseStatus;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FitnessExerciseStatusTableModel.
+ * Model for FitnessExerciseStatus JTable.
  */
 public class FitnessExerciseStatusTableModel extends AbstractTableModel{
 	

@@ -21,9 +21,8 @@ import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus.CardioExerciseIntensity;
 import com.xelit3.gymstatus.model.dto.Routine;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class CardioExerciseStatusPanel.
+ * Panel for CardioExerciseStatus
  */
 public class CardioExerciseStatusPanel extends JPanel implements ActionListener, ChangeListener {
 	

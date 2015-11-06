@@ -3,9 +3,8 @@ package com.xelit3.gymstatus.model.dto;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class CardioExercise.
+ * CardioExercise bean
  */
 @Entity
 @DiscriminatorValue(value = "CARDIO") 

@@ -3,9 +3,8 @@ package com.xelit3.gymstatus.view.exercises;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class TableCardioExerciseStatus.
+ * Table for CardioExerciseStatus.
  */
 public class TableCardioExerciseStatus extends JTable {
 

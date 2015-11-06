@@ -7,9 +7,8 @@ import javax.swing.table.AbstractTableModel;
 import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class CardioExerciseStatusTableModel.
+ * Model for CardioExerciseStatus JTable
  */
 public class CardioExerciseStatusTableModel extends AbstractTableModel{
 	

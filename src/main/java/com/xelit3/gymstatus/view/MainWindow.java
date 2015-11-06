@@ -13,8 +13,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.KeyStroke;
 
 import com.xelit3.gymstatus.control.settings.AppSettings;
@@ -27,16 +25,16 @@ import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
 import com.xelit3.gymstatus.view.routines.TableRoutinesPanel;
 import com.xelit3.gymstatus.view.settings.ConfigurationPanel;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class MainWindow.
+ * MainWindow is main JFRame for the application.
+ * Is initialized from the Controller
+ * @see com.xelit3.gymstatus.control.Controller
  */
 public class MainWindow extends JFrame implements ActionListener {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	
+		
 	/**
 	 * Instantiates a new main window.
 	 *
@@ -83,7 +81,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Sets the frame position settings.
+	 * Sets the frame position settings into the singleton AppSettings
 	 */
 	private void setFramePositionSettings() {
 		AppSettings.getInstance().setMainWindowPosX(this.getX());
@@ -176,7 +174,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Builds the menu.
+	 * This method builds the Top bar menu
 	 */
 	private void buildMenu(){
 		JMenuBar menubar = new JMenuBar();
@@ -242,7 +240,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Sets the movement keys.
+	 * This mehod allow this Window to be moved by the keyboard cursors
 	 */
 	private void setMovementKeys() {
 		this.getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.VK_UNDEFINED), "moveRight");
@@ -296,7 +294,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	}	
 	
 	/**
-	 * Show msg.
+	 * Just to show a JOptionPane with a message
 	 *
 	 * @param msg the msg
 	 */

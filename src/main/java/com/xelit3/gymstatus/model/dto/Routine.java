@@ -14,9 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Routine.
+ * Routine bean.
  */
 @Entity
 @Table(name="ROUTINES")
@@ -31,7 +30,7 @@ public class Routine implements Serializable{
 	private int id;
 	
 	/** The routine name. */
-	@Column(name="NAME", nullable=false)
+	@Column(name="NAME", nullable=false, unique=true)
 	private String routineName;
 	
 	/** The init date. */

@@ -9,14 +9,18 @@ import javax.swing.JScrollPane;
 import com.xelit3.gymstatus.control.events.EventAction;
 import com.xelit3.gymstatus.control.events.EventAction.Action;
 
+/**
+ * Panel for Routine list
+ */
 public class TableRoutinesPanel extends JScrollPane implements Observer {
-
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The model. */
 	private TableRoutinesModel model;
+	
+	/** The table routines. */
 	private TableRoutines tableRoutines;
 
 	/**
@@ -57,6 +61,9 @@ public class TableRoutinesPanel extends JScrollPane implements Observer {
 		this.tableRoutines = tableRoutines;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		EventAction tmpEA = (EventAction) arg;

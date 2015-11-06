@@ -5,17 +5,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class GenericGymStatDAO.
+ * Generic DAO abstract class
  */
 public abstract class GenericGymStatDAO {
 	
-	/** The session. */
+	/** The Hibermate session. */
 	protected Session session;
 	
 	/**
-	 * Open session.
+	 * Open Hibernate session.
 	 */
 	protected void openSession(){
 		Configuration configuration = new Configuration().configure();
@@ -26,7 +25,7 @@ public abstract class GenericGymStatDAO {
 	}
 	
 	/**
-	 * Close session.
+	 * Close Hibernate session.
 	 */
 	protected void closeSession(){
 		session.close();

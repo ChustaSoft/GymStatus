@@ -16,9 +16,9 @@ import javax.swing.table.TableModel;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class TableExercisesGeneral.
+ * Table general for Exercises.
+ * Implemented with TableModel
  */
 public class TableExercisesGeneral extends JPanel implements TableModel, MouseListener {
 
@@ -189,12 +189,20 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 		}		
 	}
 
+	/**
+	 * Refresh the table data and view
+	 */
 	private void refreshTable() {
 		createObjectHash();
 		theTableExercises = new JTable(theExercises, theColumnNames);
 		this.updateUI();
 	}
 	
+	/**
+	 * Delete a row for that table
+	 *
+	 * @param anExercise the an exercise
+	 */
 	public void deleteRow(Object anExercise) {
 		Exercise tmpExercise = (Exercise) anExercise;
 		

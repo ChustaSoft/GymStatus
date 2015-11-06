@@ -22,10 +22,8 @@ import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
 import com.xelit3.gymstatus.model.dto.Exercise;
 
-// TODO: Auto-generated Javadoc
-//TODO: Auto-generated Javadoc
 /**
- * The Class CardioExercisePanel.
+ * Panel for CardioExercise
  * 
  */
 public class CardioExercisePanel extends JPanel implements ActionListener {
@@ -60,10 +58,8 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 		this.createComponents();
 	}
 	
-	/**
-	 * Action performed.
-	 *
-	 * @param e the e
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -125,7 +121,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 	
 	/**
-	 * Creates the components.
+	 * Creates the components for the panel
 	 */
 	private void createComponents(){
 				
@@ -175,7 +171,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * With this method we get the constraints for a component inside the panel.
+	 * With this method we get the constraints for a component inside the panel, by using a GridBagConstraints class
 	 *
 	 * @param aWidth thw width for the component
 	 * @param aCol the column
@@ -198,7 +194,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Gets the tf exercise name.
+	 * Gets the exercise name JTextField.
 	 *
 	 * @return the tf exercise name
 	 */
@@ -207,7 +203,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Sets the tf exercise name.
+	 * Sets the exercise name JTextField.
 	 */
 	public void setTfExerciseName() {
 		if(this.getTfExerciseName() == null){
@@ -217,7 +213,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Gets the cb exercise name.
+	 * Gets the exercise name JComboBox.
 	 *
 	 * @return the cb exercise name
 	 */
@@ -226,7 +222,7 @@ public class CardioExercisePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Sets the cb exercise name.
+	 * Sets the exercise name JComboBox.
 	 */
 	public void setCbExerciseName() {
 		if(this.getCbExerciseName() != null)

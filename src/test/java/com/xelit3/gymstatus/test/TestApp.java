@@ -16,9 +16,9 @@ import com.xelit3.gymstatus.model.dto.Muscle;
 import com.xelit3.gymstatus.model.dto.Routine;
 import com.xelit3.gymstatus.model.dto.Serie;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestApp.
+ * Personal class to test some functionalities
  */
 public class TestApp {
 	

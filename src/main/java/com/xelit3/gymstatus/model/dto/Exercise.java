@@ -15,9 +15,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Exercise.
+ * Exercise bean.
  */
 @Entity
 @Table(name="EXERCISES")

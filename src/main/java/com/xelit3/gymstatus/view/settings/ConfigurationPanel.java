@@ -18,9 +18,8 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ConfigurationPanel.
+ * Panel used to manage Application settings
  */
 public class ConfigurationPanel extends JPanel implements ActionListener{
 	
@@ -129,7 +128,7 @@ public class ConfigurationPanel extends JPanel implements ActionListener{
 	}
 
 	/**
-	 * Settings not saved.
+	 * Just show a JOptionPane with errors saving data
 	 */
 	private void settingsNotSaved() {
 		JOptionPane.showMessageDialog(this, "Undefined username or language");

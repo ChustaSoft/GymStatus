@@ -7,18 +7,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AppSettings.
+ * It uses a singleton pattern to load all settings needed for the application
  */
 public class AppSettings {
 
 	/** The Constant SETTINGS_RESOURCE. */
-	//In DEBUG MOED USE THIS
+	//NOTE: Use in DEBUG MOED USE THIS
 	private static final String SETTINGS_RESOURCE = "src/main/resources/app_config.txt";
-	//In production
-/** The Constant USERNAME_SETTING. */
-	//	private static final String SETTINGS_RESOURCE = "app_config.txt";
+	//NOTE: Use in PRODUCTION MOED USE THIS
+//	private static final String SETTINGS_RESOURCE = "app_config.txt";
+	
+	/** The Constant USERNAME_SETTING. */
 	private static final String USERNAME_SETTING = "USERNAME";
 	
 	/** The Constant LANGUAGE_SETTING. */
@@ -38,6 +39,7 @@ public class AppSettings {
 
 	/**
 	 * Instantiates a new app settings.
+	 * Private constructor for the singleton
 	 */
 	private AppSettings() {
 

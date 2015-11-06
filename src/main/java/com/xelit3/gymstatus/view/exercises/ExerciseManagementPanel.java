@@ -2,9 +2,8 @@ package com.xelit3.gymstatus.view.exercises;
 
 import javax.swing.JTabbedPane;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ExerciseManagementPanel.
+ * Panel to manage Exercise's subclasses
  */
 public class ExerciseManagementPanel extends JTabbedPane {
 	

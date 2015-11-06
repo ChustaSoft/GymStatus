@@ -29,9 +29,8 @@ import com.xelit3.gymstatus.model.dto.Muscle;
 import com.xelit3.gymstatus.model.dto.Routine;
 import com.xelit3.gymstatus.model.dto.Serie;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FitnessExerciseStatusPanel.
+ * Panel for FitnessExerciseStatus
  */
 public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener, ActionListener {
 		
@@ -41,9 +40,9 @@ public class FitnessExerciseStatusPanel extends JPanel implements ChangeListener
 	/**
 	 * The Enum PanelAction.
 	 */
-	private enum PanelAction{/** The save. */
-SAVE, /** The modify. */
- MODIFY};
+	private enum PanelAction{
+		SAVE, MODIFY}
+	;
 	
 	/** The max series. */
 	private static int MAX_SERIES = 5;
@@ -368,6 +367,7 @@ SAVE, /** The modify. */
 		}
 		else{
 			JOptionPane.showMessageDialog(this, "There are any error(s) in the data for any or multiple exercises. Check it first");
+			theErrors = false;
 		}
 	}
 	

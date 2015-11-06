@@ -7,9 +7,8 @@ import javax.swing.table.AbstractTableModel;
 
 import com.xelit3.gymstatus.model.dto.Routine;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class TableRoutinesModel.
+ * Model for Routines table
  */
 public class TableRoutinesModel extends AbstractTableModel {
 
@@ -83,6 +82,11 @@ public class TableRoutinesModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 	
+	/**
+	 * Gets the routines list.
+	 *
+	 * @return the routines list
+	 */
 	public List<Routine> getRoutinesList(){
 		return routines;
 	}

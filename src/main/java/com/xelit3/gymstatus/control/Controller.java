@@ -27,19 +27,19 @@ import com.xelit3.gymstatus.view.MainWindow;
  */
 public class Controller extends Observable{
 	
-	/** Vista principal de la aplicación, el controlador crea la vista inicial */
+	/** Main Frame of Application */
 	MainWindow view;
 	
-	/** Capa DAO para los Ejercicios */
+	/** DAO layer for Exercises and subclasses */
 	ExerciseDAO exerciseDao;
 	
-	/** Capa DAO para las rutinas */
+	/** DAO layer for routinbes */
 	RoutineDAOImpl routineDao;
 	
-	/** Capa DAO para los músculos */
+	/** DA layer for Muscle, just to get it */
 	MuscleDAO muscleDao;
 	
-	/** Lista de observadores para el controlador */
+	/** Observers list for this controller */
 	private List<Observer> observers = new LinkedList<Observer>();
 		
 	/**
@@ -50,14 +50,14 @@ public class Controller extends Observable{
 	/**
 	 * Instantiates a new controller.
 	 *
-	 * @param aObserver the a observer
+	 * @param anObserver an observer to add to the list
 	 */
-	public Controller(Observer aObserver){
-		this.addObserver(aObserver);
+	public Controller(Observer anObserver){
+		this.addObserver(anObserver);
 	}
 	
 	/**
-	 * Start app.
+	 * This method starts the Application
 	 */
 	public void startApp(){
 		AppSettings settings = AppSettings.getInstance();
@@ -68,9 +68,9 @@ public class Controller extends Observable{
 	}
 	
 	/**
-	 * Gets the muscles.
+	 * Gets the muscles inside Muscles table
 	 *
-	 * @return the muscles
+	 * @return the muscles list
 	 */
 	public List<Muscle> getMuscles() {
 		muscleDao = new MuscleDAO();
@@ -78,10 +78,10 @@ public class Controller extends Observable{
 	}
 	
 	/**
-	 * Gets the exercises.
+	 * Gets the exercises for every subclass demanded inside Exercises table
 	 *
-	 * @param exerciseClass the exercise class
-	 * @return the exercises
+	 * @param exerciseClass the exercise class demanded (A kind of exercise of maybe a status)
+	 * @return the exercises for the demanded class
 	 */
 	public List<Exercise> getExercises(Class<?> exerciseClass){
 		switch(exerciseClass.getSimpleName()){
@@ -107,9 +107,9 @@ public class Controller extends Observable{
 	}
 	
 	/**
-	 * Save exercise.
+	 * Save exercise for every subclass demanded inside Exercises table	 * 
 	 *
-	 * @param anExercise the an exercise
+	 * @param anExercise the exercise
 	 * @return true, if successful
 	 */
 	public boolean saveExercise(Exercise anExercise){
@@ -136,7 +136,7 @@ public class Controller extends Observable{
 	/**
 	 * Update exercise.
 	 *
-	 * @param anExercise the an exercise
+	 * @param anExercise the exercise
 	 * @return true, if successful
 	 */
 	public boolean updateExercise(Exercise anExercise){
@@ -160,9 +160,9 @@ public class Controller extends Observable{
 	}
 	
 	/**
-	 * Removes the exercise.
+	 * Removes an exercise from database
 	 *
-	 * @param anExercise the an exercise
+	 * @param anExercise the exercise to remove
 	 * @return true, if successful
 	 */
 	public boolean removeExercise(Exercise anExercise){
@@ -186,6 +186,11 @@ public class Controller extends Observable{
 		return tmpFlag;		
 	}
 	
+	/**
+	 * Gets all routines inside database
+	 *
+	 * @return the routines list
+	 */
 	public List<Routine> getAllRoutines(){
 		routineDao = new RoutineDAOImpl();
 		
@@ -195,7 +200,7 @@ public class Controller extends Observable{
 	/**
 	 * Creates the routine.
 	 *
-	 * @param aRoutine the a routine
+	 * @param aRoutine the routine to create
 	 * @return true, if successful
 	 */
 	public boolean createRoutine(Routine aRoutine) {
@@ -204,6 +209,12 @@ public class Controller extends Observable{
 		return routineDao.saveRoutine(aRoutine);		
 	}
 	
+	/**
+	 * Modify routine.
+	 *
+	 * @param aRoutine the routine to modify
+	 * @return true, if successful
+	 */
 	public boolean modifyRoutine(Routine aRoutine) {
 		routineDao = new RoutineDAOImpl();
 		
@@ -211,6 +222,12 @@ public class Controller extends Observable{
 		
 	}
 			
+	/**
+	 * Removes a routine.
+	 *
+	 * @param aRoutine the routine to remove
+	 * @return true, if successful
+	 */
 	public boolean removeRoutine(Routine aRoutine) {
 		routineDao = new RoutineDAOImpl();
 		
@@ -243,6 +260,12 @@ public class Controller extends Observable{
 		}
 	}
 
+	/**
+	 * Removes the exercise from routine.
+	 *
+	 * @param aRoutine the routine to remove the exercise
+	 * @param anExercise the exercise to remove from routine
+	 */
 	public void removeExerciseFromRoutine(Routine aRoutine, Exercise anExercise) {
 		routineDao = new RoutineDAOImpl();
 		

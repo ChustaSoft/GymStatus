@@ -7,9 +7,8 @@ import org.hibernate.Query;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FitnessExerciseDAOImpl.
+ * DAO layer imnplementation for FitnesExercise
  */
 public class FitnessExerciseDAOImpl extends ExerciseDAO {
 

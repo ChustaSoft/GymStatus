@@ -5,9 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Serie.
+ * Serie embeddable bean
  */
 @Embeddable
 public class Serie implements Serializable{

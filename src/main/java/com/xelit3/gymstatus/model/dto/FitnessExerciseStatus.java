@@ -10,9 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FitnessExerciseStatus.
+ * FitnessExerciseStatus bean
  */
 @Entity
 @DiscriminatorValue(value = "FITNESS_STATUS") 
