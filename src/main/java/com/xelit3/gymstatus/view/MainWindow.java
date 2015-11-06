@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 
 import com.xelit3.gymstatus.control.settings.AppSettings;
@@ -23,6 +24,7 @@ import com.xelit3.gymstatus.view.exercises.ExerciseStatusManagementPanel;
 import com.xelit3.gymstatus.view.routines.RoutineCreationPanel;
 import com.xelit3.gymstatus.view.routines.TableRoutines;
 import com.xelit3.gymstatus.view.routines.TableRoutinesModel;
+import com.xelit3.gymstatus.view.routines.TableRoutinesPanel;
 import com.xelit3.gymstatus.view.settings.ConfigurationPanel;
 
 // TODO: Auto-generated Javadoc
@@ -129,11 +131,10 @@ public class MainWindow extends JFrame implements ActionListener {
 				break;
 				
 			case "listRoutines":
-				TableRoutinesModel model = new TableRoutinesModel();
-				TableRoutines tableRoutines = new TableRoutines(model);
-				JScrollPane scrollPane = new JScrollPane(tableRoutines);
-				setContentPane(scrollPane);
-				this.refreshWindow(scrollPane);
+				TableRoutinesPanel routinesPanel = new TableRoutinesPanel(new TableRoutines(new TableRoutinesModel()));
+				setContentPane(routinesPanel);
+				routinesPanel.updateUI();
+				this.refreshWindow(routinesPanel);
 				break;
 				
 			case "createRoutine":

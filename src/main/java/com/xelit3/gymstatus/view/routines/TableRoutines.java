@@ -10,9 +10,7 @@ import javax.swing.table.TableModel;
 
 import com.xelit3.gymstatus.control.Controller;
 import com.xelit3.gymstatus.control.settings.AppSettings;
-import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Routine;
-import com.xelit3.gymstatus.view.exercises.FitnessExerciseStatusPanel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,17 +23,19 @@ public class TableRoutines extends JTable implements MouseListener {
 
 	private Controller mainController = new Controller();
 	private TableRoutinesModel tableModel = null;
+	
+	private JFrame frameStatusCreation = null;
 
 	/**
 	 * Instantiates a new table routines.
 	 *
-	 * @param arg0
+	 * @param aModel
 	 *            the arg0
 	 */
-	public TableRoutines(TableModel arg0) {
-		super(arg0);
+	public TableRoutines(TableModel aModel) {
+		super(aModel);
 
-		tableModel = (TableRoutinesModel) arg0;
+		tableModel = (TableRoutinesModel) aModel;
 
 		this.setBounds(25, 25, 600, 300);
 		this.addMouseListener(this);
@@ -57,7 +57,7 @@ public class TableRoutines extends JTable implements MouseListener {
 	}
 
 	private void openRoutineCreationWindow(Routine routine) {
-		JFrame frameStatusCreation = new JFrame();
+		frameStatusCreation = new JFrame();
 		frameStatusCreation.setContentPane(new RoutineCreationPanel(routine, mainController));
 		frameStatusCreation.setBounds(AppSettings.getInstance().getMainWindowPosX(), AppSettings.getInstance().getMainWindowPosY(), 640, 480);
 		frameStatusCreation.setVisible(true);
@@ -85,6 +85,14 @@ public class TableRoutines extends JTable implements MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Controller getController() {		
+		return this.mainController;
+	}
+	
+	public JFrame getFrameModal(){
+		return frameStatusCreation;
 	}
 
 }

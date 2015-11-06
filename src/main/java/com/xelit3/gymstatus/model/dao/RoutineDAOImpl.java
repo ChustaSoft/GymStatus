@@ -83,11 +83,15 @@ public class RoutineDAOImpl extends GenericGymStatDAO {
 			this.openSession();
 			
 			session.beginTransaction();
+			for(Exercise e : aRoutine.getExercises()){
+				session.delete(e);
+			}			
 			session.delete(aRoutine);
 			session.getTransaction().commit();
 			
 			this.getClass();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		

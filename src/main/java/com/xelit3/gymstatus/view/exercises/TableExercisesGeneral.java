@@ -185,10 +185,23 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 		
 		if(!this.getExercisesList().contains(tmpExercise)){
 			theExercisesList.add(tmpExercise);
-			createObjectHash();
-			theTableExercises = new JTable(theExercises, theColumnNames);
-			this.updateUI();
+			refreshTable();
 		}		
+	}
+
+	private void refreshTable() {
+		createObjectHash();
+		theTableExercises = new JTable(theExercises, theColumnNames);
+		this.updateUI();
+	}
+	
+	public void deleteRow(Object anExercise) {
+		Exercise tmpExercise = (Exercise) anExercise;
+		
+		if(this.getExercisesList().contains(tmpExercise)){
+			theExercisesList.remove(tmpExercise);
+			refreshTable();
+		}	
 	}
 
 	/**
@@ -246,7 +259,5 @@ public class TableExercisesGeneral extends JPanel implements TableModel, MouseLi
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
 
 }

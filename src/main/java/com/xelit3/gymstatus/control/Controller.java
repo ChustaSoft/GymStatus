@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.xelit3.gymstatus.control.events.EventAction;
+import com.xelit3.gymstatus.control.events.EventAction.Action;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.model.dao.CardioExerciseDAOImpl;
 import com.xelit3.gymstatus.model.dao.CardioExerciseStatusDAOImpl;
@@ -14,7 +16,6 @@ import com.xelit3.gymstatus.model.dao.FitnessExerciseStatusDAOImpl;
 import com.xelit3.gymstatus.model.dao.MuscleDAO;
 import com.xelit3.gymstatus.model.dao.RoutineDAOImpl;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
-import com.xelit3.gymstatus.model.dto.CardioExerciseStatus;
 import com.xelit3.gymstatus.model.dto.Exercise;
 import com.xelit3.gymstatus.model.dto.FitnessExercise;
 import com.xelit3.gymstatus.model.dto.Muscle;
@@ -122,8 +123,12 @@ public class Controller extends Observable{
 		boolean tmpFlag = exerciseDao.saveExercise(anExercise);
 		
 		//Nofificamos de la correcta insercion primero a los obervadores en caso de ser correcta
-		if(tmpFlag)
-			notifyObservers(anExercise);
+		EventAction tmpAction = new EventAction();
+		if(tmpFlag){
+			tmpAction.setAction(Action.SAVE);
+			tmpAction.setTarget(anExercise);
+			notifyObservers(tmpAction);
+		}			
 		
 		return tmpFlag;		
 	}
@@ -144,8 +149,12 @@ public class Controller extends Observable{
 		boolean tmpFlag = exerciseDao.updateExercise(anExercise);
 		
 		//Nofificamos de la correcta insercion primero a los obervadores en caso de ser correcta
-		if(tmpFlag)
-			notifyObservers(anExercise);
+		EventAction tmpAction = new EventAction();
+		if(tmpFlag){
+			tmpAction.setAction(Action.MODIFY);
+			tmpAction.setTarget(anExercise);
+			notifyObservers(tmpAction);
+		}
 				
 		return tmpFlag;		
 	}
@@ -164,7 +173,17 @@ public class Controller extends Observable{
 			exerciseDao = new CardioExerciseDAOImpl();
 		}
 		
-		return exerciseDao.deleteExercise(anExercise.getId());
+		boolean tmpFlag = exerciseDao.deleteExercise(anExercise.getId());
+		
+		//Nofificamos del borrado primero a los obervadores en caso de ser correcto
+		EventAction tmpAction = new EventAction();
+		if(tmpFlag){
+			tmpAction.setAction(Action.DELETE);
+			tmpAction.setTarget(anExercise);
+			notifyObservers(tmpAction);
+		}
+				
+		return tmpFlag;		
 	}
 	
 	public List<Routine> getAllRoutines(){
@@ -195,7 +214,15 @@ public class Controller extends Observable{
 	public boolean removeRoutine(Routine aRoutine) {
 		routineDao = new RoutineDAOImpl();
 		
-		return routineDao.removeRoutine(aRoutine);		
+		boolean tmpFlag = routineDao.removeRoutine(aRoutine);
+		
+		EventAction tmpAction = null;
+		if(tmpFlag){
+			tmpAction = new EventAction(Action.DELETE, aRoutine);
+			notifyObservers(tmpAction);
+		}
+		
+		return tmpFlag;
 	}
 	
 	/* (non-Javadoc)
@@ -220,6 +247,19 @@ public class Controller extends Observable{
 		routineDao = new RoutineDAOImpl();
 		
 		boolean tmpFlag = routineDao.removeExerciseFromRoutine(aRoutine, anExercise);
+		
+		EventAction tmpAction = new EventAction();
+		if(tmpFlag){
+			tmpAction.setAction(Action.DELETE);
+			tmpAction.setTarget(anExercise);
+			notifyObservers(tmpAction);
+		}
+		else{
+			tmpAction.setAction(Action.DELETE);
+			tmpAction.setTarget(anExercise);
+			tmpAction.getErrrors().add("Not removed, not persistent");
+			notifyObservers(tmpAction);
+		}
 	}
 	
 }

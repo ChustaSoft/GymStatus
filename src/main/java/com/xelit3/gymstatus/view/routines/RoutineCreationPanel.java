@@ -20,6 +20,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 import com.xelit3.gymstatus.control.Controller;
+import com.xelit3.gymstatus.control.events.EventAction;
+import com.xelit3.gymstatus.control.events.EventAction.Action;
 import com.xelit3.gymstatus.control.settings.AppSettings;
 import com.xelit3.gymstatus.control.utilities.ConversorUtilitiy;
 import com.xelit3.gymstatus.model.dto.CardioExercise;
@@ -301,9 +303,19 @@ public class RoutineCreationPanel extends JPanel implements ActionListener, Obse
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
 	@Override
-	public void update(Observable aController, Object anExercise) {
-		frameStatusCreation.setVisible(false);
-		jtableAddedExercises.addNewRow(anExercise);
+	public void update(Observable aController, Object anEvent) {
+		EventAction tmpEA = (EventAction) anEvent;
+		
+		if (tmpEA.getTarget() instanceof CardioExerciseStatus || tmpEA.getTarget() instanceof FitnessExerciseStatus) {
+			if (tmpEA.getAction() == EventAction.Action.SAVE || tmpEA.getAction() == EventAction.Action.MODIFY) {
+				frameStatusCreation.setVisible(false);
+				jtableAddedExercises.addNewRow(tmpEA.getTarget());
+			}
+			else if (tmpEA.getAction() == EventAction.Action.DELETE) {
+				frameStatusCreation.setVisible(false);
+				jtableAddedExercises.deleteRow(tmpEA.getTarget());
+			} 
+		}		
 	}
 	
 }

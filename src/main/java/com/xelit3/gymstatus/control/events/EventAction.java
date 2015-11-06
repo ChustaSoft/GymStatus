@@ -1,5 +1,6 @@
 package com.xelit3.gymstatus.control.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventAction {
@@ -8,44 +9,77 @@ public class EventAction {
 		SAVE, MODIFY, DELETE
 	}
 	
-	private Object aTarget;
-	private List<String> theErrors;
+	private Action action;
 	
+	private Object target;
+		
+	private List<String> errrors = new ArrayList<String>();;
 	
+	/**
+	 * Instantiates a new event action.
+	 */
 	public EventAction(){
 		
+	}	
+	
+	/**
+	 * Instantiates a new event action.
+	 *
+	 * @param anAction the an action
+	 * @param aTarget the a target
+	 */
+	public EventAction(Action anAction, Object aTarget){
+		setAction(anAction);
+		setTarget(aTarget);
 	}
 
 
 	/**
-	 * @return the aTarget
+	 * @return the action
 	 */
-	private Object getaTarget() {
-		return aTarget;
+	public Action getAction() {
+		return action;
 	}
 
 
 	/**
-	 * @param aTarget the aTarget to set
+	 * @param action the action to set
 	 */
-	private void setaTarget(Object aTarget) {
-		this.aTarget = aTarget;
+	public void setAction(Action action) {
+		this.action = action;
 	}
 
 
 	/**
-	 * @return the theErrors
+	 * @return the target
 	 */
-	private List<String> getTheErrors() {
-		
-		return theErrors;
+	public Object getTarget() {
+		return target;
 	}
 
 
 	/**
-	 * @param theErrors the theErrors to set
+	 * @param target the target to set
 	 */
-	private void setTheErrors(List<String> theErrors) {
-		this.theErrors = theErrors;
+	public void setTarget(Object target) {
+		this.target = target;
 	}
+
+
+	/**
+	 * @return the errrors
+	 */
+	public List<String> getErrrors() {
+		return errrors;
+	}
+
+
+	/**
+	 * @param errrors the errrors to set
+	 */
+	public void setErrrors(List<String> errrors) {
+		this.errrors = errrors;
+	}
+
+
 }
